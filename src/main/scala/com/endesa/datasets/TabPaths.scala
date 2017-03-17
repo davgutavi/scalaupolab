@@ -47,6 +47,14 @@ object TabPaths {
   final val TAB_04_16 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_04/Endesa_TAB_04_20170127_CZZ_20160101_20161231.csv"
   final val TAB_04_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_04/TAB_04_headers.csv"
 
+  //Clientes
+  final val TAB_05C = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_05C/Endesa_TAB_05C_20170126_CZZ_20100101_20161231.csv"
+  final val TAB_05C_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_05C/TAB_05C_headers.csv"
+
+  //Clientes PTOSE
+  final val TAB_05D = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_05D/Endesa_TAB_05D_20170126_CZZ_20100101_20161231.csv"
+  final val TAB_05D_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_05D/TAB_05D_headers.csv"
+
   //Magnitudes TPL
   final val TAB_10 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_10/Endesa_TAB_10_20170127_CZZ_20100101_20161231.csv"
   final val TAB_10_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_10/TAB_10_headers.csv"

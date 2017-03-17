@@ -10,7 +10,7 @@ object Main01 {
 
   def main( args:Array[String] ):Unit = {
 
-    //import sqlContext.implicits._
+
     //val df = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
     //val df = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
     //val df = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
@@ -24,29 +24,74 @@ object Main01 {
     //val df = LoadTable.loadTable(TabPaths.TAB_16,TabPaths.TAB_16_headers)
     //val df = LoadTable.loadTable(TabPaths.TAB_18_ago_16,TabPaths.TAB_18_headers)
 
+    import SparkSessionUtils.sqlContext.implicits._
+    import SparkSessionUtils.sqlContext.sql
+
     val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
+    df_00C.cache()
+
+    val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
+    df_05C.cache()
 
     val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
+    df_00E.cache()
 
     val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
+    df_01_10.cache()
 
-    println("Join Contratos-Aparatos\n")
+    df_00C.registerTempTable("contratos")
+    df_05C.registerTempTable("clientes")
+    df_00E.registerTempTable("aparatos")
+    df_01_10.registerTempTable("cargas")
 
-    val df_con_apa = df_00C.join(df_00E,Seq("origen","cupsree2","cpuntmed"))
+    val j1 = sql(
+      """SELECT contratos.origen, contratos.cupsree2, contratos.cpuntmed, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
+         FROM contratos JOIN clientes
+         ON contratos.origen = clientes.origen AND contratos.cemptitu = clientes.cemptitu AND contratos.ccontrat = clientes.ccontrat AND contratos.cnumscct = clientes.cnumscct
+      """)
 
-    df_con_apa.cache()
+    j1.cache()
+    println("Join contratos clientes\n")
+    j1.show(5)
+    j1.registerTempTable("con_cli")
 
-    df_con_apa.show(10)
+    val j2 = sql(
+      """SELECT aparatos.origen, aparatos.cpuntmed, con_cli.ccliente, con_cli.dapersoc, con_cli.dnombcli  FROM con_cli JOIN aparatos
+         ON con_cli.origen = aparatos.origen AND con_cli.cupsree2 = aparatos.cupsree2 AND con_cli.cpuntmed = aparatos.cpuntmed
+      """)
 
-    df_con_apa.printSchema()
+    j2.cache()
+    println("Join contratos clientes aparatos\n")
+    j2.show(5)
+    j2.registerTempTable("con_cli_apa")
 
-    println("Join Contratos-Aparatos-Curvas de Carga\n")
+    val j3 = sql(
+      """SELECT cargas.origen, cargas.cpuntmed, con_cli_apa.ccliente, con_cli_apa.dapersoc, con_cli_apa.dnombcli,
+         cargas.hora_01, cargas.1q_consumo_01, cargas.2q_consumo_01, cargas.3q_consumo_01, cargas.3q_consumo_01  FROM con_cli_apa JOIN cargas
+         ON con_cli_apa.origen = cargas.origen AND con_cli_apa.cpuntmed = cargas.cpuntmed
+      """)
 
-    val df_con_apa_cur = df_con_apa.join(df_01_10, Seq("origen","cpuntmed"))
+    j3.cache()
+    println("Join contratos clientes aparatos curvas\n")
+    j3.show(5)
 
-    df_con_apa_cur.printSchema()
-
-    df_con_apa_cur.show(10)
+//    println("Join Contratos-Aparatos\n")
+//
+//    val df_con_apa = df_00C.join(df_00E,Seq("origen","cupsree2","cpuntmed"))
+//
+//    df_con_apa.cache()
+//
+//    df_con_apa.show(10)
+//
+//    df_con_apa.printSchema()
+//
+//    println("Join Contratos-Aparatos-Curvas de Carga\n")
+//
+//    val df_con_apa_cur = df_con_apa.join(df_01_10, Seq("origen","cpuntmed"))
+//
+//    df_con_apa_cur.printSchema()
+//
+//    df_con_apa_cur.show(10)
 
     SparkSessionUtils.sc.stop()
 
