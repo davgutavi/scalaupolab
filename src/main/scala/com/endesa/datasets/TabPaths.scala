@@ -49,24 +49,30 @@ object TabPaths {
 
   //Magnitudes TPL
   final val TAB_10 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_10/Endesa_TAB_10_20170127_CZZ_20100101_20161231.csv"
+  final val TAB_10_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_10/TAB_10_headers.csv"
 
   //Facturación
   final val TAB_12_10_12 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2010_A_2012.csv"
   final val TAB_12_12_13 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2012_A_2013.csv"
   final val TAB_12_14_15 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2014_A_2015.csv"
   final val TAB_12_16_17 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2016_A_2017.csv"
+  final val TAB_12_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_12/TAB_12_headers.csv"
 
   //TDC
   final val TAB_15A = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_15A/Endesa_TAB_15A_20170127_CZZ_20100101_20161231.csv"
+  final val TAB_15A_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_15A/TAB_15A_headers.csv"
 
   //Operaciones TDC
   final val TAB_15B = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_15B/Endesa_TAB_15B_20170127_CZZ_20100101_20161231.csv"
+  final val TAB_15B_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_15B/TAB_15B_headers.csv"
 
   //Movimientos TDC
   final val TAB_15C = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_15C/Endesa_TAB_15C_20170127_CZZ_20100101_20161231.csv"
+  final val TAB_15C_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_15C/TAB_15C_headers.csv"
 
   //Expedientes
   final val TAB_16 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_16/Endesa_TAB_16_20170127_CZZ_20100101_20161231.csv"
+  final val TAB_16_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_16/TAB_16_headers.csv"
 
   //Interrupciones
   final val TAB_18_ene_mar_16 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_18/C3_Endesa_TAB_18_20160411_XZZ_20160123_20160331_1.csv"
@@ -77,7 +83,7 @@ object TabPaths {
   final val TAB_18_nov_16 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_18/C3_Endesa_TAB_18_20161108_XZZ_1.csv"
   final val TAB_18_dic_16 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_18/C3_Endesa_TAB_18_20161222_XZZ_1.csv"
   final val TAB_18_ene_17 = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_18/C3_Endesa_TAB_18_20170111_XZZ_1.csv"
-
+  final val TAB_18_headers = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/TAB_18/TAB_18_headers.csv"
 
 
 

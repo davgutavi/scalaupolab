@@ -11,8 +11,6 @@ object Tab00CMaestroContratos {
 
     val sqlContext = SparkSessionUtils.sqlContext
 
-    import sqlContext.implicits._
-
     val data = sqlContext.read.format("com.databricks.spark.csv")
       .option("delimiter", ";")
       //.option("inferSchema", "true")

@@ -14,11 +14,9 @@ object LoadTable {
   def loadTable(pathToData: String, pathToHeaders: String): DataFrame = {
 
 
-    val sc = SparkSessionUtils.sc
-
     val sqlContext = SparkSessionUtils.sqlContext
 
-    var fields = new ArrayBuilder.ofRef[StructField]()
+    val fields = new ArrayBuilder.ofRef[StructField]()
 
     for (line <- scala.io.Source.fromFile(pathToHeaders).getLines) {
 
@@ -31,7 +29,7 @@ object LoadTable {
 
     val schema = fields.result()
 
-    println("Schema size = " + schema.length+"\n")
+    //println("Schema size = " + schema.length+"\n")
 
     val customSchema = StructType(schema)
 
@@ -40,6 +38,7 @@ object LoadTable {
       //.option("inferSchema", "true")
       .option("dateFormat","yyyyMMdd")
       .option("dateFormat"," yyyyMMdd")
+      //.option("dateFormat","yyyy-MM-dd HH:mm:ss")
       .schema(customSchema)
       .load(pathToData)
 
@@ -56,7 +55,8 @@ object LoadTable {
     else if (name.equalsIgnoreCase("double"))  r = DataTypes.DoubleType
     else if (name.equalsIgnoreCase("boolean")) r = DataTypes.BooleanType
     else if (name.equalsIgnoreCase("long"))    r = DataTypes.LongType
-    else if (name.equalsIgnoreCase("date"))    r = DataTypes.DateType
+    //else if (name.equalsIgnoreCase("date"))    r = DataTypes.DateType
+    else if (name.equalsIgnoreCase("date"))    r = DataTypes.StringType
 
 
     r
