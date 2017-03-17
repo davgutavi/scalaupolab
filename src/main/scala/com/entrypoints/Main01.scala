@@ -45,7 +45,7 @@ object Main01 {
 //    df_01_10.registerTempTable("cargas")
 
     val j1 = sql(
-      """SELECT contratos.origen, contratos.cupsree2, contratos.cpuntmed, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
+      """SELECT contratos.origen, contratos.cemptitu, contratos.ccontrat, contratos.cnumscct, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
          FROM contratos JOIN clientes
          ON contratos.origen = clientes.origen AND contratos.cemptitu = clientes.cemptitu AND contratos.ccontrat = clientes.ccontrat AND contratos.cnumscct = clientes.cnumscct
       """)
@@ -56,13 +56,13 @@ object Main01 {
     j1.registerTempTable("con_cli")
 
     val c_1 = sql(
-      """SELECT origen, cemptitu, ccontrat, numscct, count(ccliente)
+      """SELECT origen, cemptitu, ccontrat, cnumscct, count(ccliente)
          FROM con_cli
-         GROUP BY con_cli.origen, con_cli.cemptitu, con_cli.ccontrat
+         GROUP BY origen, cemptitu, ccontrat, cnumscct
       """)
 
     c_1.cache()
-    println("Contador contratos clientes\n")
+    println("Contador contratos clientes\n\n")
     c_1.show(30)
 
 
