@@ -33,16 +33,16 @@ object Main01 {
     val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
     df_05C.cache()
 
-    val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
-    df_00E.cache()
-
-    val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
-    df_01_10.cache()
+//    val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
+//    df_00E.cache()
+//
+//    val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
+//    df_01_10.cache()
 
     df_00C.registerTempTable("contratos")
     df_05C.registerTempTable("clientes")
-    df_00E.registerTempTable("aparatos")
-    df_01_10.registerTempTable("cargas")
+//    df_00E.registerTempTable("aparatos")
+//    df_01_10.registerTempTable("cargas")
 
     val j1 = sql(
       """SELECT contratos.origen, contratos.cupsree2, contratos.cpuntmed, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
@@ -55,25 +55,36 @@ object Main01 {
     j1.show(5)
     j1.registerTempTable("con_cli")
 
-    val j2 = sql(
-      """SELECT aparatos.origen, aparatos.cpuntmed, con_cli.ccliente, con_cli.dapersoc, con_cli.dnombcli  FROM con_cli JOIN aparatos
-         ON con_cli.origen = aparatos.origen AND con_cli.cupsree2 = aparatos.cupsree2 AND con_cli.cpuntmed = aparatos.cpuntmed
+    val c_1 = sql(
+      """SELECT origen, cemptitu, ccontrat, numscct, count(ccliente)
+         FROM con_cli
+         GROUP BY con_cli.origen, con_cli.cemptitu, con_cli.ccontrat
       """)
 
-    j2.cache()
-    println("Join contratos clientes aparatos\n")
-    j2.show(5)
-    j2.registerTempTable("con_cli_apa")
+    c_1.cache()
+    println("Contador contratos clientes\n")
+    c_1.show(30)
 
-    val j3 = sql(
-      """SELECT cargas.origen, cargas.cpuntmed, con_cli_apa.ccliente, con_cli_apa.dapersoc, con_cli_apa.dnombcli,
-         cargas.hora_01, cargas.1q_consumo_01, cargas.2q_consumo_01, cargas.3q_consumo_01, cargas.3q_consumo_01  FROM con_cli_apa JOIN cargas
-         ON con_cli_apa.origen = cargas.origen AND con_cli_apa.cpuntmed = cargas.cpuntmed
-      """)
 
-    j3.cache()
-    println("Join contratos clientes aparatos curvas\n")
-    j3.show(5)
+//    val j2 = sql(
+//      """SELECT aparatos.origen, aparatos.cpuntmed, con_cli.ccliente, con_cli.dapersoc, con_cli.dnombcli  FROM con_cli JOIN aparatos
+//         ON con_cli.origen = aparatos.origen AND con_cli.cupsree2 = aparatos.cupsree2 AND con_cli.cpuntmed = aparatos.cpuntmed
+//      """)
+//
+//    j2.cache()
+//    println("Join contratos clientes aparatos\n")
+//    j2.show(5)
+//    j2.registerTempTable("con_cli_apa")
+//
+//    val j3 = sql(
+//      """SELECT cargas.origen, cargas.cpuntmed, con_cli_apa.ccliente, con_cli_apa.dapersoc, con_cli_apa.dnombcli,
+//         cargas.hora_01, cargas.1q_consumo_01, cargas.2q_consumo_01, cargas.3q_consumo_01, cargas.3q_consumo_01  FROM con_cli_apa JOIN cargas
+//         ON con_cli_apa.origen = cargas.origen AND con_cli_apa.cpuntmed = cargas.cpuntmed
+//      """)
+//
+//    j3.cache()
+//    println("Join contratos clientes aparatos curvas\n")
+//    j3.show(5)
 
 //    println("Join Contratos-Aparatos\n")
 //
