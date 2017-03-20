@@ -44,6 +44,22 @@ object Main01 {
 //    df_00E.registerTempTable("aparatos")
 //    df_01_10.registerTempTable("cargas")
 
+//    println("Contador clientes\n\n")
+//
+//    val c_2 = sql(
+//            """SELECT origen, cemptitu, ccontrat, cnumscct, count(ccliente)
+//               FROM clientes
+//               GROUP BY origen, cemptitu, ccontrat, cnumscct
+//            """)
+//
+//          c_2.cache()
+//
+//
+//          c_2.show(100)
+//
+//          println("\n Tamaño = "+c_2.count())
+
+
     val j1 = sql(
       """SELECT contratos.origen, contratos.cemptitu, contratos.ccontrat, contratos.cnumscct, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
          FROM contratos JOIN clientes
@@ -62,9 +78,28 @@ object Main01 {
       """)
 
     c_1.cache()
+    c_1.registerTempTable("contclientes")
     println("Contador contratos clientes\n\n")
     c_1.show(30)
+    println("\n Tamaño = "+c_1.count())
 
+    val c_1_p = sql(
+            """SELECT *
+               FROM contclientes
+               WHERE ccontrat = '130055576341'
+            """)
+    c_1_p.show(30)
+    println("\n Tamaño = "+c_1_p.count())
+
+
+//    val c_1_p = sql(
+//      """SELECT origen, cemptitu, ccontrat, cnumscct, ccliente
+//         FROM con_cli
+//         WHERE ccontrat = '130055576341'
+//      """)
+//
+//    c_1_p.show(30)
+//    println("\n Tamaño = "+c_1_p.count())
 
 //    val j2 = sql(
 //      """SELECT aparatos.origen, aparatos.cpuntmed, con_cli.ccliente, con_cli.dapersoc, con_cli.dnombcli  FROM con_cli JOIN aparatos
