@@ -27,8 +27,8 @@ object Main01 {
     import SparkSessionUtils.sqlContext.implicits._
     import SparkSessionUtils.sqlContext.sql
 
-    val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
-    df_00C.cache()
+//    val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
+//    df_00C.cache()
 
     val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
     df_05C.cache()
@@ -39,57 +39,70 @@ object Main01 {
 //    val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
 //    df_01_10.cache()
 
-    df_00C.registerTempTable("contratos")
+//    df_00C.registerTempTable("contratos")
     df_05C.registerTempTable("clientes")
 //    df_00E.registerTempTable("aparatos")
 //    df_01_10.registerTempTable("cargas")
 
-//    println("Contador clientes\n\n")
-//
-//    val c_2 = sql(
-//            """SELECT origen, cemptitu, ccontrat, cnumscct, count(ccliente)
-//               FROM clientes
-//               GROUP BY origen, cemptitu, ccontrat, cnumscct
-//            """)
-//
-//          c_2.cache()
-//
-//
-//          c_2.show(100)
-//
-//          println("\n Tamaño = "+c_2.count())
+    println("Contador clientes\n\n")
 
-
-    val j1 = sql(
-      """SELECT contratos.origen, contratos.cemptitu, contratos.ccontrat, contratos.cnumscct, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
-         FROM contratos JOIN clientes
-         ON contratos.origen = clientes.origen AND contratos.cemptitu = clientes.cemptitu AND contratos.ccontrat = clientes.ccontrat AND contratos.cnumscct = clientes.cnumscct
-      """)
-
-    j1.cache()
-    println("Join contratos clientes\n")
-    j1.show(5)
-    j1.registerTempTable("con_cli")
-
-    val c_1 = sql(
-      """SELECT origen, cemptitu, ccontrat, cnumscct, count(ccliente)
-         FROM con_cli
-         GROUP BY origen, cemptitu, ccontrat, cnumscct
-      """)
-
-    c_1.cache()
-    c_1.registerTempTable("contclientes")
-    println("Contador contratos clientes\n\n")
-    c_1.show(30)
-    println("\n Tamaño = "+c_1.count())
-
-    val c_1_p = sql(
-            """SELECT *
-               FROM contclientes
-               WHERE ccontrat = '130055576341'
+    val c_2 = sql(
+            """SELECT origen, cemptitu, ccontrat, cnumscct, count(ccliente) as sumatorio
+               FROM clientes
+               GROUP BY origen, cemptitu, ccontrat, cnumscct
             """)
-    c_1_p.show(30)
-    println("\n Tamaño = "+c_1_p.count())
+
+          c_2.cache()
+          c_2.registerTempTable("contclientes")
+
+//          c_2.show(100)
+
+          println("\n Tamaño = "+c_2.count())
+
+
+    val c_2_p = sql( """SELECT *
+               FROM contclientes
+               WHERE sumatorio > 2
+               ORDER BY sumatorio
+            """)
+
+    c_2_p.cache()
+
+    c_2_p.show(200)
+
+    println("\n Tamaño = "+c_2_p.count())
+
+
+//    val j1 = sql(
+//      """SELECT contratos.origen, contratos.cemptitu, contratos.ccontrat, contratos.cnumscct, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
+//         FROM contratos JOIN clientes
+//         ON contratos.origen = clientes.origen AND contratos.cemptitu = clientes.cemptitu AND contratos.ccontrat = clientes.ccontrat AND contratos.cnumscct = clientes.cnumscct
+//      """)
+//
+//    j1.cache()
+//    println("Join contratos clientes\n")
+//    j1.show(5)
+//    j1.registerTempTable("con_cli")
+//
+//    val c_1 = sql(
+//      """SELECT origen, cemptitu, ccontrat, cnumscct, count(ccliente) as sumatorio
+//         FROM con_cli
+//         GROUP BY origen, cemptitu, ccontrat, cnumscct
+//      """)
+//
+//    c_1.cache()
+//    c_1.registerTempTable("contclientes")
+//    println("Contador contratos clientes\n\n")
+//    c_1.show(30)
+//    println("\n Tamaño = "+c_1.count())
+//
+//    val c_1_p = sql(
+//            """SELECT *
+//               FROM contclientes
+//               WHERE ccontrat = '130055576341'
+//            """)
+//    c_1_p.show(30)
+//    println("\n Tamaño = "+c_1_p.count())
 
 
 //    val c_1_p = sql(
