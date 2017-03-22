@@ -5,17 +5,16 @@ package com.endesa.datasets
   */
 object TabPaths {
 
-  //  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
-  final val prefix = "/mnt/4f9c736f-9893-4dd7-b726-0df95240567f/ENDESA/endesa_descomprimido/"
-
+  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
+//  final val prefix = "/mnt/4f9c736f-9893-4dd7-b726-0df95240567f/ENDESA/endesa_descomprimido/"
 
   //Maestro Contratos
   final val TAB_00C = prefix+"TAB_00C/Endesa_TAB_00C_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_00C_headers = prefix+"TAB_00C_headers.csv"
+  final val TAB_00C_headers = prefix+"TAB_00C/TAB_00C_headers.csv"
 
   //Maestro Aparatos
   final val TAB_00E = prefix+"TAB_00E/Endesa_TAB_00E_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_00E_headers = prefix+"endesa_descomprimido/TAB_00E/TAB_00E_headers.csv"
+  final val TAB_00E_headers = prefix+"TAB_00E/TAB_00E_headers.csv"
 
   //Curvas de Carga
   final val TAB_01_10 = prefix+"TAB_01/Endesa_TAB_01_20170127_CZZ_20100101_20101231.csv"
