@@ -2,6 +2,7 @@ package com.entrypoints
 
 import com.endesa.datasets.{LoadTable, TabPaths}
 import com.utilities.{SparkSessionUtils, TimingUtils}
+import org.apache.spark.storage.StorageLevel
 
 /**
   * Created by davgutavi on 15/03/17.
@@ -12,25 +13,27 @@ object MainClientesCurvasV1 {
 
     import SparkSessionUtils.sqlContext.sql
 
-
     TimingUtils.time{
 
     val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
-    df_00C.cache()
+    //df_00C.cache()
+    df_00C.persist(StorageLevel.MEMORY_ONLY)
     df_00C.registerTempTable("contratos")
 
     val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
-    df_05C.cache()
+//    df_05C.cache()
+      df_05C.persist(StorageLevel.MEMORY_ONLY)
     df_05C.registerTempTable("clientes")
 
     val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
-    df_00E.cache()
+//    df_00E.cache()
+      df_00E.persist(StorageLevel.MEMORY_ONLY)
     df_00E.registerTempTable("aparatos")
 
     val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
-    df_01_10.cache()
-    df_01_10.registerTempTable("cargas")
-
+//    df_01_10.cache()
+      df_01_10.persist(StorageLevel.MEMORY_ONLY)
+      df_01_10.registerTempTable("cargas")
 
     val j1 = sql(
       """SELECT contratos.origen, contratos.cemptitu, contratos.ccontrat, contratos.cnumscct, contratos.cupsree2, contratos.cpuntmed, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
@@ -42,10 +45,12 @@ object MainClientesCurvasV1 {
     j1.registerTempTable("con_cli")
     println("\nJoin contratos-clientes ("+j1.count()+" registros)\n")
     j1.show(5)
-
+    df_00C.unpersist()
+    df_05C.unpersist()
 
     val j2 = sql(
-      """SELECT aparatos.origen, aparatos.cpuntmed, con_cli.ccliente, con_cli.dapersoc, con_cli.dnombcli  FROM con_cli JOIN aparatos
+      """SELECT aparatos.origen, aparatos.cpuntmed, con_cli.ccliente, con_cli.dapersoc, con_cli.dnombcli
+         FROM con_cli JOIN aparatos
          ON con_cli.origen = aparatos.origen AND con_cli.cupsree2 = aparatos.cupsree2 AND con_cli.cpuntmed = aparatos.cpuntmed
       """)
 
@@ -53,13 +58,18 @@ object MainClientesCurvasV1 {
     j2.registerTempTable("con_cli_apa")
     println("\nJoin contratos-clientes-aparatos ("+j2.count()+" registros)\n")
     j2.show(5)
+      df_00E.unpersist()
+      j1.unpersist()
 
 
     val j3 = sql(
       """SELECT cargas.origen, cargas.cpuntmed, con_cli_apa.ccliente, con_cli_apa.dapersoc, con_cli_apa.dnombcli,
-         cargas.hora_01, cargas.1q_consumo_01, cargas.2q_consumo_01, cargas.3q_consumo_01, cargas.3q_consumo_01  FROM con_cli_apa JOIN cargas
+         cargas.hora_01, cargas.1q_consumo_01, cargas.2q_consumo_01, cargas.3q_consumo_01, cargas.3q_consumo_01
+         FROM con_cli_apa JOIN cargas
          ON con_cli_apa.origen = cargas.origen AND con_cli_apa.cpuntmed = cargas.cpuntmed
       """)
+
+
 
     j3.cache()
     println("\nJoin contratos-clientes-aparatos-curvas ("+j3.count()+" registros)\n")
