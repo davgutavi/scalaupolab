@@ -1,7 +1,7 @@
 package com.entrypoints
 
 import com.endesa.datasets.{LoadTable, TabPaths}
-import com.utilities.SparkSessionUtils
+import com.utilities.{SparkSessionUtils, TimingUtils}
 
 /**
   * Created by davgutavi on 15/03/17.
@@ -11,6 +11,9 @@ object MainClientesCurvasV1 {
   def main( args:Array[String] ):Unit = {
 
     import SparkSessionUtils.sqlContext.sql
+
+
+    TimingUtils.time{
 
     val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
     df_00C.cache()
@@ -61,6 +64,8 @@ object MainClientesCurvasV1 {
     j3.cache()
     println("\nJoin contratos-clientes-aparatos-curvas ("+j3.count()+" registros)\n")
     j3.show(5)
+
+    }
 
     SparkSessionUtils.sc.stop()
 
