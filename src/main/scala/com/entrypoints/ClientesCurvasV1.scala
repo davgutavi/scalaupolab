@@ -7,7 +7,7 @@ import org.apache.spark.storage.StorageLevel
 /**
   * Created by davgutavi on 15/03/17.
   */
-object MainClientesCurvasV1 {
+object ClientesCurvasV1 {
 
   def main( args:Array[String] ):Unit = {
 
@@ -21,24 +21,28 @@ object MainClientesCurvasV1 {
 
       //println("Persistiendo Contratos\n")
       //df_00C.persist(nivel)
+      println("Registrando Contratos")
       df_00C.registerTempTable("contratos")
 
     val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
 
       //println("Persistiendo Clientes\n")
       //df_05C.persist(nivel)
+      println("Registrando Clientes")
       df_05C.registerTempTable("clientes")
 
     val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
 
       //println("Persistiendo Aparatos\n")
       //df_00E.persist(nivel)
+      println("Registrando Aparatos")
       df_00E.registerTempTable("aparatos")
 
     val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
 
       //println("Persistiendo Cargas\n")
       //df_01_10.persist(nivel)
+      println("Registrando Cargas")
       df_01_10.registerTempTable("cargas")
 
       println("Construyendo J1\n")

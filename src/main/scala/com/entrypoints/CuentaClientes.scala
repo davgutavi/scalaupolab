@@ -6,7 +6,7 @@ import com.utilities.SparkSessionUtils
 /**
   * Created by davgutavi on 21/03/17.
   */
-object MainCuentaClientes {
+object CuentaClientes {
 
   def main( args:Array[String] ):Unit = {
 

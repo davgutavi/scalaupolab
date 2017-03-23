@@ -5,8 +5,8 @@ package com.endesa.datasets
   */
 object TabPaths {
 
-  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
-//  final val prefix = "/mnt/4f9c736f-9893-4dd7-b726-0df95240567f/ENDESA/endesa_descomprimido/"
+//  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
+  final val prefix = "/mnt/4f9c736f-9893-4dd7-b726-0df95240567f/ENDESA/endesa_descomprimido/"
 
   //Maestro Contratos
   final val TAB_00C = prefix+"TAB_00C/Endesa_TAB_00C_20170127_CZZ_20100101_20161231.csv"

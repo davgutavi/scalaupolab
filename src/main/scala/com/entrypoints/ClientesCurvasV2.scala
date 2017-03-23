@@ -6,7 +6,7 @@ import com.utilities.{SparkSessionUtils, TimingUtils}
 /**
   * Created by davgutavi on 21/03/17.
   */
-object MainClientesCurvasV2 {
+object ClientesCurvasV2 {
 
   def main( args:Array[String] ):Unit = {
 
