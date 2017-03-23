@@ -57,6 +57,8 @@ object MainClientesCurvasV1 {
       println("\nJoin contratos-clientes ("+j1.count()+" registros)\n")
       j1.show(5)
 
+
+
       println("Borrando Contratos, Clientes\n")
       df_00C.unpersist()
       df_05C.unpersist()

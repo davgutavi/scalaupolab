@@ -3,6 +3,8 @@
     <properties>
       <option name="languageLevel" value="Scala_2_10" />
       <compiler-classpath>
+        <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/jansi.jar" />
+        <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/jline.jar" />
         <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/scala-compiler.jar" />
         <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/scala-library.jar" />
         <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/scala-reflect.jar" />
