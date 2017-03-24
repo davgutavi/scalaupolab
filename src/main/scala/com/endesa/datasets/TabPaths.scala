@@ -70,6 +70,9 @@ object TabPaths {
 
   ///////////************Otros
 
+  //Campañas
+
+
   //Clientes PTOSE
   final val TAB_05D = prefix+"TAB_05D/Endesa_TAB_05D_20170126_CZZ_20100101_20161231.csv"
   final val TAB_05D_headers = prefix+"TAB_05D/TAB_05D_headers.csv"
