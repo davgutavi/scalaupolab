@@ -15,9 +15,9 @@ object SparkSessionUtils {
 
   val sparConf:SparkConf = new SparkConf()
     .setAppName("upolab")
-    .setMaster("local")
-    //.setMaster("spark://192.168.1.10:7077")
-    .set("spark.scheduler.mode", "FAIR")
+    .setMaster("local[*]")
+//    .setMaster("spark://192.168.47.241:7077")
+//    .set("spark.scheduler.mode", "FAIR")
 
   val sc:SparkContext = new SparkContext(sparConf)
 
