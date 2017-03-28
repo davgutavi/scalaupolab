@@ -32,7 +32,7 @@ object CuentaClientes {
 
     val c_2_p = sql( """SELECT *
                FROM contclientes
-               WHERE sumatorio > 2
+               WHERE sumatorio > 1
                ORDER BY sumatorio
             """)
 

@@ -17,9 +17,9 @@ object ExpedientesFraude {
 
     TimingUtils.time{
 
-      val df_15C = LoadTable.loadTable(TabPaths.TAB_15C,TabPaths.TAB_15C_headers)
-      df_15C.persist(nivel)
-      df_15C.registerTempTable("movtdc")
+//      val df_15C = LoadTable.loadTable(TabPaths.TAB_15C,TabPaths.TAB_15C_headers)
+//      df_15C.persist(nivel)
+//      df_15C.registerTempTable("movtdc")
 
 //      val df_15B = LoadTable.loadTable(TabPaths.TAB_15B,TabPaths.TAB_15B_headers)
 //      df_15B.persist(nivel)
@@ -31,96 +31,160 @@ object ExpedientesFraude {
 
       val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
-      df_00C.registerTempTable("contratos")
+      df_00C.createOrReplaceTempView("contratos")
 
-//      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
-//      df_05C.cache()
-//      df_05C.registerTempTable("clientes")
-//
+      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
+      df_05C.cache()
+      df_05C.createOrReplaceTempView("clientes")
+
       val df_16 = LoadTable.loadTable(TabPaths.TAB_16,TabPaths.TAB_16_headers)
       df_16.persist(nivel)
-      df_16.registerTempTable("expedientes")
+      df_16.createOrReplaceTempView("expedientes")
 
 
-       val  j1 = sql(
-                    """SELECT *
-                       FROM movtdc JOIN contratos
-                       ON movtdc.cemptitu=contratos.cemptitu
-                    """)
-      println("\nMov TDC (cemptitu) ("+j1.count()+" registros)\n")
+      val con_cli = sql("""
 
-      val  j2 = sql(
-        """SELECT *
-                       FROM movtdc JOIN contratos
-                       ON movtdc.ccontrat= contratos.ccontrat
-                    """)
-      println("\nMov TDC (ccontrat) ("+j2.count()+" registros)\n")
+          SELECT contratos.origen, contratos.cfinca, contratos.cptoserv, contratos.cderind ,clientes.ccliente, clientes.cnifdnic, clientes.dapersoc, clientes.dnombcli
+          FROM contratos JOIN clientes
+          ON contratos.origen=clientes.origen AND contratos.cemptitu=clientes.cemptitu AND contratos.ccontrat=clientes.ccontrat AND contratos.cnumscct=clientes.cnumscct
 
-      val  j3 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.origen = contratos.origen AND expedientes.cfinca = contratos.cfinca AND expedientes.cptoserv = contratos.cptoserv AND expedientes.cderind = contratos.cderind AND expedientes.fapexpd = contratos.fpsercon
-                    """)
-      println("\nExpedientes (origen, cfinca, cptoserv, cderind, fapexpd = fpsercon) ("+j3.count()+" registros)\n")
+        """)
+      println("\n Contratos-Clientes ("+con_cli.count()+" registros)\n")
+      con_cli.createOrReplaceTempView("concli")
+      con_cli.show(20)
 
 
-      val  j4 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.origen = contratos.origen AND expedientes.cfinca = contratos.cfinca AND expedientes.cptoserv = contratos.cptoserv AND expedientes.cderind = contratos.cderind AND expedientes.fapexpd = contratos.ffinvesu
-                    """)
-      println("\nExpedientes (origen, cfinca, cptoserv, cderind, fapexpd = ffinvesu) ("+j4.count()+" registros)\n")
 
-      val  j5 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.origen = contratos.origen AND expedientes.cfinca = contratos.cfinca
-                    """)
-      println("\nExpedientes (origen, cfinca) ("+j5.count()+" registros)\n")
+      val concli_exp = sql("""
+
+          SELECT concli.ccliente, concli.cnifdnic, concli.dapersoc, concli.dnombcli, expedientes.irregularidad, expedientes.anomalia
+          FROM concli JOIN expedientes
+          ON concli.origen=expedientes.origen AND concli.cfinca=expedientes.cfinca AND concli.cptoserv=expedientes.cptoserv AND concli.cderind=expedientes.cderind
+
+        """)
+      println("\n Contratos-Clientes-Expedientes ("+concli_exp.count()+" registros)\n")
+      concli_exp.createOrReplaceTempView("concliexp")
+      concli_exp.show(20)
 
 
-      val  j6 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.origen = contratos.origen AND expedientes.cptoserv = contratos.cptoserv
-                    """)
-      println("\nExpedientes (origen, cptoserv) ("+j6.count()+" registros)\n")
 
-      val  j7 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.origen = contratos.origen AND expedientes.cderind = contratos.cderind
-                    """)
-      println("\nExpedientes (origen, cderind) ("+j7.count()+" registros)\n")
+      val concliexp_irregulardad = sql("""
+
+          SELECT * FROM concliexp WHERE irregularidad = 'S'
+
+        """)
+      println("\n Clientes-Contratos-Expedientes-Con Irregularidad ("+concliexp_irregulardad.count()+" registros)\n")
+      concliexp_irregulardad.show(20)
 
 
-      val  j8 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.cfinca = contratos.cfinca
-                    """)
-      println("\nExpedientes (cfinca) ("+j8.count()+" registros)\n")
 
-      val  j9 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.cptoserv = contratos.cptoserv
-                    """)
-      println("\nExpedientes (cptoserv) ("+j9.count()+" registros)\n")
 
-      val  j10 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.cderind = contratos.cderind
-                    """)
-      println("\nExpedientes (cderind) ("+j10.count()+" registros)\n")
 
-      val  j11 = sql(
-        """SELECT *
-                       FROM expedientes JOIN contratos
-                       ON expedientes.cemptitu = contratos.cemptitu
-                    """)
-      println("\nExpedientes (cemptitu) ("+j11.count()+" registros)\n")
+////      df_00C.show(10)
+////
+//      println("Expedientes")
+//      df_16.show(10)
+//
+//      val  c1 = sql(
+//                          """SELECT *
+//                             FROM expedientes
+//                             WHERE cemptitu = "00040"
+//                          """)
+//
+//      println("Expedientes con 00040" )
+//        c1.show(100)
+
+
+
+
+//      val  c2 = sql(
+//        """SELECT *  FROM contratos WHERE cemptitu = "00044"
+//
+//                          """)
+//
+//      println("Contratos")
+//      c2.show(100)
+
+
+//       val  j1 = sql(
+//                    """SELECT *
+//                       FROM movtdc JOIN contratos
+//                       ON movtdc.cemptitu=contratos.cemptitu
+//                    """)
+//      println("\nMov TDC (cemptitu) ("+j1.count()+" registros)\n")
+//
+//      val  j2 = sql(
+//        """SELECT *
+//                       FROM movtdc JOIN contratos
+//                       ON movtdc.ccontrat= contratos.ccontrat
+//                    """)
+//      println("\nMov TDC (ccontrat) ("+j2.count()+" registros)\n")
+//
+//      val  j3 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.origen = contratos.origen AND expedientes.cfinca = contratos.cfinca AND expedientes.cptoserv = contratos.cptoserv AND expedientes.cderind = contratos.cderind AND expedientes.fapexpd = contratos.fpsercon
+//                    """)
+//      println("\nExpedientes (origen, cfinca, cptoserv, cderind, fapexpd = fpsercon) ("+j3.count()+" registros)\n")
+//
+//
+//      val  j4 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.origen = contratos.origen AND expedientes.cfinca = contratos.cfinca AND expedientes.cptoserv = contratos.cptoserv AND expedientes.cderind = contratos.cderind AND expedientes.fapexpd = contratos.ffinvesu
+//                    """)
+//      println("\nExpedientes (origen, cfinca, cptoserv, cderind, fapexpd = ffinvesu) ("+j4.count()+" registros)\n")
+//
+//      val  j5 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.origen = contratos.origen AND expedientes.cfinca = contratos.cfinca
+//                    """)
+//      println("\nExpedientes (origen, cfinca) ("+j5.count()+" registros)\n")
+//
+//
+//      val  j6 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.origen = contratos.origen AND expedientes.cptoserv = contratos.cptoserv
+//                    """)
+//      println("\nExpedientes (origen, cptoserv) ("+j6.count()+" registros)\n")
+//
+//      val  j7 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.origen = contratos.origen AND expedientes.cderind = contratos.cderind
+//                    """)
+//      println("\nExpedientes (origen, cderind) ("+j7.count()+" registros)\n")
+//
+//
+//      val  j8 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.cfinca = contratos.cfinca
+//                    """)
+//      println("\nExpedientes (cfinca) ("+j8.count()+" registros)\n")
+//
+//      val  j9 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.cptoserv = contratos.cptoserv
+//                    """)
+//      println("\nExpedientes (cptoserv) ("+j9.count()+" registros)\n")
+//
+//      val  j10 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.cderind = contratos.cderind
+//                    """)
+//      println("\nExpedientes (cderind) ("+j10.count()+" registros)\n")
+//
+//      val  j11 = sql(
+//        """SELECT *
+//                       FROM expedientes JOIN contratos
+//                       ON expedientes.cemptitu = contratos.cemptitu
+//                    """)
+//      println("\nExpedientes (cemptitu) ("+j11.count()+" registros)\n")
 
 
 
