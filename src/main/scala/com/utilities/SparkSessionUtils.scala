@@ -26,10 +26,12 @@ object SparkSessionUtils {
     val sparkSession = SparkSession.builder().
       appName("upolab").
       master("local[*]").
+//      enableHiveSupport().
 //      master("spark://192.168.1.10:7077")
 //      config("spark.scheduler.mode", "FAIR").
       getOrCreate()
     val sc = sparkSession.sparkContext
     val sqlContext = sparkSession.sqlContext
+
 
 }
