@@ -84,7 +84,18 @@ object ClientesContratos {
 
       val jccsesi = jccses.where("irregularidad='S'")
       println("Join clientes-contratos-expedientes con irregularidad = " + jccsesi.count() + " registros")
-      jccsesi.show(300,false)
+      jccsesi.show(100,false)
+
+
+      val w1 = jccsesi.drop("ccliente","ccontrat","cnumscct","fechamov","fpsercon","ffinvesu")
+
+      val w2 = w1.dropDuplicates()
+
+      println("Join clientes-contratos-expedientes con irregularidad sin duplicados = " + w2.count() + " registros")
+      w2.show(100,false)
+
+
+//      w2.write.format("com.databricks.spark.csv").option("header","true").save(TabPaths.root+"datasets/clientes_irregularidad_sin_repeticiones")
 
 //      val jccsesis = jccsesi.dropDuplicates()
 //      println("Join clientes-contratos-expedientes con irregularidad sin repetición = " + jccsesis.count() + " registros")
@@ -93,7 +104,7 @@ object ClientesContratos {
 
 
 
-      jccsesi.write.format("com.databricks.spark.csv").option("header","true").save("/mnt/4f9c736f-9893-4dd7-b726-0df95240567f/ENDESA/endesa_descomprimido/datasets/clientes_irregularidad.csv")
+//      jccsesi.write.format("com.databricks.spark.csv").option("header","true").save(TabPaths.root+"datasets/clientes_irregularidad.csv")
 
 
 
