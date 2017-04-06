@@ -1,7 +1,9 @@
-package com.entrypoints
+package es.upo.datalab.entrypoints
 
-import com.endesa.datasets.{LoadTable, TabPaths}
-import com.utilities.{SparkSessionUtils, TimingUtils}
+
+import es.upo.datalab.datasets.{LoadTable, TabPaths}
+import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
+
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -94,6 +96,7 @@ object ClientesContratosExpedientes {
 
     }
 
+    SparkSessionUtils.sc.stop()
 
   }
 

@@ -1,7 +1,9 @@
-package com.entrypoints
+package es.upo.datalab.entrypoints
 
-import com.endesa.datasets.{LoadTable, TabPaths}
-import com.utilities.{SparkSessionUtils, TimingUtils}
+
+
+import es.upo.datalab.datasets.{LoadTable, TabPaths}
+import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -9,11 +11,16 @@ import org.apache.spark.storage.StorageLevel
   */
 object ClientesCurvasV1 {
 
+
   def main( args:Array[String] ):Unit = {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    import SparkSessionUtils.sqlContext.sql
+    val sqlContext = SparkSessionUtils.sqlContext
+
+    import sqlContext._
+
+
 
     TimingUtils.time{
 
@@ -22,28 +29,28 @@ object ClientesCurvasV1 {
       //println("Persistiendo Contratos\n")
       //df_00C.persist(nivel)
       println("Registrando Contratos")
-      df_00C.registerTempTable("contratos")
+      df_00C.createOrReplaceTempView("contratos")
 
     val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
 
       //println("Persistiendo Clientes\n")
       //df_05C.persist(nivel)
       println("Registrando Clientes")
-      df_05C.registerTempTable("clientes")
+      df_05C.createOrReplaceTempView("clientes")
 
     val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
 
       //println("Persistiendo Aparatos\n")
       //df_00E.persist(nivel)
       println("Registrando Aparatos")
-      df_00E.registerTempTable("aparatos")
+      df_00E.createOrReplaceTempView("aparatos")
 
     val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
 
       //println("Persistiendo Cargas\n")
       //df_01_10.persist(nivel)
       println("Registrando Cargas")
-      df_01_10.registerTempTable("cargas")
+      df_01_10.createOrReplaceTempView("cargas")
 
       println("Construyendo J1\n")
 
@@ -56,7 +63,7 @@ object ClientesCurvasV1 {
 //      println("Persistiendo J1\n")
 //      j1.persist(nivel)
       println("Registrando Tabla J1\n")
-      j1.registerTempTable("con_cli")
+      j1.createOrReplaceTempView("con_cli")
 
       println("\nJoin contratos-clientes ("+j1.count()+" registros)\n")
       j1.show(5)
@@ -79,7 +86,7 @@ object ClientesCurvasV1 {
 //      j2.persist(nivel)
 
       println("Registrando Tabla J2\n")
-      j2.registerTempTable("con_cli_apa")
+      j2.createOrReplaceTempView("con_cli_apa")
 
       println("\nJoin contratos-clientes-aparatos ("+j2.count()+" registros)\n")
       j2.show(5)

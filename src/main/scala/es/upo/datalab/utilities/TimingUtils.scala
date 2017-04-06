@@ -1,4 +1,4 @@
-package com.utilities
+package es.upo.datalab.utilities
 
 /**
   * Created by davgutavi on 22/03/17.

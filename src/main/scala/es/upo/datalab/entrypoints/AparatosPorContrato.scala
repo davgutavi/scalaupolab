@@ -1,7 +1,8 @@
-package com.entrypoints
+package es.upo.datalab.entrypoints
 
-import com.endesa.datasets.{LoadTable, TabPaths}
-import com.utilities.{SparkSessionUtils, TimingUtils}
+
+import es.upo.datalab.datasets.{LoadTable, TabPaths}
+import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -13,7 +14,9 @@ object AparatosPorContrato {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    import SparkSessionUtils.sqlContext.sql
+    val sqlContext = SparkSessionUtils.sqlContext
+
+    import sqlContext._
 
     TimingUtils.time{
 
@@ -22,21 +25,21 @@ object AparatosPorContrato {
       println("Persistiendo Contratos\n")
       df_00C.persist(nivel)
       println("Registrando Contratos")
-      df_00C.registerTempTable("contratos")
+      df_00C.createOrReplaceTempView("contratos")
 
       val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
 
       println("Persistiendo Clientes\n")
       df_05C.persist(nivel)
       println("Registrando Clientes")
-      df_05C.registerTempTable("clientes")
+      df_05C.createOrReplaceTempView("clientes")
 
       val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
 
       println("Persistiendo Aparatos\n")
       df_00E.persist(nivel)
       println("Registrando Aparatos")
-      df_00E.registerTempTable("aparatos")
+      df_00E.createOrReplaceTempView("aparatos")
 
       println("Construyendo J1\n")
 
@@ -49,7 +52,7 @@ object AparatosPorContrato {
       println("Persistiendo J1\n")
       j1.persist(nivel)
       println("Registrando Tabla J1\n")
-      j1.registerTempTable("con_cli")
+      j1.createOrReplaceTempView("con_cli")
 
       println("\nJoin contratos-clientes ("+j1.count()+" registros)\n")
       j1.show(5)
@@ -70,7 +73,7 @@ object AparatosPorContrato {
       j2.persist(nivel)
 
       println("Registrando Tabla J2\n")
-      j2.registerTempTable("con_cli_apa")
+      j2.createOrReplaceTempView("con_cli_apa")
 
       println("\nJoin contratos-clientes-aparatos ("+j2.count()+" registros)\n")
       j2.show(5)
@@ -91,7 +94,7 @@ object AparatosPorContrato {
       j3.persist(nivel)
 
       println("Registrando Tabla J3\n")
-      j3.registerTempTable("cli_apa")
+      j3.createOrReplaceTempView("cli_apa")
 
       println("Borrando J2\n")
       j2.unpersist()
@@ -110,7 +113,9 @@ object AparatosPorContrato {
       println("\nContador Aparatos > 1 por clientes ("+j4.count()+" registros)\n")
       j4.show(5)
 
-    }
+      }
+    SparkSessionUtils.sc.stop()
+
 
   }
 

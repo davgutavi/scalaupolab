@@ -1,8 +1,7 @@
-package com.utilities
+package es.upo.datalab.utilities
 
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.{SQLContext, SparkSession}
-import org.apache.spark.{SparkConf, SparkContext}
 
 
 object SparkSessionUtils {

@@ -1,7 +1,7 @@
-package com.entrypoints
+package es.upo.datalab.entrypoints
 
-import com.endesa.datasets.{LoadTable, TabPaths}
-import com.utilities.{SparkSessionUtils, TimingUtils}
+import es.upo.datalab.datasets.{LoadTable, TabPaths}
+import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
 
 /**
   * Created by davgutavi on 21/03/17.
@@ -10,22 +10,23 @@ object ClientesCurvasV2 {
 
   def main( args:Array[String] ):Unit = {
 
-    import SparkSessionUtils.sqlContext.sql
+    val sqlContext = SparkSessionUtils.sqlContext
 
+    import sqlContext._
 
     TimingUtils.time {
 
       val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.cache()
-      df_00C.registerTempTable("contratos")
+      df_00C.createOrReplaceTempView("contratos")
 
       val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
       df_05C.cache()
-      df_05C.registerTempTable("clientes")
+      df_05C.createOrReplaceTempView("clientes")
 
       val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
       df_01_10.cache()
-      df_01_10.registerTempTable("cargas")
+      df_01_10.createOrReplaceTempView("cargas")
 
       val j1 = sql(
         """SELECT contratos.origen, contratos.cemptitu, contratos.ccontrat, contratos.cnumscct, contratos.cupsree2, contratos.cpuntmed, clientes.ccliente, clientes.dapersoc, clientes.dnombcli
@@ -34,7 +35,7 @@ object ClientesCurvasV2 {
       """)
 
       j1.cache()
-      j1.registerTempTable("con_cli")
+      j1.createOrReplaceTempView("con_cli")
       println("\nJoin contratos-clientes (" + j1.count() + " registros)\n")
       j1.show(5)
 
@@ -52,6 +53,7 @@ object ClientesCurvasV2 {
 
     }
 
+    SparkSessionUtils.sc.stop()
   }
 
 }
