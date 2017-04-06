@@ -27,22 +27,16 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="SBT: aopalliance:aopalliance:1.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scalanlp:breeze_2.11:0.12:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scalanlp:breeze-macros_2.11:0.12:jar" level="project" />
     <orderEntry type="library" name="SBT: org.codehaus.janino:janino:3.0.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.codehaus.janino:commons-compiler:3.0.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-unsafe_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-tags_2.11:2.1.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.apache.spark:spark-streaming_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-sql_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-sketch_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-network-shuffle_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-network-common_2.11:2.1.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.apache.spark:spark-mllib_2.11:2.1.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.apache.spark:spark-mllib-local_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-launcher_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-hive_2.11:2.1.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.apache.spark:spark-graphx_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-core_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.spark:spark-catalyst_2.11:2.1.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.parquet:parquet-jackson:1.8.1:jar" level="project" />
@@ -55,7 +49,6 @@
     <orderEntry type="library" name="SBT: net.sf.py4j:py4j:0.10.4:jar" level="project" />
     <orderEntry type="library" name="SBT: io.netty:netty-all:4.0.42.Final:jar" level="project" />
     <orderEntry type="library" name="SBT: com.univocity:univocity-parsers:2.2.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.chuusai:shapeless_2.11:2.0.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.apache.commons:commons-csv:1.1:jar" level="project" />
     <orderEntry type="library" name="SBT: com.databricks:spark-csv_2.11:1.5.0:jar" level="project" />
     <orderEntry type="library" name="SBT: org.xerial.snappy:snappy-java:1.1.2.6:jar" level="project" />
@@ -208,5 +201,12 @@
     <orderEntry type="library" name="SBT: org.spark-project.hive:hive-exec:1.2.1.spark2:jar" level="project" />
     <orderEntry type="library" name="SBT: org.spark-project.hive:hive-metastore:1.2.1.spark2:jar" level="project" />
     <orderEntry type="library" name="SBT: stax:stax-api:1.0.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.chuusai:shapeless_2.11:2.0.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.apache.spark:spark-graphx_2.11:2.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.apache.spark:spark-mllib-local_2.11:2.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.apache.spark:spark-mllib_2.11:2.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.apache.spark:spark-streaming_2.11:2.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scalanlp:breeze-macros_2.11:0.12:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scalanlp:breeze_2.11:0.12:jar" level="project" />
   </component>
 </module>
