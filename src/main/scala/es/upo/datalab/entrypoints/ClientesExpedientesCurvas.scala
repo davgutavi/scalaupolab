@@ -24,6 +24,7 @@ object ClientesExpedientesCurvas {
       df_05C.persist(nivel)
       println("Número de registros en Clientes = " + df_05C.count())
 //      df_05C.createOrReplaceTempView("clientes")
+
       val df_05Cs = df_05C.dropDuplicates()
       df_05C.unpersist()
       df_05Cs.persist(nivel)
