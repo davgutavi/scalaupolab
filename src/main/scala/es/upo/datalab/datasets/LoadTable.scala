@@ -17,7 +17,7 @@ object LoadTable {
   final val dateTimePattern = "yyyy-MM-dd HH:mm:ss"
 
 
-  def loadTable(pathToData: String, pathToHeaders: String): DataFrame = {
+  def loadTable(pathToData: String, pathToHeaders: String, repetitions:Boolean=true): DataFrame = {
 
 
     val fields = new ArrayBuilder.ofRef[StructField]
@@ -46,7 +46,7 @@ object LoadTable {
 
     val customSchema = StructType(schema)
 
-    val loader = SparkSessionUtils.sparkSession.read.format("com.databricks.spark.csv")
+    val loader = SparkSessionUtils.sparkSession.read
       .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace","true")
@@ -56,16 +56,14 @@ object LoadTable {
       loader.option("dateFormat",pattern)
     }
 
-    val data = loader.load(pathToData)
+    val data = loader.csv(pathToData)
 
-//    val loader = SparkSessionUtils.sparkSession.read.format("com.databricks.spark.csv")
-//      .option("delimiter", ";")
-//      .option("ignoreLeadingWhiteSpace", "true")
-//      .option("ignoreTrailingWhiteSpace","true")
-//      .schema(customSchema)
-//      .load(pathToData)
-
-    data
+    if (repetitions==true){
+      data.dropDuplicates()
+    }
+    else{
+      data
+    }
 
   }
 
