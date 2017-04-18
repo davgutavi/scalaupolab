@@ -18,6 +18,7 @@ object CupsIrregularidadAnomalia {
 
     import sqlContext._
 
+
     TimingUtils.time {
 
       val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
