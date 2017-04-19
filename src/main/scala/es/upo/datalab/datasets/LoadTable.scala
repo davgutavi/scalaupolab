@@ -17,7 +17,7 @@ object LoadTable {
   final val dateTimePattern = "yyyy-MM-dd HH:mm:ss"
 
 
-  def loadTable(pathToData: String, pathToHeaders: String, repetitions:Boolean=true): DataFrame = {
+  def loadTable(pathToData: String, pathToHeaders: String, dropDuplicates:Boolean=false): DataFrame = {
 
 
     val fields = new ArrayBuilder.ofRef[StructField]
@@ -58,13 +58,16 @@ object LoadTable {
 
     val data = loader.csv(pathToData)
 
-    if (repetitions==true){
-      data.dropDuplicates()
+    var r:DataFrame = null
+
+    if (dropDuplicates==true){
+      r = data.dropDuplicates()
     }
     else{
-      data
+      r = data
     }
 
+    r
   }
 
   private def getType(name: String): DataType = {
