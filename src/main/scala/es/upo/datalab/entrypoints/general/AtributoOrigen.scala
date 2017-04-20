@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints
+package es.upo.datalab.entrypoints.general
 
 import es.upo.datalab.datasets.{LoadTable, TabPaths}
 import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
@@ -7,7 +7,7 @@ import org.apache.spark.storage.StorageLevel
 /**
   * Created by davgutavi on 19/04/17.
   */
-object OrigenAtribute {
+object AtributoOrigen {
 
   def main( args:Array[String] ):Unit = {
 
@@ -109,7 +109,19 @@ object OrigenAtribute {
 //
 //      df_16.unpersist()
 
+//********************************************************TAB_01, Curvas de Carga
 
+//      val s_01 = s_01_10.count() + s_01_11.count() + s_01_12.count() + s_01_13.count() + s_01_14.count() + s_01_15.count() + s_01_16.count()
+//      val f_01 = f_01_10.count() + f_01_11.count() + f_01_12.count() + f_01_13.count() + f_01_14.count() + f_01_15.count() + f_01_16.count()
+//      val g_01 = g_01_10.count() + g_01_11.count() + g_01_12.count() + g_01_13.count() + g_01_14.count() + g_01_15.count() + g_01_16.count()
+//      val u_01 = u_01_10.count() + u_01_11.count() + u_01_12.count() + u_01_13.count() + u_01_14.count() + u_01_15.count() + u_01_16.count()
+//      val z_01 = z_01_10.count() + z_01_11.count() + z_01_12.count() + z_01_13.count() + z_01_14.count() + z_01_15.count() + z_01_16.count()
+
+      var s_01 = 0l
+      var f_01 = 0l
+      var g_01 = 0l
+      var u_01 = 0l
+      var z_01 = 0l
 
       val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
       df_01_10.persist(nivel)
@@ -121,6 +133,11 @@ object OrigenAtribute {
       val u_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'U'""")
       val z_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'Z'""")
 
+      s_01 = s_01 + s_01_10.count()
+      f_01 = f_01 + f_01_10.count()
+      g_01 = g_01 + g_01_10.count()
+      u_01 = u_01 + u_01_10.count()
+      z_01 = z_01 + z_01_10.count()
 
       println("Curvas de Carga 10: Origen S = " + s_01_10.count() + " registros")
       println("Curvas de Carga 10: Origen F = " + f_01_10.count() + " registros")
@@ -140,6 +157,11 @@ object OrigenAtribute {
       val u_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'U'""")
       val z_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'Z'""")
 
+      s_01 = s_01 + s_01_11.count()
+      f_01 = f_01 + f_01_11.count()
+      g_01 = g_01 + g_01_11.count()
+      u_01 = u_01 + u_01_11.count()
+      z_01 = z_01 + z_01_11.count()
 
       println("Curvas de Carga 11: Origen S = " + s_01_11.count() + " registros")
       println("Curvas de Carga 11: Origen F = " + f_01_11.count() + " registros")
@@ -158,6 +180,12 @@ object OrigenAtribute {
       val g_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'G'""")
       val u_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'U'""")
       val z_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'Z'""")
+
+      s_01 = s_01 + s_01_12.count()
+      f_01 = f_01 + f_01_12.count()
+      g_01 = g_01 + g_01_12.count()
+      u_01 = u_01 + u_01_12.count()
+      z_01 = z_01 + z_01_12.count()
 
 
       println("Curvas de Carga 12: Origen S = " + s_01_12.count() + " registros")
@@ -178,6 +206,12 @@ object OrigenAtribute {
       val u_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'U'""")
       val z_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'Z'""")
 
+      s_01 = s_01 + s_01_13.count()
+      f_01 = f_01 + f_01_13.count()
+      g_01 = g_01 + g_01_13.count()
+      u_01 = u_01 + u_01_13.count()
+      z_01 = z_01 + z_01_13.count()
+
 
       println("Curvas de Carga 13: Origen S = " + s_01_13.count() + " registros")
       println("Curvas de Carga 13: Origen F = " + f_01_13.count() + " registros")
@@ -196,6 +230,12 @@ object OrigenAtribute {
       val g_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'G'""")
       val u_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'U'""")
       val z_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'Z'""")
+
+      s_01 = s_01 + s_01_14.count()
+      f_01 = f_01 + f_01_14.count()
+      g_01 = g_01 + g_01_14.count()
+      u_01 = u_01 + u_01_14.count()
+      z_01 = z_01 + z_01_14.count()
 
 
       println("Curvas de Carga 14: Origen S = " + s_01_14.count() + " registros")
@@ -217,6 +257,13 @@ object OrigenAtribute {
       val u_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'U'""")
       val z_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'Z'""")
 
+      s_01 = s_01 + s_01_15.count()
+      f_01 = f_01 + f_01_15.count()
+      g_01 = g_01 + g_01_15.count()
+      u_01 = u_01 + u_01_15.count()
+      z_01 = z_01 + z_01_15.count()
+
+
 
       println("Curvas de Carga 15: Origen S = " + s_01_15.count() + " registros")
       println("Curvas de Carga 15: Origen F = " + f_01_15.count() + " registros")
@@ -236,6 +283,12 @@ object OrigenAtribute {
       val u_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'U'""")
       val z_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'Z'""")
 
+      s_01 = s_01 + s_01_16.count()
+      f_01 = f_01 + f_01_16.count()
+      g_01 = g_01 + g_01_16.count()
+      u_01 = u_01 + u_01_16.count()
+      z_01 = z_01 + z_01_16.count()
+
 
       println("Curvas de Carga 16: Origen S = " + s_01_16.count() + " registros")
       println("Curvas de Carga 16: Origen F = " + f_01_16.count() + " registros")
@@ -246,23 +299,11 @@ object OrigenAtribute {
       df_01_16.unpersist()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      println("Curvas de Carga Total: Origen S = " + s_01 + " registros")
+      println("Curvas de Carga Total: Origen F = " + f_01 + " registros")
+      println("Curvas de Carga Total: Origen G = " + g_01 + " registros")
+      println("Curvas de Carga Total: Origen U = " + u_01 + " registros")
+      println("Curvas de Carga Total: Origen Z = " + z_01 + " registros\n")
 
 
 
@@ -345,5 +386,7 @@ object OrigenAtribute {
 //      df_15A.unpersist()
 
     }
+
+    SparkSessionUtils.sc.stop()
   }
 }

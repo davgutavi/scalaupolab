@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints
+package es.upo.datalab.entrypoints.joins
 
 import es.upo.datalab.datasets.{LoadTable, TabPaths}
 import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
@@ -6,7 +6,7 @@ import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
 /**
   * Created by davgutavi on 21/03/17.
   */
-object ClientesCurvasV2 {
+object ClientesMcontratosMaparatosCurvaCargaV2 {
 
   def main( args:Array[String] ):Unit = {
 

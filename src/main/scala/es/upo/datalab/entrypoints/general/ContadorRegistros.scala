@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints
+package es.upo.datalab.entrypoints.general
 
 import es.upo.datalab.datasets.{LoadTable, TabPaths}
 import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
@@ -7,15 +7,13 @@ import org.apache.spark.storage.StorageLevel
 /**
   * Created by davgutavi on 19/04/17.
   */
-object RegisterCount {
+object ContadorRegistros {
 
   def main( args:Array[String] ):Unit = {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
     val sqlContext = SparkSessionUtils.sqlContext
-
-    import sqlContext._
 
     TimingUtils.time {
 
@@ -51,24 +49,33 @@ object RegisterCount {
 //      println("Número de registros en Expedientes sin Repetición = " + c16s)
 //      println("Diferencia = " + (c16 - c16s) + "\n")
 //
-//      val df_01 = LoadTable.loadTable(TabPaths.TAB_01, TabPaths.TAB_01_headers)
-//      val df_01s = LoadTable.loadTable(TabPaths.TAB_01, TabPaths.TAB_01_headers, false)
-//      val c01 = df_01.count()
-//      val c01s = df_01s.count()
-//      println("Número de registros en Curvas de Carga = " + c01)
-//      df_01.show(40,false)
-//      println("Número de registros en Curvas de Carga sin Repetición = " + c01s)
-//      df_01s.show(20,false)
-//      println("Diferencia = " + (c01 - c01s) + "\n")
+      val df_01 = LoadTable.loadTable(TabPaths.TAB_01, TabPaths.TAB_01_headers)
+      val df_01s = LoadTable.loadTable(TabPaths.TAB_01, TabPaths.TAB_01_headers, false)
+      val c01 = df_01.count()
+      val c01s = df_01s.count()
+      println("Número de registros en Curvas de Carga = " + c01)
+      df_01.show(40,false)
+      println("Número de registros en Curvas de Carga sin Repetición = " + c01s)
+      df_01s.show(20,false)
+      println("Diferencia = " + (c01 - c01s) + "\n")
 
-      val df_03 = LoadTable.loadTable(TabPaths.TAB_03, TabPaths.TAB_03_headers)
-      val df_03s = LoadTable.loadTable(TabPaths.TAB_03, TabPaths.TAB_03_headers, false)
-      val c03 = df_03.count()
-      val c03s = df_03s.count()
-      println("Número de registros en Consumos Tipo I - IV = " + c03)
-      println("Número de registros en Consumos Tipo I - IV sin Repetición = " + c03s)
-      println("Diferencia = " + (c03 - c03s) + "\n")
-      df_03s.show(20,false)
+
+
+
+
+
+
+
+
+
+//      val df_03 = LoadTable.loadTable(TabPaths.TAB_03, TabPaths.TAB_03_headers)
+//      val df_03s = LoadTable.loadTable(TabPaths.TAB_03, TabPaths.TAB_03_headers, false)
+//      val c03 = df_03.count()
+//      val c03s = df_03s.count()
+//      println("Número de registros en Consumos Tipo I - IV = " + c03)
+//      println("Número de registros en Consumos Tipo I - IV sin Repetición = " + c03s)
+//      println("Diferencia = " + (c03 - c03s) + "\n")
+//      df_03s.show(20,false)
 
 
 //      val df_04 = LoadTable.loadTable(TabPaths.TAB_04, TabPaths.TAB_04_headers)

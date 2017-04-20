@@ -1,5 +1,4 @@
-package es.upo.datalab.entrypoints
-
+package es.upo.datalab.entrypoints.joins
 
 import es.upo.datalab.datasets._
 import es.upo.datalab.utilities._
@@ -8,7 +7,7 @@ import org.apache.spark.storage.StorageLevel
 /**
   * Created by davgutavi on 5/04/17.
   */
-object ClientesExpedientesCurvas {
+object ClientesMcontratosExpedientesCurvasCarga {
 
   def main(args: Array[String]): Unit = {
 

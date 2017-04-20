@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints
+package es.upo.datalab.entrypoints.general
 
 import es.upo.datalab.datasets.{LoadTable, TabPaths}
 import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
@@ -14,8 +14,6 @@ object TabTest {
     val nivel = StorageLevel.MEMORY_AND_DISK
 
     val sqlContext = SparkSessionUtils.sqlContext
-
-    import sqlContext._
 
     TimingUtils.time {
 
