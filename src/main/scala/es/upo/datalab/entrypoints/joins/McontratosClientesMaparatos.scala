@@ -41,13 +41,26 @@ object McontratosClientesMaparatos {
 
       val maestroContratosClientesS = maestroContratosClientes.dropDuplicates()
 
+      //val maestroContratosRepetidos = maestroContratosClientesS.except(maestroContratosClientes)
+      val maestroContratosRepetidos = maestroContratosClientes.except(maestroContratosClientesS)
+
+      println("MaestroContratosClientes ("+maestroContratosRepetidos.count()+" registros que están repetidos)\n")
+      maestroContratosRepetidos.show(20,false)
+
+
       df_00C.unpersist()
       df_05C.unpersist()
       maestroContratosClientes.persist(nivel)
       maestroContratosClientes.createOrReplaceTempView("MaestroContratosClientes")
 
-      println("MaestroContratosClientes ("+maestroContratosClientes.count()+" registros)\n")
-      println("MaestroContratosClientes ("+maestroContratosClientesS.count()+" registros sin repeticion)\n")
+
+      val mcc = maestroContratosClientes.count()
+      val mccs = maestroContratosClientesS.count()
+      println("MaestroContratosClientes ("+mcc+" registros)\n")
+      println("MaestroContratosClientes ("+mccs+" registros sin repeticion)\n")
+      println("Diferencia = "+(mcc-mccs))
+
+
       maestroContratosClientes.show(5,false)
 
       val maestroContratosClientesMaestroAparatos = sql(
@@ -61,14 +74,25 @@ object McontratosClientesMaparatos {
       """)
 
       val maestroContratosClientesMaestroAparatosS = maestroContratosClientesMaestroAparatos.dropDuplicates()
+      val maestroContratosClientesMaestroAparatosRepetidos = maestroContratosClientesMaestroAparatosS.except(maestroContratosClientesMaestroAparatos)
+      println("MaestroContratosClientesMaestroAparatos ("+maestroContratosClientesMaestroAparatosRepetidos.count()+" registros que están repetidos)\n")
+      maestroContratosClientesMaestroAparatosRepetidos.show(20,false)
 
       df_00E.unpersist()
       maestroContratosClientes.unpersist()
 
       maestroContratosClientesMaestroAparatos.persist(nivel)
       maestroContratosClientesMaestroAparatos.createOrReplaceTempView("MaestroContratosClientesAparatos")
-      println("\nMaestroContratosClientesMaestroAparatos ("+maestroContratosClientesMaestroAparatos.count()+" registros)\n")
-      println("MaestroContratosClientesMaestroAparatos ("+maestroContratosClientesMaestroAparatosS.count()+" registros sin repeticion)\n")
+
+
+      val mccma = maestroContratosClientesMaestroAparatos.count()
+      val mccmas = maestroContratosClientesMaestroAparatosS.count()
+
+
+      println("\nMaestroContratosClientesMaestroAparatos ("+mccma+" registros)\n")
+      println("MaestroContratosClientesMaestroAparatos ("+mccmas+" registros sin repeticion)\n")
+      println("Diferencia = "+(mccma-mccmas))
+
       maestroContratosClientesMaestroAparatos.show(5,false)
 
       val sumadorCupsree = sql("""SELECT origen, cupsree2, cpuntmed, ccliente, count(cupsree) AS SumCupsree FROM MaestroContratosClientesAparatos GROUP BY origen, cupsree2, cpuntmed, ccliente""")

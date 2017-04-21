@@ -30,11 +30,8 @@ object LoadTable {
 
       val t = values(1).trim
 
-//    val f = StructField(values(0).trim, getType(values(1).trim), values(2).trim.toBoolean)
-
       val f = StructField(values(0).trim, getType(t), values(2).trim.toBoolean)
 
-      //      println("t = "+t)
       if      (t == "date") pattern  = datePattern
       else if (t=="datetime") pattern = dateTimePattern
 
@@ -47,7 +44,7 @@ object LoadTable {
     val customSchema = StructType(schema)
 
     val loader = SparkSessionUtils.sparkSession.read
-      .option("delimiter", ";")
+      .option("delimiter",";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace","true")
       .schema(customSchema)
@@ -55,6 +52,7 @@ object LoadTable {
     if (!(pattern=="")){
       loader.option("dateFormat",pattern)
     }
+
 
     val data = loader.csv(pathToData)
 
@@ -81,8 +79,6 @@ object LoadTable {
     else if (name.equalsIgnoreCase("long"))    r = DataTypes.LongType
     else if (name.equalsIgnoreCase("date"))    r = DataTypes.DateType
     else if (name.equalsIgnoreCase("datetime"))    r = DataTypes.DateType
-//    else if (name.equalsIgnoreCase("date"))    r = DataTypes.StringType
-//    else if (name.equalsIgnoreCase("datetime"))    r = DataTypes.StringType
 
 
     r

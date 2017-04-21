@@ -11,10 +11,12 @@ object TabPaths {
   final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
 
   //Maestro Contratos
+
   final val TAB_00C = prefix+"TAB_00C/Endesa_TAB_00C_20170127_CZZ_20100101_20161231.csv"
   final val TAB_00C_headers = prefix+"TAB_00C/TAB_00C_headers.csv"
 
   //Clientes
+
   final val TAB_05C = prefix+"TAB_05C/Endesa_TAB_05C_20170126_CZZ_20100101_20161231.csv"
   final val TAB_05C_headers = prefix+"TAB_05C/TAB_05C_headers.csv"
 
@@ -60,11 +62,16 @@ object TabPaths {
   final val TAB_15A = prefix+"TAB_15A/Endesa_TAB_15A_20170127_CZZ_20100101_20161231.csv"
   final val TAB_15A_headers = prefix+"TAB_15A/TAB_15A_headers.csv"
 
+  //////////*************Datasets
 
-
+  final val sTAB_05C = root+"/datasets/sTAB_05C/"
+  final val sTAB_00C = root+"datasets/sTAB_00C/"
 
 
   ///////////************Otros
+
+
+
 
   //Operaciones TDC
   final val TAB_15B = prefix+"TAB_15B/Endesa_TAB_15B_20170127_CZZ_20100101_20161231.csv"
