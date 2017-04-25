@@ -23,23 +23,22 @@ object CurvasCarga {
       df_01.persist(nivel)
       df_01.createOrReplaceTempView("CurvasCarga")
 
-//      df_01.show(20,false)
 
-      val q1 = sql(
-        """SELECT flectreg,vsecccar,count(*) as sum
-                         FROM CurvasCarga
-                         GROUP BY flectreg,vsecccar
-                         HAVING sum > 1
-                         ORDER BY flectreg
-                     """)
+//      val q1 = sql(
+//        """SELECT cpuntmed, flectreg, testcaco, vsecccar,control, count(*) as sum
+//                         FROM CurvasCarga
+//                         GROUP BY cpuntmed, flectreg,testcaco, vsecccar, control
+//                         HAVING sum > 1
+//                         ORDER BY cpuntmed
+//                     """)
+//
+//      q1.show(30, false)
 
-      q1.show(30, false)
 
-
-      //                sql("""SELECT *
-      //                      FROM CurvasCarga
-      //                      WHERE cupsree = "ES0031406091966006JJ0F"
-      //                           """).show(100,false)
+                      sql("""SELECT *
+                            FROM CurvasCarga
+                            WHERE cpuntmed = "CAM645356400100" AND flectreg = "2010-05-14" AND testcaco = 'R' AND obiscode = 'R' AND vsecccar = "01"
+                                 """).show(100,false)
 
     }
 

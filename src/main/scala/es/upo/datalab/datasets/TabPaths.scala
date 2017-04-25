@@ -7,26 +7,30 @@ object TabPaths {
 
   final val root = "/mnt/datos/recursos/ENDESA/"
 
+
 //  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
+
   final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
+
+  final val headers= prefix+"headers/"
 
   //Maestro Contratos
 
   final val TAB_00C = prefix+"TAB_00C/Endesa_TAB_00C_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_00C_headers = prefix+"TAB_00C/TAB_00C_headers.csv"
+  final val TAB_00C_headers = headers+"TAB_00C_headers.csv"
 
   //Clientes
 
   final val TAB_05C = prefix+"TAB_05C/Endesa_TAB_05C_20170126_CZZ_20100101_20161231.csv"
-  final val TAB_05C_headers = prefix+"TAB_05C/TAB_05C_headers.csv"
+  final val TAB_05C_headers =  headers+"TAB_05C_headers.csv"
 
   //Expedientes
   final val TAB_16 = prefix+"TAB_16/Endesa_TAB_16_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_16_headers = prefix+"TAB_16/TAB_16_headers.csv"
+  final val TAB_16_headers =  headers+"TAB_16_headers.csv"
 
   //Maestro Aparatos
   final val TAB_00E = prefix+"TAB_00E/Endesa_TAB_00E_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_00E_headers = prefix+"TAB_00E/TAB_00E_headers.csv"
+  final val TAB_00E_headers =  headers+"TAB_00E_headers.csv"
 
   //Curvas de Carga
   final val TAB_01 = prefix+"TAB_01/"
@@ -37,11 +41,11 @@ object TabPaths {
   final val TAB_01_14 = prefix+"TAB_01/Endesa_TAB_01_20170127_CZZ_20140101_20141231.csv"
   final val TAB_01_15 = prefix+"TAB_01/Endesa_TAB_01_20170127_CZZ_20150101_20151231.csv"
   final val TAB_01_16 = prefix+"TAB_01/Endesa_TAB_01_20170127_CZZ_20160101_20161231.csv"
-  final val TAB_01_headers = prefix+"TAB_01/TAB_01_headers.csv"
+  final val TAB_01_headers =  headers+"TAB_01_headers.csv"
 
   //Consumos de Tipo I - IV
   final val TAB_03 = prefix+"TAB_03/Endesa_TAB_03_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_03_headers = prefix+"TAB_03/TAB_03_headers.csv"
+  final val TAB_03_headers = headers+"TAB_03_headers.csv"
 
   //Consumos de Tipo V
   final val TAB_04 = prefix+"TAB_04/"
@@ -52,15 +56,27 @@ object TabPaths {
   final val TAB_04_14 = prefix+"TAB_04/Endesa_TAB_04_20170127_CZZ_20140101_20141231.csv"
   final val TAB_04_15 = prefix+"TAB_04/Endesa_TAB_04_20170127_CZZ_20150101_20151231.csv"
   final val TAB_04_16 = prefix+"TAB_04/Endesa_TAB_04_20170127_CZZ_20160101_20161231.csv"
-  final val TAB_04_headers = prefix+"TAB_04/TAB_04_headers.csv"
+  final val TAB_04_headers = headers+"TAB_04_headers.csv"
 
   //Geolocalización
   final val TAB_05B = prefix+"TAB_05B/Endesa_TAB_05B_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_05B_headers = prefix+"TAB_05B/TAB_05B_headers.csv"
+  final val TAB_05B_headers = headers+"TAB_05B_headers.csv"
 
   //TDC
   final val TAB_15A = prefix+"TAB_15A/Endesa_TAB_15A_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_15A_headers = prefix+"TAB_15A/TAB_15A_headers.csv"
+  final val TAB_15A_headers = headers+"TAB_15A_headers.csv"
+
+  //Bits de Calidad
+  final val TAB_02 = prefix+"TAB_02/"
+  final val TAB_02_10 = prefix+"Endesa_TAB_02_A2010_20170127_CZZ.csv"
+  final val TAB_02_11 = prefix+"Endesa_TAB_02_A2011_20170127_CZZ.csv"
+  final val TAB_02_12 = prefix+"Endesa_TAB_02_A2012_20170127_CZZ.csv"
+  final val TAB_02_13 = prefix+"Endesa_TAB_02_A2013_20170127_CZZ.csv"
+  final val TAB_02_14 = prefix+"Endesa_TAB_02_20170127_CZZ_20140101_20141231.csv"
+  final val TAB_02_15 = prefix+"Endesa_TAB_02_20170127_CZZ_20150101_20151231.csv"
+  final val TAB_02_16 = prefix+"Endesa_TAB_02_20170127_CZZ_20160101_20161231.csv"
+  final val TAB_02_headers = headers+"TAB_02_headers.csv"
+
 
   //////////*************Datasets
 
@@ -69,10 +85,6 @@ object TabPaths {
 
 
   ///////////************Otros
-
-
-
-
   //Operaciones TDC
   final val TAB_15B = prefix+"TAB_15B/Endesa_TAB_15B_20170127_CZZ_20100101_20161231.csv"
   final val TAB_15B_headers = prefix+"TAB_15B/TAB_15B_headers.csv"

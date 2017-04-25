@@ -19,78 +19,82 @@ object ClientesMcontratosExpedientes {
 
     TimingUtils.time {
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
+      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, true)
       df_05C.persist(nivel)
-      println("Número de registros en Clientes = " + df_05C.count())
-      df_05C.createOrReplaceTempView("clientes")
-      val df_05Cs = df_05C.dropDuplicates()
-      println("Número de registros en Clientes sin Repetición = " + df_05Cs.count())
-      df_05Cs.createOrReplaceTempView("clientess")
+      df_05C.createOrReplaceTempView("Clientes")
 
       val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
-      println("Número de registros en Maestro Contratos = " + df_00C.count())
-      df_00C.createOrReplaceTempView("contratos")
-      val df_00Cs = df_00C.dropDuplicates()
-      println("Número de registros en Maestro Contratos sin Repetición = " + df_00Cs.count())
+      df_00C.createOrReplaceTempView("MaestroContratos")
 
       val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
-      println("Número de registros en Expedientes = " + df_16.count())
-      df_16.createOrReplaceTempView("expedientes")
-      val df_16s = df_16.dropDuplicates()
-      println("Número de registros en Expedientes sin Repetición = " + df_16s.count()+"\n")
+      df_16.createOrReplaceTempView("Expedientes")
 
-      val jcc = sql(
+      val maestroContratosClientes = sql(
 
         """
-          SELECT clientess.cnifdnic, clientess.dnombcli, clientess.dapersoc, clientess.ccliente, contratos.ccontrat, contratos.cnumscct, clientess.fechamov, contratos.fpsercon, contratos.ffinvesu,
-          contratos.origen, contratos.cemptitu, contratos.cfinca, contratos.cptoserv
-          FROM clientess JOIN contratos
-          ON clientess.origen=contratos.origen AND clientess.cemptitu=contratos.cemptitu AND clientess.ccontrat=contratos.ccontrat AND clientess.cnumscct=contratos.cnumscct
+          SELECT MaestroContratos.origen, MaestroContratos.cptocred, MaestroContratos.cfinca, MaestroContratos.cptoserv, MaestroContratos.cderind, MaestroContratos.cupsree, MaestroContratos.cpuntmed, MaestroContratos.tpuntmed,
+          MaestroContratos.vparsist, MaestroContratos.cemptitu, MaestroContratos.ccontrat, MaestroContratos.cnumscct, MaestroContratos.fpsercon, MaestroContratos.ffinvesu, Clientes.ccliente, Clientes.fechamov, Clientes.tindfiju,
+          Clientes.cnifdnic, Clientes.dapersoc, Clientes.dnombcli
+          FROM Clientes JOIN MaestroContratos
+          ON Clientes.origen=MaestroContratos.origen AND Clientes.cemptitu=MaestroContratos.cemptitu AND Clientes.ccontrat=MaestroContratos.ccontrat AND Clientes.cnumscct=MaestroContratos.cnumscct
 
         """
       )
 
-      jcc.persist(nivel)
-      jcc.createOrReplaceTempView("jcc")
-      println("Join clientes-contratos = " + jcc.count() + " registros")
-//    jcc.show(20)
-      val jccs = jcc.dropDuplicates()
-      jccs.createOrReplaceTempView("jccs")
-      println("Join clientes-contratos sin repetición = " + jccs.count() + " registros")
-//    jccs.show(20)
+      df_05C.unpersist()
+      df_00C.unpersist()
 
-      val jccse = sql(
+      maestroContratosClientes.persist(nivel)
+      val maestroContratosClientess = maestroContratosClientes.dropDuplicates()
+      maestroContratosClientess.persist(nivel)
+
+      val mcc = maestroContratosClientes.count()
+      val mccs = maestroContratosClientess.count()
+
+      println("Maestro Contratos - Clientes = " +mcc + " registros")
+      println("Maestro Contratos - Clientes sin repetición = " + mccs + " registros")
+      println("Diferencia = " + (mcc-mccs))
+
+      maestroContratosClientes.unpersist()
+      maestroContratosClientess.createOrReplaceTempView("MaestroContratosClientess")
+
+
+      val maestroContratosClientesExpedientes = sql(
 
         """
-          SELECT jccs.cnifdnic, jccs.dnombcli, jccs.dapersoc, jccs.ccliente, jccs.ccontrat, jccs.cnumscct, jccs.fechamov, jccs.fpsercon, jccs.ffinvesu,
-          jccs.cfinca, expedientes.fapexpd, expedientes.finifran, expedientes.ffinfran, expedientes.fnormali, expedientes.fciexped, expedientes.irregularidad
-          FROM jccs JOIN expedientes
-          ON jccs.origen=expedientes.origen AND jccs.cemptitu=expedientes.cemptitu AND jccs.cfinca=expedientes.cfinca AND jccs.cptoserv=expedientes.cptoserv
-
+          SELECT MaestroContratosClientess.origen, MaestroContratosClientess.cptocred, MaestroContratosClientess.cfinca, MaestroContratosClientess.cptoserv, MaestroContratosClientess.cderind, MaestroContratosClientess.cupsree,
+          MaestroContratosClientess.cpuntmed, MaestroContratosClientess.tpuntmed, MaestroContratosClientess.vparsist, MaestroContratosClientess.cemptitu, MaestroContratosClientess.ccontrat, MaestroContratosClientess.cnumscct,
+          MaestroContratosClientess.fpsercon, MaestroContratosClientess.ffinvesu, MaestroContratosClientess.ccliente, MaestroContratosClientess.fechamov, MaestroContratosClientess.tindfiju, MaestroContratosClientess.cnifdnic,
+          MaestroContratosClientess.dapersoc, MaestroContratosClientess.dnombcli, Expedientes.csecexpe, Expedientes.fapexpd, Expedientes.finifran, Expedientes.ffinfran, Expedientes.anomalia, Expedientes.irregularidad,
+          Expedientes.venacord, Expedientes.vennofai, Expedientes.torigexp, Expedientes.texpedie, Expedientes.expclass, Expedientes.testexpe, Expedientes.fnormali, Expedientes.cplan, Expedientes.ccampa, Expedientes.cempresa,
+          Expedientes.fciexped
+          FROM MaestroContratosClientess JOIN Expedientes
+          ON MaestroContratosClientess.origen=Expedientes.origen AND MaestroContratosClientess.cemptitu=Expedientes.cemptitu AND MaestroContratosClientess.cfinca=Expedientes.cfinca AND MaestroContratosClientess.cptoserv=Expedientes.cptoserv
         """
       )
-      jccse.persist(nivel)
-      jccse.createOrReplaceTempView("jccse")
-      println("Join clientes-contratos-expedientes = " + jccse.count() + " registros")
 
-      val jccses = jccse.dropDuplicates()
-      jccses.createOrReplaceTempView("jccs")
-      println("Join clientes-contratos-expedientes sin repetición = " + jccses.count() + " registros")
+      maestroContratosClientess.unpersist()
+
+      maestroContratosClientesExpedientes.persist(nivel)
+      val maestroContratosClientesExpedientess = maestroContratosClientesExpedientes.dropDuplicates()
+      maestroContratosClientesExpedientess.persist(nivel)
+
+      val mcce = maestroContratosClientesExpedientes.count()
+      val mcces = maestroContratosClientesExpedientess.count()
+
+      println("Maestro Contratos - Clientes - Expedientes = " +mcce + " registros")
+      println("Maestro Contratos - Clientes - Expedientes sin repetición = " + mcces + " registros")
+      println("Diferencia = " + (mcce-mcces))
+
+      maestroContratosClientesExpedientes.unpersist()
+      maestroContratosClientesExpedientess.createOrReplaceTempView("MaestroContratosClientesExpedientess")
 
 
-      val jccsesi = jccses.where("irregularidad='S'")
-      println("Join clientes-contratos-expedientes con irregularidad = " + jccsesi.count() + " registros")
-      jccsesi.show(20,truncate = false)
-
-
-      val w1 = jccsesi.drop("ccliente","ccontrat","cnumscct","fechamov","fpsercon","ffinvesu")
-      val w2 = w1.dropDuplicates()
-      println("Join clientes-contratos-expedientes con irregularidad sin duplicados = " + w2.count() + " registros")
-      w2.show(20,truncate = false)
-
-//      w2.write.option("header","true").save(TabPaths.root+"datasets/clientes_fraudulentos")
+      val maestroContratosClientesExpedientessi = maestroContratosClientesExpedientess.where("irregularidad='S'")
+      println("Maestro Contratos - Clientes - Expedientes sin repetición con irregularidad = " + maestroContratosClientesExpedientessi.count() + " registros")
+      maestroContratosClientesExpedientessi.show(20,truncate = false)
 
     }
 
