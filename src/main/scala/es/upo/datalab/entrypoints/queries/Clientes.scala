@@ -77,29 +77,6 @@ object Clientes {
 //      println("Diferencia = " + (q3c - q3sc))
 
 
-//            val q4 = sql(
-//              """SELECT cnifdnic, ccliente, ccontrat, cnumscct, fechamov, cemptitu, count(*) as sum
-//                   FROM Clientes
-//                   GROUP BY cnifdnic, ccliente, ccontrat, cnumscct, fechamov, cemptitu
-//                    HAVING sum > 1
-//               """)
-//
-//            q4.show(30, false)
-
-//      val q4 = sql(
-//        """SELECT cnifdnic, count(ccliente) as sum
-//                   FROM Clientes
-//                   GROUP BY cnifdnic
-//                    HAVING sum > 1
-//               """)
-
-//      q4.show(30, false)
-
-
-          sql("""SELECT *
-                   FROM Clientes
-                   WHERE cnifdnic = "46107079Z"
-               """).show(100,false)
 
     }
 

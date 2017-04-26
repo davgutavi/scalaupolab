@@ -24,13 +24,13 @@ object CurvasCarga {
       df_01.createOrReplaceTempView("CurvasCarga")
 
 
-//      val q1 = sql(
-//        """SELECT cpuntmed, flectreg, testcaco, vsecccar,control, count(*) as sum
-//                         FROM CurvasCarga
-//                         GROUP BY cpuntmed, flectreg,testcaco, vsecccar, control
-//                         HAVING sum > 1
-//                         ORDER BY cpuntmed
-//                     """)
+      val q1 = sql(
+        """SELECT cpuntmed, flectreg, testcaco, vsecccar,obiscode, count(DISTINCT *) as sum
+                         FROM CurvasCarga
+                         GROUP BY cpuntmed, flectreg,testcaco, vsecccar, obiscode
+                         HAVING sum > 1
+                         ORDER BY cpuntmed
+                     """)
 //
 //      q1.show(30, false)
 

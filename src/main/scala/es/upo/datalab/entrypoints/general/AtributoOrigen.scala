@@ -117,193 +117,193 @@ object AtributoOrigen {
 //      val u_01 = u_01_10.count() + u_01_11.count() + u_01_12.count() + u_01_13.count() + u_01_14.count() + u_01_15.count() + u_01_16.count()
 //      val z_01 = z_01_10.count() + z_01_11.count() + z_01_12.count() + z_01_13.count() + z_01_14.count() + z_01_15.count() + z_01_16.count()
 
-      var s_01 = 0l
-      var f_01 = 0l
-      var g_01 = 0l
-      var u_01 = 0l
-      var z_01 = 0l
-
-      val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
-      df_01_10.persist(nivel)
-      df_01_10.createOrReplaceTempView("curvas10")
-
-      val s_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'S'""")
-      val f_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'F'""")
-      val g_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'G'""")
-      val u_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'U'""")
-      val z_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_10.count()
-      f_01 = f_01 + f_01_10.count()
-      g_01 = g_01 + g_01_10.count()
-      u_01 = u_01 + u_01_10.count()
-      z_01 = z_01 + z_01_10.count()
-
-      println("Curvas de Carga 10: Origen S = " + s_01_10.count() + " registros")
-      println("Curvas de Carga 10: Origen F = " + f_01_10.count() + " registros")
-      println("Curvas de Carga 10: Origen G = " + g_01_10.count() + " registros")
-      println("Curvas de Carga 10: Origen U = " + u_01_10.count() + " registros")
-      println("Curvas de Carga 10: Origen Z = " + z_01_10.count() + " registros\n")
-
-      df_01_10.unpersist()
-
-      val df_01_11 = LoadTable.loadTable(TabPaths.TAB_01_11, TabPaths.TAB_01_headers)
-      df_01_11.persist(nivel)
-      df_01_11.createOrReplaceTempView("curvas11")
-
-      val s_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'S'""")
-      val f_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'F'""")
-      val g_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'G'""")
-      val u_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'U'""")
-      val z_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_11.count()
-      f_01 = f_01 + f_01_11.count()
-      g_01 = g_01 + g_01_11.count()
-      u_01 = u_01 + u_01_11.count()
-      z_01 = z_01 + z_01_11.count()
-
-      println("Curvas de Carga 11: Origen S = " + s_01_11.count() + " registros")
-      println("Curvas de Carga 11: Origen F = " + f_01_11.count() + " registros")
-      println("Curvas de Carga 11: Origen G = " + g_01_11.count() + " registros")
-      println("Curvas de Carga 11: Origen U = " + u_01_11.count() + " registros")
-      println("Curvas de Carga 11: Origen Z = " + z_01_11.count() + " registros\n")
-
-      df_01_11.unpersist()
-
-      val df_01_12 = LoadTable.loadTable(TabPaths.TAB_01_12, TabPaths.TAB_01_headers)
-      df_01_12.persist(nivel)
-      df_01_12.createOrReplaceTempView("curvas12")
-
-      val s_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'S'""")
-      val f_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'F'""")
-      val g_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'G'""")
-      val u_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'U'""")
-      val z_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_12.count()
-      f_01 = f_01 + f_01_12.count()
-      g_01 = g_01 + g_01_12.count()
-      u_01 = u_01 + u_01_12.count()
-      z_01 = z_01 + z_01_12.count()
-
-
-      println("Curvas de Carga 12: Origen S = " + s_01_12.count() + " registros")
-      println("Curvas de Carga 12: Origen F = " + f_01_12.count() + " registros")
-      println("Curvas de Carga 12: Origen G = " + g_01_12.count() + " registros")
-      println("Curvas de Carga 12: Origen U = " + u_01_12.count() + " registros")
-      println("Curvas de Carga 12: Origen Z = " + z_01_12.count() + " registros\n")
-
-      df_01_12.unpersist()
-
-      val df_01_13 = LoadTable.loadTable(TabPaths.TAB_01_13, TabPaths.TAB_01_headers)
-      df_01_13.persist(nivel)
-      df_01_13.createOrReplaceTempView("curvas13")
-
-      val s_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'S'""")
-      val f_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'F'""")
-      val g_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'G'""")
-      val u_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'U'""")
-      val z_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_13.count()
-      f_01 = f_01 + f_01_13.count()
-      g_01 = g_01 + g_01_13.count()
-      u_01 = u_01 + u_01_13.count()
-      z_01 = z_01 + z_01_13.count()
-
-
-      println("Curvas de Carga 13: Origen S = " + s_01_13.count() + " registros")
-      println("Curvas de Carga 13: Origen F = " + f_01_13.count() + " registros")
-      println("Curvas de Carga 13: Origen G = " + g_01_13.count() + " registros")
-      println("Curvas de Carga 13: Origen U = " + u_01_13.count() + " registros")
-      println("Curvas de Carga 13: Origen Z = " + z_01_13.count() + " registros\n")
-
-      df_01_13.unpersist()
-
-      val df_01_14 = LoadTable.loadTable(TabPaths.TAB_01_14, TabPaths.TAB_01_headers)
-      df_01_14.persist(nivel)
-      df_01_14.createOrReplaceTempView("curvas14")
-
-      val s_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'S'""")
-      val f_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'F'""")
-      val g_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'G'""")
-      val u_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'U'""")
-      val z_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_14.count()
-      f_01 = f_01 + f_01_14.count()
-      g_01 = g_01 + g_01_14.count()
-      u_01 = u_01 + u_01_14.count()
-      z_01 = z_01 + z_01_14.count()
-
-
-      println("Curvas de Carga 14: Origen S = " + s_01_14.count() + " registros")
-      println("Curvas de Carga 14: Origen F = " + f_01_14.count() + " registros")
-      println("Curvas de Carga 14: Origen G = " + g_01_14.count() + " registros")
-      println("Curvas de Carga 14: Origen U = " + u_01_14.count() + " registros")
-      println("Curvas de Carga 14: Origen Z = " + z_01_14.count() + " registros\n")
-
-      df_01_14.unpersist()
-
-
-      val df_01_15 = LoadTable.loadTable(TabPaths.TAB_01_15, TabPaths.TAB_01_headers)
-      df_01_15.persist(nivel)
-      df_01_15.createOrReplaceTempView("curvas15")
-
-      val s_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'S'""")
-      val f_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'F'""")
-      val g_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'G'""")
-      val u_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'U'""")
-      val z_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_15.count()
-      f_01 = f_01 + f_01_15.count()
-      g_01 = g_01 + g_01_15.count()
-      u_01 = u_01 + u_01_15.count()
-      z_01 = z_01 + z_01_15.count()
-
-
-
-      println("Curvas de Carga 15: Origen S = " + s_01_15.count() + " registros")
-      println("Curvas de Carga 15: Origen F = " + f_01_15.count() + " registros")
-      println("Curvas de Carga 15: Origen G = " + g_01_15.count() + " registros")
-      println("Curvas de Carga 15: Origen U = " + u_01_15.count() + " registros")
-      println("Curvas de Carga 15: Origen Z = " + z_01_15.count() + " registros\n")
-
-      df_01_15.unpersist()
-
-      val df_01_16 = LoadTable.loadTable(TabPaths.TAB_01_16, TabPaths.TAB_01_headers)
-      df_01_16.persist(nivel)
-      df_01_16.createOrReplaceTempView("curvas16")
-
-      val s_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'S'""")
-      val f_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'F'""")
-      val g_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'G'""")
-      val u_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'U'""")
-      val z_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'Z'""")
-
-      s_01 = s_01 + s_01_16.count()
-      f_01 = f_01 + f_01_16.count()
-      g_01 = g_01 + g_01_16.count()
-      u_01 = u_01 + u_01_16.count()
-      z_01 = z_01 + z_01_16.count()
-
-
-      println("Curvas de Carga 16: Origen S = " + s_01_16.count() + " registros")
-      println("Curvas de Carga 16: Origen F = " + f_01_16.count() + " registros")
-      println("Curvas de Carga 16: Origen G = " + g_01_16.count() + " registros")
-      println("Curvas de Carga 16: Origen U = " + u_01_16.count() + " registros")
-      println("Curvas de Carga 16: Origen Z = " + z_01_16.count() + " registros\n")
-
-      df_01_16.unpersist()
-
-
-      println("Curvas de Carga Total: Origen S = " + s_01 + " registros")
-      println("Curvas de Carga Total: Origen F = " + f_01 + " registros")
-      println("Curvas de Carga Total: Origen G = " + g_01 + " registros")
-      println("Curvas de Carga Total: Origen U = " + u_01 + " registros")
-      println("Curvas de Carga Total: Origen Z = " + z_01 + " registros\n")
+//      var s_01 = 0l
+//      var f_01 = 0l
+//      var g_01 = 0l
+//      var u_01 = 0l
+//      var z_01 = 0l
+//
+//      val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
+//      df_01_10.persist(nivel)
+//      df_01_10.createOrReplaceTempView("curvas10")
+//
+//      val s_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'S'""")
+//      val f_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'F'""")
+//      val g_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'G'""")
+//      val u_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'U'""")
+//      val z_01_10 = sql("""SELECT * FROM curvas10 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_10.count()
+//      f_01 = f_01 + f_01_10.count()
+//      g_01 = g_01 + g_01_10.count()
+//      u_01 = u_01 + u_01_10.count()
+//      z_01 = z_01 + z_01_10.count()
+//
+//      println("Curvas de Carga 10: Origen S = " + s_01_10.count() + " registros")
+//      println("Curvas de Carga 10: Origen F = " + f_01_10.count() + " registros")
+//      println("Curvas de Carga 10: Origen G = " + g_01_10.count() + " registros")
+//      println("Curvas de Carga 10: Origen U = " + u_01_10.count() + " registros")
+//      println("Curvas de Carga 10: Origen Z = " + z_01_10.count() + " registros\n")
+//
+//      df_01_10.unpersist()
+//
+//      val df_01_11 = LoadTable.loadTable(TabPaths.TAB_01_11, TabPaths.TAB_01_headers)
+//      df_01_11.persist(nivel)
+//      df_01_11.createOrReplaceTempView("curvas11")
+//
+//      val s_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'S'""")
+//      val f_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'F'""")
+//      val g_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'G'""")
+//      val u_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'U'""")
+//      val z_01_11 = sql("""SELECT * FROM curvas11 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_11.count()
+//      f_01 = f_01 + f_01_11.count()
+//      g_01 = g_01 + g_01_11.count()
+//      u_01 = u_01 + u_01_11.count()
+//      z_01 = z_01 + z_01_11.count()
+//
+//      println("Curvas de Carga 11: Origen S = " + s_01_11.count() + " registros")
+//      println("Curvas de Carga 11: Origen F = " + f_01_11.count() + " registros")
+//      println("Curvas de Carga 11: Origen G = " + g_01_11.count() + " registros")
+//      println("Curvas de Carga 11: Origen U = " + u_01_11.count() + " registros")
+//      println("Curvas de Carga 11: Origen Z = " + z_01_11.count() + " registros\n")
+//
+//      df_01_11.unpersist()
+//
+//      val df_01_12 = LoadTable.loadTable(TabPaths.TAB_01_12, TabPaths.TAB_01_headers)
+//      df_01_12.persist(nivel)
+//      df_01_12.createOrReplaceTempView("curvas12")
+//
+//      val s_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'S'""")
+//      val f_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'F'""")
+//      val g_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'G'""")
+//      val u_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'U'""")
+//      val z_01_12 = sql("""SELECT * FROM curvas12 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_12.count()
+//      f_01 = f_01 + f_01_12.count()
+//      g_01 = g_01 + g_01_12.count()
+//      u_01 = u_01 + u_01_12.count()
+//      z_01 = z_01 + z_01_12.count()
+//
+//
+//      println("Curvas de Carga 12: Origen S = " + s_01_12.count() + " registros")
+//      println("Curvas de Carga 12: Origen F = " + f_01_12.count() + " registros")
+//      println("Curvas de Carga 12: Origen G = " + g_01_12.count() + " registros")
+//      println("Curvas de Carga 12: Origen U = " + u_01_12.count() + " registros")
+//      println("Curvas de Carga 12: Origen Z = " + z_01_12.count() + " registros\n")
+//
+//      df_01_12.unpersist()
+//
+//      val df_01_13 = LoadTable.loadTable(TabPaths.TAB_01_13, TabPaths.TAB_01_headers)
+//      df_01_13.persist(nivel)
+//      df_01_13.createOrReplaceTempView("curvas13")
+//
+//      val s_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'S'""")
+//      val f_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'F'""")
+//      val g_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'G'""")
+//      val u_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'U'""")
+//      val z_01_13 = sql("""SELECT * FROM curvas13 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_13.count()
+//      f_01 = f_01 + f_01_13.count()
+//      g_01 = g_01 + g_01_13.count()
+//      u_01 = u_01 + u_01_13.count()
+//      z_01 = z_01 + z_01_13.count()
+//
+//
+//      println("Curvas de Carga 13: Origen S = " + s_01_13.count() + " registros")
+//      println("Curvas de Carga 13: Origen F = " + f_01_13.count() + " registros")
+//      println("Curvas de Carga 13: Origen G = " + g_01_13.count() + " registros")
+//      println("Curvas de Carga 13: Origen U = " + u_01_13.count() + " registros")
+//      println("Curvas de Carga 13: Origen Z = " + z_01_13.count() + " registros\n")
+//
+//      df_01_13.unpersist()
+//
+//      val df_01_14 = LoadTable.loadTable(TabPaths.TAB_01_14, TabPaths.TAB_01_headers)
+//      df_01_14.persist(nivel)
+//      df_01_14.createOrReplaceTempView("curvas14")
+//
+//      val s_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'S'""")
+//      val f_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'F'""")
+//      val g_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'G'""")
+//      val u_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'U'""")
+//      val z_01_14 = sql("""SELECT * FROM curvas14 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_14.count()
+//      f_01 = f_01 + f_01_14.count()
+//      g_01 = g_01 + g_01_14.count()
+//      u_01 = u_01 + u_01_14.count()
+//      z_01 = z_01 + z_01_14.count()
+//
+//
+//      println("Curvas de Carga 14: Origen S = " + s_01_14.count() + " registros")
+//      println("Curvas de Carga 14: Origen F = " + f_01_14.count() + " registros")
+//      println("Curvas de Carga 14: Origen G = " + g_01_14.count() + " registros")
+//      println("Curvas de Carga 14: Origen U = " + u_01_14.count() + " registros")
+//      println("Curvas de Carga 14: Origen Z = " + z_01_14.count() + " registros\n")
+//
+//      df_01_14.unpersist()
+//
+//
+//      val df_01_15 = LoadTable.loadTable(TabPaths.TAB_01_15, TabPaths.TAB_01_headers)
+//      df_01_15.persist(nivel)
+//      df_01_15.createOrReplaceTempView("curvas15")
+//
+//      val s_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'S'""")
+//      val f_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'F'""")
+//      val g_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'G'""")
+//      val u_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'U'""")
+//      val z_01_15 = sql("""SELECT * FROM curvas15 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_15.count()
+//      f_01 = f_01 + f_01_15.count()
+//      g_01 = g_01 + g_01_15.count()
+//      u_01 = u_01 + u_01_15.count()
+//      z_01 = z_01 + z_01_15.count()
+//
+//
+//
+//      println("Curvas de Carga 15: Origen S = " + s_01_15.count() + " registros")
+//      println("Curvas de Carga 15: Origen F = " + f_01_15.count() + " registros")
+//      println("Curvas de Carga 15: Origen G = " + g_01_15.count() + " registros")
+//      println("Curvas de Carga 15: Origen U = " + u_01_15.count() + " registros")
+//      println("Curvas de Carga 15: Origen Z = " + z_01_15.count() + " registros\n")
+//
+//      df_01_15.unpersist()
+//
+//      val df_01_16 = LoadTable.loadTable(TabPaths.TAB_01_16, TabPaths.TAB_01_headers)
+//      df_01_16.persist(nivel)
+//      df_01_16.createOrReplaceTempView("curvas16")
+//
+//      val s_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'S'""")
+//      val f_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'F'""")
+//      val g_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'G'""")
+//      val u_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'U'""")
+//      val z_01_16 = sql("""SELECT * FROM curvas16 WHERE origen = 'Z'""")
+//
+//      s_01 = s_01 + s_01_16.count()
+//      f_01 = f_01 + f_01_16.count()
+//      g_01 = g_01 + g_01_16.count()
+//      u_01 = u_01 + u_01_16.count()
+//      z_01 = z_01 + z_01_16.count()
+//
+//
+//      println("Curvas de Carga 16: Origen S = " + s_01_16.count() + " registros")
+//      println("Curvas de Carga 16: Origen F = " + f_01_16.count() + " registros")
+//      println("Curvas de Carga 16: Origen G = " + g_01_16.count() + " registros")
+//      println("Curvas de Carga 16: Origen U = " + u_01_16.count() + " registros")
+//      println("Curvas de Carga 16: Origen Z = " + z_01_16.count() + " registros\n")
+//
+//      df_01_16.unpersist()
+//
+//
+//      println("Curvas de Carga Total: Origen S = " + s_01 + " registros")
+//      println("Curvas de Carga Total: Origen F = " + f_01 + " registros")
+//      println("Curvas de Carga Total: Origen G = " + g_01 + " registros")
+//      println("Curvas de Carga Total: Origen U = " + u_01 + " registros")
+//      println("Curvas de Carga Total: Origen Z = " + z_01 + " registros\n")
 
 
 
@@ -384,6 +384,24 @@ object AtributoOrigen {
 //      println("TDC: Origen Z = " + z_15A.count() + " registros\n")
 //
 //      df_15A.unpersist()
+
+            val df_02 = LoadTable.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers)
+      df_02.persist(nivel)
+      df_02.createOrReplaceTempView("BitsCalidad")
+
+            val s_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'S'""")
+            val f_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'F'""")
+            val g_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'G'""")
+            val u_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'U'""")
+            val z_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'Z'""")
+
+            println("BitsCalidad: Origen S = " + s_15A.count() + " registros")
+            println("BitsCalidad: Origen F = " + f_15A.count() + " registros")
+            println("BitsCalidad: Origen G = " + g_15A.count() + " registros")
+            println("BitsCalidad: Origen U = " + u_15A.count() + " registros")
+            println("BitsCalidad: Origen Z = " + z_15A.count() + " registros\n")
+
+      df_02.unpersist()
 
     }
 

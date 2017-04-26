@@ -77,6 +77,14 @@ object TabPaths {
   final val TAB_02_16 = prefix+"Endesa_TAB_02_20170127_CZZ_20160101_20161231.csv"
   final val TAB_02_headers = headers+"TAB_02_headers.csv"
 
+  //Clientes PTOSE
+  final val TAB_05D = prefix+"TAB_05D/Endesa_TAB_05D_20170126_CZZ_20100101_20161231.csv"
+  final val TAB_05D_headers = prefix+"TAB_05D/TAB_05D_headers.csv"
+
+  //Movimientos TDC
+  final val TAB_15C = prefix+"TAB_15C/Endesa_TAB_15C_20170127_CZZ_20100101_20161231.csv"
+  final val TAB_15C_headers = prefix+"TAB_15C/TAB_15C_headers.csv"
+
 
   //////////*************Datasets
 
@@ -89,17 +97,13 @@ object TabPaths {
   final val TAB_15B = prefix+"TAB_15B/Endesa_TAB_15B_20170127_CZZ_20100101_20161231.csv"
   final val TAB_15B_headers = prefix+"TAB_15B/TAB_15B_headers.csv"
 
-  //Movimientos TDC
-  final val TAB_15C = prefix+"TAB_15C/Endesa_TAB_15C_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_15C_headers = prefix+"TAB_15C/TAB_15C_headers.csv"
+
 
   //Contratación
   final val TAB_05A = prefix+"TAB_05A/Endesa_TAB_05A_20170127_CZZ_20100101_20161231.csv"
   final val TAB_05A_headers = prefix+"TAB_05A/TAB_05A_headers.csv"
 
-  //Clientes PTOSE
-  final val TAB_05D = prefix+"TAB_05D/Endesa_TAB_05D_20170126_CZZ_20100101_20161231.csv"
-  final val TAB_05D_headers = prefix+"TAB_05D/TAB_05D_headers.csv"
+
 
   //Magnitudes TPL
   final val TAB_10 = prefix+"TAB_10/Endesa_TAB_10_20170127_CZZ_20100101_20161231.csv"
