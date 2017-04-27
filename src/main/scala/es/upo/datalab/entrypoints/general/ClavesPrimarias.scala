@@ -286,9 +286,9 @@ object ClavesPrimarias {
       //*************************************************************************************************************************TAB_15A TDC
 
 
-      val df_15A = LoadTable.loadTable(TabPaths.TAB_15A, TabPaths.TAB_15A_headers)
-      df_15A.persist(nivel)
-      df_15A.createOrReplaceTempView("TDC")
+//      val df_15A = LoadTable.loadTable(TabPaths.TAB_15A, TabPaths.TAB_15A_headers)
+//      df_15A.persist(nivel)
+//      df_15A.createOrReplaceTempView("TDC")
 
       //       PK Endesa:
       //       PK UPO:    cemptitu, ccontrat, csecutdc
@@ -311,16 +311,16 @@ object ClavesPrimarias {
       //                                             WHERE ccontrat = "130008063145" AND vnumscpc = "004" AND vnumscfa = "001" AND cpuntmed = "CZZ542899901101" """).show(100, false)
       //
 
-      println("Clave primaria de UPO:")
-
-      val upo_03 = sql(
-        """SELECT cemptitu, ccontrat, csecutdc, count(DISTINCT *) as sum
-                                               FROM TDC
-                                               GROUP BY cemptitu,ccontrat, csecutdc
-                                               HAVING sum > 1
-                                               ORDER BY sum DESC""")
-
-      upo_03.show(30, false)
+//      println("Clave primaria de UPO:")
+//
+//      val upo_03 = sql(
+//        """SELECT cemptitu, ccontrat, csecutdc, count(DISTINCT *) as sum
+//                                               FROM TDC
+//                                               GROUP BY cemptitu,ccontrat, csecutdc
+//                                               HAVING sum > 1
+//                                               ORDER BY sum DESC""")
+//
+//      upo_03.show(30, false)
 
       //                                          sql("""SELECT * FROM TDC
       //                                                 WHERE ccontrat = "140049193125" AND csecutdc = "001" """).show(100, false)
@@ -328,22 +328,22 @@ object ClavesPrimarias {
 
       //*************************************************************************************************************************TAB_00E Maestro Aparatos
 
-      //            val df_00E = LoadTable.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
-      //      df_00E.persist(nivel)
-      //      df_00E.createOrReplaceTempView("MaestroAparatos")
+//                  val df_00E = LoadTable.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
+//            df_00E.persist(nivel)
+//            df_00E.createOrReplaceTempView("MaestroAparatos")
       //
       ////      PK Endesa: cpuntmed, csecptom
       ////      PK UPO: cupsree, cpuntmed, csecptom, fbajapm
       //
       //
-      //            val endesa_00E = sql(
-      //              """SELECT cpuntmed, csecptom, count(*) as sum
-      //                 FROM MaestroAparatos
-      //                 GROUP BY cpuntmed, csecptom
-      //                 HAVING sum > 1
-      //                           """)
-      //            println("Clave primaria de Endesa:")
-      //            endesa_00E.show(30,false)
+//                  val endesa_00E = sql(
+//                    """SELECT cpuntmed, csecptom, count(*) as sum
+//                       FROM MaestroAparatos
+//                       GROUP BY cpuntmed, csecptom
+//                       HAVING sum > 1
+//                                 """)
+//                  println("Clave primaria de Endesa:")
+//                  endesa_00E.show(30,false)
       //
       //          sql("""SELECT cpuntmed, csecptom, origen, cupsree, cupsree2, fvigorpm, fbajapm, caparmed  FROM MaestroAparatos
       //               WHERE cpuntmed = "CZZ612826300100" AND csecptom = 13 """).show(100, false)
@@ -369,24 +369,24 @@ object ClavesPrimarias {
 
       //*********************************************************************************************************************************************TAB_00E Maestro Aparatos
 
-      //                  val df_01 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
-      //      df_01.persist(nivel)
-      //      df_01.createOrReplaceTempView("CurvasCarga")
+            val df_01 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
+            df_01.persist(nivel)
+            df_01.createOrReplaceTempView("CurvasCarga")
 
       //      PK Endesa: origen, cpuntmed, flectreg, obiscode, vsecccar
       //      PK UPO: cpuntmed, flectreg, testcaco, obiscode, vsecccar
 
 
       //
-      //      println("Clave primaria de Endesa:")
-      //                  val endesa_01 = sql(
-      //                    """SELECT origen, cpuntmed, flectreg, obiscode, vsecccar, count(DISTINCT *) as sum
-      //                       FROM CurvasCarga
-      //                       GROUP BY origen, cpuntmed, flectreg, obiscode, vsecccar
-      //                       HAVING sum > 1
-      //                                 """)
+            println("Clave primaria de Endesa:")
+                        val endesa_01 = sql(
+                          """SELECT origen, cpuntmed, flectreg, obiscode, vsecccar, count(DISTINCT *) as sum
+                             FROM CurvasCarga
+                             GROUP BY origen, cpuntmed, flectreg, obiscode, vsecccar
+                             HAVING sum > 1
+                                       """)
       //
-      //                  endesa_01.show(30,false)
+                        endesa_01.show(30,false)
 
       //                sql("""SELECT *  FROM CurvasCarga
       //                     WHERE cpuntmed = "CZZ629707600100" """).show(100, false)

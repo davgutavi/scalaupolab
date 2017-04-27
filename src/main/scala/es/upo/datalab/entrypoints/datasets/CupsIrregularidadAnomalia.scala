@@ -21,93 +21,152 @@ object CupsIrregularidadAnomalia {
 
     TimingUtils.time {
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
+      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, true)
       df_05C.persist(nivel)
-      println("Número de registros en Clientes = " + df_05C.count())
-      df_05C.createOrReplaceTempView("clientes")
+      df_05C.createOrReplaceTempView("Clientes")
 
       val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
-      println("Número de registros en Maestro Contratos = " + df_00C.count())
-      df_00C.createOrReplaceTempView("contratos")
+      df_00C.createOrReplaceTempView("MaestroContratos")
 
       val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
-      println("Número de registros en Expedientes = " + df_16.count())
-      df_16.createOrReplaceTempView("expedientes")
+      df_16.createOrReplaceTempView("Expedientes")
 
-      val jcc = sql(
+      val maestroContratosClientes = sql(
 
         """
-          SELECT clientes.cnifdnic, clientes.dnombcli, clientes.dapersoc, clientes.ccliente, clientes.fechamov, contratos.ccontrat, contratos.cupsree, contratos.cnumscct,contratos.fpsercon, contratos.ffinvesu,
-          contratos.origen, contratos.cemptitu, contratos.cfinca, contratos.cptoserv
-          FROM clientes JOIN contratos
-          ON clientes.origen=contratos.origen AND clientes.cemptitu=contratos.cemptitu AND clientes.ccontrat=contratos.ccontrat AND clientes.cnumscct=contratos.cnumscct
+          SELECT MaestroContratos.origen, MaestroContratos.cptocred, MaestroContratos.cfinca, MaestroContratos.cptoserv, MaestroContratos.cderind, MaestroContratos.cupsree, MaestroContratos.cpuntmed, MaestroContratos.tpuntmed,
+          MaestroContratos.vparsist, MaestroContratos.cemptitu, MaestroContratos.ccontrat, MaestroContratos.cnumscct, MaestroContratos.fpsercon, MaestroContratos.ffinvesu, Clientes.ccliente, Clientes.fechamov, Clientes.tindfiju,
+          Clientes.cnifdnic, Clientes.dapersoc, Clientes.dnombcli
+          FROM Clientes JOIN MaestroContratos
+          ON Clientes.origen=MaestroContratos.origen AND Clientes.cemptitu=MaestroContratos.cemptitu AND Clientes.ccontrat=MaestroContratos.ccontrat AND Clientes.cnumscct=MaestroContratos.cnumscct
 
         """
       )
+
       df_05C.unpersist()
       df_00C.unpersist()
 
-      jcc.persist(nivel)
-      jcc.createOrReplaceTempView("jcc")
-      println("Join clientes-contratos = " + jcc.count() + " registros")
+      maestroContratosClientes.persist(nivel)
+      val maestroContratosClientess = maestroContratosClientes.dropDuplicates()
+      maestroContratosClientess.persist(nivel)
 
-      val jccs = jcc.dropDuplicates()
-      jcc.unpersist()
-      jccs.createOrReplaceTempView("jccs")
-      println("Join clientes-contratos sin repetición = " + jccs.count() + " registros")
+//      val mcc = maestroContratosClientes.count()
+//      val mccs = maestroContratosClientess.count()
+//
+//      println("Maestro Contratos - Clientes = " +mcc + " registros")
+//      println("Maestro Contratos - Clientes sin repetición = " + mccs + " registros")
+//      println("Diferencia = " + (mcc-mccs))
 
-      val jccse = sql(
+      maestroContratosClientes.unpersist()
+      maestroContratosClientess.createOrReplaceTempView("MaestroContratosClientess")
+
+
+      val maestroContratosClientesExpedientes = sql(
 
         """
-          SELECT jccs.cnifdnic, jccs.dnombcli, jccs.dapersoc, jccs.ccliente, jccs.ccontrat, jccs.cupsree, jccs.cnumscct, jccs.fechamov, jccs.fpsercon, jccs.ffinvesu,
-          jccs.cfinca, expedientes.fapexpd, expedientes.finifran, expedientes.ffinfran, expedientes.fnormali, expedientes.fciexped,  expedientes.anomalia, expedientes.irregularidad
-          FROM jccs JOIN expedientes
-          ON jccs.origen=expedientes.origen AND jccs.cemptitu=expedientes.cemptitu AND jccs.cfinca=expedientes.cfinca AND jccs.cptoserv=expedientes.cptoserv
-
+          SELECT MaestroContratosClientess.origen, MaestroContratosClientess.cptocred, MaestroContratosClientess.cfinca, MaestroContratosClientess.cptoserv, MaestroContratosClientess.cderind, MaestroContratosClientess.cupsree,
+          MaestroContratosClientess.cpuntmed, MaestroContratosClientess.tpuntmed, MaestroContratosClientess.vparsist, MaestroContratosClientess.cemptitu, MaestroContratosClientess.ccontrat, MaestroContratosClientess.cnumscct,
+          MaestroContratosClientess.fpsercon, MaestroContratosClientess.ffinvesu, MaestroContratosClientess.ccliente, MaestroContratosClientess.fechamov, MaestroContratosClientess.tindfiju, MaestroContratosClientess.cnifdnic,
+          MaestroContratosClientess.dapersoc, MaestroContratosClientess.dnombcli, Expedientes.csecexpe, Expedientes.fapexpd, Expedientes.finifran, Expedientes.ffinfran, Expedientes.anomalia, Expedientes.irregularidad,
+          Expedientes.venacord, Expedientes.vennofai, Expedientes.torigexp, Expedientes.texpedie, Expedientes.expclass, Expedientes.testexpe, Expedientes.fnormali, Expedientes.cplan, Expedientes.ccampa, Expedientes.cempresa,
+          Expedientes.fciexped
+          FROM MaestroContratosClientess JOIN Expedientes
+          ON MaestroContratosClientess.origen=Expedientes.origen AND MaestroContratosClientess.cemptitu=Expedientes.cemptitu AND MaestroContratosClientess.cfinca=Expedientes.cfinca AND MaestroContratosClientess.cptoserv=Expedientes.cptoserv
         """
       )
 
-      jccse.persist(nivel)
-      println("Join clientes-contratos-expedientes = " + jccse.count() + " registros")
+      maestroContratosClientess.unpersist()
 
-      val jccses = jccse.dropDuplicates()
-      jccse.unpersist()
-      jccses.persist(nivel)
-      println("Join clientes-contratos-expedientes sin repetición = " + jccses.count() + " registros")
+      maestroContratosClientesExpedientes.persist(nivel)
+      val maestroContratosClientesExpedientess = maestroContratosClientesExpedientes.dropDuplicates()
+      maestroContratosClientesExpedientess.persist(nivel)
 
+//      val mcce = maestroContratosClientesExpedientes.count()
+//      val mcces = maestroContratosClientesExpedientess.count()
+//
+//      println("Maestro Contratos - Clientes - Expedientes = " +mcce + " registros")
+//      println("Maestro Contratos - Clientes - Expedientes sin repetición = " + mcces + " registros")
+//      println("Diferencia = " + (mcce-mcces))
 
-      val jccsesi = jccses.where("irregularidad='S'")
-      jccsesi.persist(nivel)
-      println("Join clientes-contratos-expedientes con irregularidad = " + jccsesi.count() + " registros")
-      jccsesi.show(20,truncate = false)
-
-      val w1 = jccsesi.drop("ccliente","ccontrat","cnumscct","fechamov","fpsercon","ffinvesu")
-      jccsesi.unpersist()
-      val w2 = w1.dropDuplicates()
-      println("Join clientes-contratos-expedientes con irregularidad sin duplicados = " + w2.count() + " registros")
-      w2.show(20,truncate = false)
-
-      val jccsesa = jccses.where("anomalia='S'")
-      jccsesa.persist(nivel)
-      println("Join clientes-contratos-expedientes con anomalia = " + jccsesa.count() + " registros")
-      jccsesa.show(20,truncate = false)
-
-      val w3 = jccsesa.drop("ccliente","ccontrat","cnumscct","fechamov","fpsercon","ffinvesu")
-      jccsesa.unpersist()
-      val w4 = w3.dropDuplicates()
-      println("Join clientes-contratos-expedientes con anomalía sin duplicados = " + w4.count() + " registros")
-      w4.show(20,truncate = false)
+      maestroContratosClientesExpedientes.unpersist()
+      maestroContratosClientesExpedientess.createOrReplaceTempView("MaestroContratosClientesExpedientess")
 
 
-      //Parquet
-      //w2.write.option("header","true").save(TabPaths.root+"datasets/cups_fraude")
-      //w4.write.option("header","true").save(TabPaths.root+"datasets/anomalia")
+
+      val maestroContratosClientesExpedientessIrregularidad = maestroContratosClientesExpedientess.where("irregularidad='S'")
+//      println("Maestro Contratos - Clientes - Expedientes sin repetición con irregularidad = " + maestroContratosClientesExpedientessIrregularidad.count() + " registros")
+//      maestroContratosClientesExpedientessIrregularidad.show(20,truncate = false)
+
+      val maestroContratosClientesExpedientessAnomalia = maestroContratosClientesExpedientess.where("anomalia='S'")
+//      println("Maestro Contratos - Clientes - Expedientes sin repetición con anomalía = " + maestroContratosClientesExpedientessAnomalia.count() + " registros")
+//      maestroContratosClientesExpedientessAnomalia.show(20,truncate = false)
+
+      maestroContratosClientesExpedientes.unpersist()
+
+      val datasetIrregularidad = maestroContratosClientesExpedientessIrregularidad.select(
+        "cnifdnic","cfinca","ccliente","cupsree","ccontrat", "cnumscct", "cptoserv", "csecexpe", "finifran", "ffinfran", "fapexpd", "fciexped" )
+
+      println("Registros irregularidad = "+datasetIrregularidad.count())
+
+      datasetIrregularidad.show(20,false)
+
+
+//      datasetIrregularidad.persist(nivel)
+//      datasetIrregularidad.createOrReplaceTempView("DatasetIrregularidad")
+
+//      val datasetIrregularidads = datasetIrregularidad.dropDuplicates()
+//
+//      val di = datasetIrregularidad.count()
+//      val dis = datasetIrregularidads.count()
+
+//      println("DatasetIrregularidad = " +di + " registros")
+//      println("DatasetIrregularidad sin repetición = " + dis + " registros")
+//      println("Diferencia = " + (di-dis))
+
+
+
+      val datasetAnomalia = maestroContratosClientesExpedientessAnomalia.select(
+        "cnifdnic","cfinca","ccliente","cupsree","ccontrat", "cnumscct", "cptoserv", "csecexpe", "finifran", "ffinfran", "fapexpd", "fciexped" )
+
+      println("Registros anomalía = "+datasetAnomalia.count())
+
+            datasetAnomalia.show(20,false)
+
+//      datasetAnomalia.persist(nivel)
+//      datasetAnomalia.createOrReplaceTempView("DatasetAnomalia")
+
+
+//      val datasetAnomalias = datasetAnomalia.dropDuplicates()
+
+//      val da = datasetAnomalia.count()
+//      val das = datasetAnomalias.count()
+//
+//      println("DatasetAnomalia = " +da + " registros")
+//      println("DatasetAnomalia sin repetición = " + das + " registros")
+//      println("Diferencia = " + (da-das))
+
+
+
+
+
+//      sql(
+//        """SELECT cnifdnic, ccliente, cupsree, ccontrat, cnumscct, COUNT(DISTINCT *) AS sum FROM DatasetIrregularidad
+//           GROUP BY cnifdnic, ccliente, cupsree, ccontrat, cnumscct HAVING sum > 1
+//        """).show(20,false)
+//
+//      sql(
+//        """SELECT cnifdnic, cfinca, ccliente, cupsree, ccontrat, cnumscct, COUNT(DISTINCT *) AS sum FROM DatasetAnomalia
+//           GROUP BY cnifdnic, ccliente, cupsree, ccontrat, cnumscct HAVING sum > 1
+//        """).show(20,false)
+
 
       //CSV
-      w2.write.option("header","true").csv(TabPaths.root+"datasets/cupsf")
-      w4.write.option("header","true").csv(TabPaths.root+"datasets/cupsa")
+//      datasetIrregularidad.coalesce(1).write.option("header","true").csv(TabPaths.root+"datasets/irregularidad")
+//      datasetAnomalia.coalesce(1).write.option("header","true").csv(TabPaths.root+"datasets/anomalia")
+
+      print("DONE!")
 
     }
 
