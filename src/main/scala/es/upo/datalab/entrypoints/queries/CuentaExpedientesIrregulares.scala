@@ -20,9 +20,16 @@ object CuentaExpedientesIrregulares {
 
       val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
-      df_16.createOrReplaceTempView("Expedientes")
 
-      sql("""SELECT * FROM Expedientes WHERE irregularidad = 'S'""").show(8, false)
+      val t = df_16.count()
+      val i = df_16.where("irregularidad = 'S'").count()
+      val a = df_16.where("anomalia = 'S'").count()
+
+      println("Expedientes irregularidad = "+i+" registros")
+      println("Expedientes anomalia = "+a+" registros")
+      println("Suma irregularidad más anomalía = "+(i+a)+" registros")
+      println("Registros totales en Expedientes = "+t)
+      println("Diferencia Totales - (irregulares + anómalos) = "+(t-(i+a)))
 
       df_16.unpersist()
 
