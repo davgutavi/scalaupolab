@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/upolab.iml" filepath="$PROJECT_DIR$/.idea/modules/upolab.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/upolab-build.iml" filepath="$PROJECT_DIR$/.idea/modules/upolab-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalaupolab.iml" filepath="$PROJECT_DIR$/.idea/modules/scalaupolab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalaupolab-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scalaupolab-build.iml" />
     </modules>
   </component>
 </project>

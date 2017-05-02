@@ -5,12 +5,16 @@ package es.upo.datalab.datasets
   */
 object TabPaths {
 
-  final val root = "/mnt/datos/recursos/ENDESA/"
+  //final val root = "/mnt/datos/recursos/ENDESA/"
+
+  final val root = "/Volumes/david/endesa/"
 
 
 //  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
 
-  final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
+  //final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
+
+  final val prefix = "/Volumes/david/endesa/base_de_datos_descomprimida/"
 
   final val headers= prefix+"headers/"
 
