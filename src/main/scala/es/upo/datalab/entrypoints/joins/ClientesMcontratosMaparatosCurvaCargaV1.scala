@@ -50,7 +50,7 @@ object ClientesMcontratosMaparatosCurvaCargaV1 {
       df_05C.unpersist()
       maestroContratosClientes.persist(nivel)
       maestroContratosClientes.createOrReplaceTempView("MaestroContratosClientes")
-      maestroContratosClientes.show(5, false)
+      //maestroContratosClientes.show(5, false)
 
 
       val maestroContratosClientesMaestroAparatos = sql(
@@ -70,8 +70,9 @@ object ClientesMcontratosMaparatosCurvaCargaV1 {
 
       maestroContratosClientesMaestroAparatos.persist(nivel)
       maestroContratosClientesMaestroAparatos.createOrReplaceTempView("MaestroContratosClientesMaestroAparatos")
-      maestroContratosClientesMaestroAparatos.show(5, false)
+      //maestroContratosClientesMaestroAparatos.show(5, false)
 
+      println("Join MaestroContratosClientesMaestroAparatosCurvasCarga")
 
       val maestroContratosClientesMaestroAparatosCurvasCarga = sql(
         """SELECT MaestroContratosClientesMaestroAparatos.origen, MaestroContratosClientesMaestroAparatos.cptocred, MaestroContratosClientesMaestroAparatos.cfinca,
@@ -82,8 +83,8 @@ object ClientesMcontratosMaparatosCurvaCargaV1 {
                MaestroContratosClientesMaestroAparatos.ffinvesu, MaestroContratosClientesMaestroAparatos.ccliente, MaestroContratosClientesMaestroAparatos.fechamov,
                MaestroContratosClientesMaestroAparatos.tindfiju, MaestroContratosClientesMaestroAparatos.cnifdnic, MaestroContratosClientesMaestroAparatos.dapersoc,
                MaestroContratosClientesMaestroAparatos.dnombcli, MaestroContratosClientesMaestroAparatos.csecptom, MaestroContratosClientesMaestroAparatos.fvigorpm,
-               MaestroContratosClientesMaestroAparatos.fbajapm,MaestroAparatos.caparmed
-              CurvasCarga.flectreg, CurvasCarga.testcaco, CurvasCarga.obiscode, CurvasCarga.vsecccar
+               MaestroContratosClientesMaestroAparatos.fbajapm,MaestroContratosClientesMaestroAparatos.caparmed,
+              CurvasCarga.flectreg, CurvasCarga.testcaco, CurvasCarga.obiscode, CurvasCarga.vsecccar,
                 CurvasCarga.hora_01, CurvasCarga.1q_consumo_01, CurvasCarga.2q_consumo_01, CurvasCarga.3q_consumo_01, CurvasCarga.4q_consumo_01,
                  CurvasCarga.hora_02, CurvasCarga.1q_consumo_02, CurvasCarga.2q_consumo_02, CurvasCarga.3q_consumo_02, CurvasCarga.4q_consumo_02,
                  CurvasCarga.hora_03, CurvasCarga.1q_consumo_03, CurvasCarga.2q_consumo_03, CurvasCarga.3q_consumo_03, CurvasCarga.4q_consumo_03,
@@ -109,8 +110,8 @@ object ClientesMcontratosMaparatosCurvaCargaV1 {
                  CurvasCarga.hora_23, CurvasCarga.1q_consumo_23, CurvasCarga.2q_consumo_23, CurvasCarga.3q_consumo_23, CurvasCarga.4q_consumo_23,
                  CurvasCarga.hora_24, CurvasCarga.1q_consumo_24, CurvasCarga.2q_consumo_24, CurvasCarga.3q_consumo_24, CurvasCarga.4q_consumo_24,
                  CurvasCarga.hora_25, CurvasCarga.1q_consumo_25, CurvasCarga.2q_consumo_25, CurvasCarga.3q_consumo_25, CurvasCarga.4q_consumo_25
-         FROM con_cli_apa JOIN CurvasCarga
-         ON con_cli_apa.origen = CurvasCarga.origen AND con_cli_apa.cpuntmed = CurvasCarga.cpuntmed
+         FROM MaestroContratosClientesMaestroAparatos JOIN CurvasCarga
+         ON MaestroContratosClientesMaestroAparatos.origen = CurvasCarga.origen AND MaestroContratosClientesMaestroAparatos.cpuntmed = CurvasCarga.cpuntmed
       """)
 
       maestroContratosClientesMaestroAparatosCurvasCarga.persist(nivel)
