@@ -124,8 +124,12 @@ object ClientesMcontratosMaparatosCurvaCarga {
                MaestroContratosClientesMaestroAparatos.tindfiju, MaestroContratosClientesMaestroAparatos.cnifdnic, MaestroContratosClientesMaestroAparatos.dapersoc,
                MaestroContratosClientesMaestroAparatos.dnombcli, MaestroContratosClientesMaestroAparatos.csecptom, MaestroContratosClientesMaestroAparatos.fvigorpm,
                MaestroContratosClientesMaestroAparatos.fbajapm,MaestroContratosClientesMaestroAparatos.caparmed,
-              CurvasCarga.flectreg, CurvasCarga.testcaco, CurvasCarga.obiscode, CurvasCarga.vsecccar,
-                CurvasCarga.hora_01, CurvasCarga.1q_consumo_01, CurvasCarga.2q_consumo_01, CurvasCarga.3q_consumo_01, CurvasCarga.4q_consumo_01
+               CurvasCarga.flectreg, CurvasCarga.testcaco, CurvasCarga.obiscode, CurvasCarga.vsecccar,
+               CurvasCarga.hora_01, CurvasCarga.1q_consumo_01, CurvasCarga.2q_consumo_01, CurvasCarga.3q_consumo_01, CurvasCarga.4q_consumo_01,
+               CurvasCarga.hora_02, CurvasCarga.1q_consumo_02, CurvasCarga.2q_consumo_02, CurvasCarga.3q_consumo_02, CurvasCarga.4q_consumo_02,
+               CurvasCarga.hora_03, CurvasCarga.1q_consumo_03, CurvasCarga.2q_consumo_03, CurvasCarga.3q_consumo_03, CurvasCarga.4q_consumo_03,
+               CurvasCarga.hora_04, CurvasCarga.1q_consumo_04, CurvasCarga.2q_consumo_04, CurvasCarga.3q_consumo_04, CurvasCarga.4q_consumo_04,
+               CurvasCarga.hora_05, CurvasCarga.1q_consumo_05, CurvasCarga.2q_consumo_05, CurvasCarga.3q_consumo_05, CurvasCarga.4q_consumo_05
          FROM MaestroContratosClientesMaestroAparatos JOIN CurvasCarga
          ON MaestroContratosClientesMaestroAparatos.origen = CurvasCarga.origen AND MaestroContratosClientesMaestroAparatos.cpuntmed = CurvasCarga.cpuntmed
       """)
@@ -144,9 +148,9 @@ object ClientesMcontratosMaparatosCurvaCarga {
       println("MaestroContratosClientesMaestroAparatosCurvasCarga (" + mccmas + " registros sin repeticion)\n")
       println("Diferencia = " + (mccma - mccmas))
 
-      maestroContratosClientesMaestroAparatosCurvasCarga.show(10)
+      maestroContratosClientesMaestroAparatosCurvasCarga.show(20)
 
-      maestroContratosClientesMaestroAparatosCurvasCurvasCarga.show(10)
+//      maestroContratosClientesMaestroAparatosCurvasCurvasCarga.show(10)
 
     }
 
