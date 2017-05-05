@@ -129,12 +129,19 @@ object ClientesMcontratosMaparatosCurvaCarga {
                CurvasCarga.hora_02, CurvasCarga.1q_consumo_02, CurvasCarga.2q_consumo_02, CurvasCarga.3q_consumo_02, CurvasCarga.4q_consumo_02,
                CurvasCarga.hora_03, CurvasCarga.1q_consumo_03, CurvasCarga.2q_consumo_03, CurvasCarga.3q_consumo_03, CurvasCarga.4q_consumo_03,
                CurvasCarga.hora_04, CurvasCarga.1q_consumo_04, CurvasCarga.2q_consumo_04, CurvasCarga.3q_consumo_04, CurvasCarga.4q_consumo_04,
-               CurvasCarga.hora_05, CurvasCarga.1q_consumo_05, CurvasCarga.2q_consumo_05, CurvasCarga.3q_consumo_05, CurvasCarga.4q_consumo_05
+               CurvasCarga.hora_05, CurvasCarga.1q_consumo_05, CurvasCarga.2q_consumo_05, CurvasCarga.3q_consumo_05, CurvasCarga.4q_consumo_05,
+               CurvasCarga.hora_06, CurvasCarga.1q_consumo_06, CurvasCarga.2q_consumo_06, CurvasCarga.3q_consumo_06, CurvasCarga.4q_consumo_06,
+               CurvasCarga.hora_07, CurvasCarga.1q_consumo_07, CurvasCarga.2q_consumo_07, CurvasCarga.3q_consumo_07, CurvasCarga.4q_consumo_07,
+               CurvasCarga.hora_08, CurvasCarga.1q_consumo_08, CurvasCarga.2q_consumo_08, CurvasCarga.3q_consumo_08, CurvasCarga.4q_consumo_08,
+               CurvasCarga.hora_09, CurvasCarga.1q_consumo_09, CurvasCarga.2q_consumo_09, CurvasCarga.3q_consumo_09, CurvasCarga.4q_consumo_09,
+               CurvasCarga.hora_10, CurvasCarga.1q_consumo_10, CurvasCarga.2q_consumo_10, CurvasCarga.3q_consumo_10, CurvasCarga.4q_consumo_10,
+               CurvasCarga.hora_11, CurvasCarga.1q_consumo_11, CurvasCarga.2q_consumo_11, CurvasCarga.3q_consumo_11, CurvasCarga.4q_consumo_11,
+               CurvasCarga.hora_12, CurvasCarga.1q_consumo_12, CurvasCarga.2q_consumo_12, CurvasCarga.3q_consumo_12, CurvasCarga.4q_consumo_12
          FROM MaestroContratosClientesMaestroAparatos JOIN CurvasCarga
          ON MaestroContratosClientesMaestroAparatos.origen = CurvasCarga.origen AND MaestroContratosClientesMaestroAparatos.cpuntmed = CurvasCarga.cpuntmed
       """)
 
-
+      maestroContratosClientesMaestroAparatos.unpersist()
 
       maestroContratosClientesMaestroAparatosCurvasCarga.persist(nivel)
       maestroContratosClientesMaestroAparatosCurvasCarga.createOrReplaceTempView("MaestroContratosClientesMaestroAparatosCurvasCarga")
@@ -148,9 +155,9 @@ object ClientesMcontratosMaparatosCurvaCarga {
       println("MaestroContratosClientesMaestroAparatosCurvasCarga (" + mccmas + " registros sin repeticion)\n")
       println("Diferencia = " + (mccma - mccmas))
 
-      maestroContratosClientesMaestroAparatosCurvasCarga.show(20)
+      maestroContratosClientesMaestroAparatosCurvasCarga.show(20,false)
 
-//      maestroContratosClientesMaestroAparatosCurvasCurvasCarga.show(10)
+//      maestroContratosClientesMaestroAparatosCurvasCurvasCarga.show(10,false)
 
     }
 
