@@ -1,5 +1,6 @@
 package es.upo.datalab.entrypoints.joins
 
+import es.upo.datalab.datasets.TabPaths.prefix
 import es.upo.datalab.datasets.{LoadTable, TabPaths}
 import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
 import org.apache.spark.storage.StorageLevel
@@ -136,7 +137,10 @@ object ClientesMcontratosMaparatosCurvaCarga {
                CurvasCarga.hora_09, CurvasCarga.1q_consumo_09, CurvasCarga.2q_consumo_09, CurvasCarga.3q_consumo_09, CurvasCarga.4q_consumo_09,
                CurvasCarga.hora_10, CurvasCarga.1q_consumo_10, CurvasCarga.2q_consumo_10, CurvasCarga.3q_consumo_10, CurvasCarga.4q_consumo_10,
                CurvasCarga.hora_11, CurvasCarga.1q_consumo_11, CurvasCarga.2q_consumo_11, CurvasCarga.3q_consumo_11, CurvasCarga.4q_consumo_11,
-               CurvasCarga.hora_12, CurvasCarga.1q_consumo_12, CurvasCarga.2q_consumo_12, CurvasCarga.3q_consumo_12, CurvasCarga.4q_consumo_12
+               CurvasCarga.hora_12, CurvasCarga.1q_consumo_12, CurvasCarga.2q_consumo_12, CurvasCarga.3q_consumo_12, CurvasCarga.4q_consumo_12,
+               CurvasCarga.hora_13, CurvasCarga.1q_consumo_13, CurvasCarga.2q_consumo_13, CurvasCarga.3q_consumo_13, CurvasCarga.4q_consumo_13,
+               CurvasCarga.hora_14, CurvasCarga.1q_consumo_14, CurvasCarga.2q_consumo_14, CurvasCarga.3q_consumo_14, CurvasCarga.4q_consumo_14,
+               CurvasCarga.hora_15, CurvasCarga.1q_consumo_15, CurvasCarga.2q_consumo_15, CurvasCarga.3q_consumo_15, CurvasCarga.4q_consumo_15
          FROM MaestroContratosClientesMaestroAparatos JOIN CurvasCarga
          ON MaestroContratosClientesMaestroAparatos.origen = CurvasCarga.origen AND MaestroContratosClientesMaestroAparatos.cpuntmed = CurvasCarga.cpuntmed
       """)
