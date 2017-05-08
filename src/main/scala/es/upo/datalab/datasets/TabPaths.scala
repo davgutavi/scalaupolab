@@ -6,10 +6,10 @@ package es.upo.datalab.datasets
 object TabPaths {
 
   //HDFS laboratorio
-//  final val root = "hdfs://192.168.47.247:50070/user/gutierrez/"
+  final val root = "hdfs://192.168.47.247/user/gutierrez/"
 
   //laboratorio
-  final val root = "/mnt/datos/recursos/ENDESA/"
+//  final val root = "/mnt/datos/recursos/ENDESA/"
 
   //mac
   //  final val root = "/Volumes/david/endesa/"
@@ -18,15 +18,17 @@ object TabPaths {
 //  final val prefix = "/media/davgutavi/Maxtor/ENDESA/endesa_descomprimido/"
 
   //laboratorio
-  final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
+//  final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
 
   //HDFS laboratorio
-//  final val prefix = "hdfs://192.168.47.247:50070/user/gutierrez/endesa/"
+  final val prefix = "hdfs://192.168.47.247/user/gutierrez/endesa/"
 
   //mac
   //  final val prefix = "/Volumes/david/endesa/base_de_datos_descomprimida/"
 
-  final val headers= prefix+"headers/"
+  //final val headers= prefix+"headers/"
+  final val prefixL="/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
+  final val headers= prefixL+"headers/"
 
   //Maestro Contratos
 
