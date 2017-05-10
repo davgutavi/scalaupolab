@@ -52,7 +52,7 @@ object LoadTable {
       loader.option("dateFormat",pattern)
     }
 
-    println(pathToData)
+//    println(pathToData)
     val data = loader.csv(pathToData)
 
     var r:DataFrame = null

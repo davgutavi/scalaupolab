@@ -136,6 +136,8 @@ object ClientesLecturas {
                ON MaestroContratosClientesMaestroAparatos.origen = CurvasCarga.origen AND MaestroContratosClientesMaestroAparatos.cpuntmed = CurvasCarga.cpuntmed
       """)
 
+      df_01_10.unpersist()
+
       maestroContratosClientesMaestroAparatos.unpersist()
 
       maestroContratosClientesMaestroAparatosCurvasCarga.persist(nivel)
@@ -188,6 +190,8 @@ object ClientesLecturas {
       maestroContratosClientesMaestroAparatosCurvasCargaIrregularidad.unpersist()
 //      datasetCurvasIrregularidad.show(10,false)
 
+      println("datasetCurvasIrregularidad = "+datasetCurvasIrregularidad.count()+" registros")
+
       val datasetCurvasAnomalia = maestroContratosClientesMaestroAparatosCurvasCargaAnomalia.select(
         "cnifdnic","cfinca","ccliente","cupsree","ccontrat", "cnumscct", "cptoserv", "csecexpe", "finifran", "ffinfran", "fapexpd", "fciexped",
         "flectreg", "testcaco", "obiscode", "vsecccar",
@@ -199,6 +203,8 @@ object ClientesLecturas {
 
       maestroContratosClientesMaestroAparatosCurvasCargaAnomalia.unpersist()
 //      datasetCurvasAnomalia.show(10,false)
+
+      println("datasetCurvasAnomalia = "+datasetCurvasAnomalia.count()+" registros")
 
 
       val datasetCurvasTablaNormal = sql(
@@ -219,6 +225,8 @@ object ClientesLecturas {
                    WHERE Expedientes.origen IS NULL AND Expedientes.cemptitu IS NULL AND Expedientes.cfinca IS NULL AND Expedientes.cptoserv IS NULL
                    """)
 
+      df_16.unpersist()
+
             val datasetCurvasNormal = datasetCurvasTablaNormal.select(
               "cnifdnic","cfinca","ccliente","cupsree","ccontrat", "cnumscct", "cptoserv", "csecexpe", "finifran", "ffinfran", "fapexpd", "fciexped",
               "flectreg", "testcaco", "obiscode", "vsecccar",
@@ -230,13 +238,15 @@ object ClientesLecturas {
 
           datasetCurvasTablaNormal.unpersist()
 
+      println("datasetCurvasNormal = "+datasetCurvasNormal.count()+" registros")
+
 
       datasetCurvasNormal.show(10,false)
 
 
 //      datasetCurvasIrregularidad.coalesce(1).write.option("header","true").csv(TabPaths.prefix+"datasets/CurvasIrregularidad")
 //      datasetCurvasAnomalia.coalesce(1).write.option("header","true").csv(TabPaths.prefix+"datasets/CurvasAnomalia")
-      datasetCurvasNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix+"datasets/CurvasNormal")
+//      datasetCurvasNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix+"datasets/CurvasNormal")
 
 
       println("DONE!")
