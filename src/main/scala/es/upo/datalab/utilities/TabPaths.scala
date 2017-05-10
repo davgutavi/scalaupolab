@@ -1,4 +1,4 @@
-package es.upo.datalab.datasets
+package es.upo.datalab.utilities
 
 /**
   * Created by davgutavi on 15/03/17.
@@ -27,7 +27,7 @@ object TabPaths {
   //  final val prefix = "/Volumes/david/endesa/base_de_datos_descomprimida/"
 
   //final val headers= prefix+"headers/"
-  final val prefixL="/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
+  final val prefixL="/mnt/datos/recursos/ENDESA/"
   final val headers= prefixL+"headers/"
 
   //Maestro Contratos

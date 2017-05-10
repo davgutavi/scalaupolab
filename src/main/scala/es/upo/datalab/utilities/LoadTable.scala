@@ -1,6 +1,5 @@
-package es.upo.datalab.datasets
+package es.upo.datalab.utilities
 
-import es.upo.datalab.utilities.SparkSessionUtils
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types._
 

@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.datasets
 
-import es.upo.datalab.datasets.{LoadTable, TabPaths}
-import es.upo.datalab.utilities.{SparkSessionUtils, TimingUtils}
+
+import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
