@@ -21,7 +21,7 @@ object TabPaths {
 //  final val prefix = "/mnt/datos/recursos/ENDESA/endesa_descomprimido/"
 
   //HDFS laboratorio
-  final val prefix = "hdfs://192.168.47.247/user/gutierrez/endesa/"
+  final val prefix = "hdfs://192.168.47.247/user/gutierrez/endesa/database_csv/"
 
   //mac
   //  final val prefix = "/Volumes/david/endesa/base_de_datos_descomprimida/"
@@ -95,11 +95,11 @@ object TabPaths {
 
   //Clientes PTOSE
   final val TAB_05D = prefix+"TAB_05D/Endesa_TAB_05D_20170126_CZZ_20100101_20161231.csv"
-  final val TAB_05D_headers = prefix+"TAB_05D/TAB_05D_headers.csv"
+  final val TAB_05D_headers = headers+"TAB_05D_headers.csv"
 
   //Movimientos TDC
   final val TAB_15C = prefix+"TAB_15C/Endesa_TAB_15C_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_15C_headers = prefix+"TAB_15C/TAB_15C_headers.csv"
+  final val TAB_15C_headers = headers+"TAB_15C_headers.csv"
 
 
   //////////*************Datasets
@@ -111,13 +111,13 @@ object TabPaths {
   ///////////************Otros
   //Operaciones TDC
   final val TAB_15B = prefix+"TAB_15B/Endesa_TAB_15B_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_15B_headers = prefix+"TAB_15B/TAB_15B_headers.csv"
+  final val TAB_15B_headers = headers+"TAB_15B_headers.csv"
 
 
 
   //Contratación
   final val TAB_05A = prefix+"TAB_05A/Endesa_TAB_05A_20170127_CZZ_20100101_20161231.csv"
-  final val TAB_05A_headers = prefix+"TAB_05A/TAB_05A_headers.csv"
+  final val TAB_05A_headers = headers+"TAB_05A_headers.csv"
 
 
 
