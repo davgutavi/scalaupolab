@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.joins
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -21,19 +21,19 @@ object ClientesMcontratosMaparatosCurvaCarga {
 
     TimingUtils.time {
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, true)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, dropDuplicates = true)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 
-      val df_00E = LoadTable.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 
-      val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
+      val df_01_10 = LoadTableCsv.loadTable(TabPaths.TAB_01_10_csv, TabPaths.TAB_01_headers)
       df_01_10.persist(nivel)
       df_01_10.createOrReplaceTempView("CurvasCarga")
 
@@ -155,7 +155,7 @@ object ClientesMcontratosMaparatosCurvaCarga {
       println("MaestroContratosClientesMaestroAparatosCurvasCarga (" + mccmas + " registros sin repeticion)\n")
       println("Diferencia = " + (mccma - mccmas))
 
-      maestroContratosClientesMaestroAparatosCurvasCarga.show(20,false)
+      maestroContratosClientesMaestroAparatosCurvasCarga.show(20,truncate = false)
 
 
     }

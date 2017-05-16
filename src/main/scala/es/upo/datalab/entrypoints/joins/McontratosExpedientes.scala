@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.joins
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -20,11 +20,11 @@ object McontratosExpedientes {
   TimingUtils.time {
 
 
-    val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+    val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
     df_00C.persist(nivel)
     df_00C.createOrReplaceTempView("MaestroContratos")
 
-    val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+    val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
     df_16.persist(nivel)
     df_16.createOrReplaceTempView("Expedientes")
 
@@ -66,7 +66,7 @@ object McontratosExpedientes {
     sql(
       """SELECT *  FROM MaestroContratosExpedientes1
         WHERE ccontrat = "380046773806" AND cnumscct = "011" AND cfinca ="6173636"
-      """).show(20,false)
+      """).show(20,truncate = false)
 
 
 

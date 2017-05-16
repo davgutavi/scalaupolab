@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.general
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -86,7 +86,7 @@ object ClavesPrimarias {
       //*************************************************************************************************************************TAB_16 Expedientes
 
 
-            val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+            val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
             df_16.persist(nivel)
             df_16.createOrReplaceTempView("Expedientes")
       //
@@ -373,7 +373,7 @@ object ClavesPrimarias {
 
       //*********************************************************************************************************************************************TAB_00E Maestro Aparatos
 
-            val df_01 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
+            val df_01 = LoadTableCsv.loadTable(TabPaths.TAB_01_10_csv, TabPaths.TAB_01_headers)
             df_01.persist(nivel)
             df_01.createOrReplaceTempView("CurvasCarga")
 

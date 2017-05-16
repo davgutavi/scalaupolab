@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.general
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -385,7 +385,7 @@ object AtributoOrigen {
 //
 //      df_15A.unpersist()
 
-            val df_02 = LoadTable.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers)
+            val df_02 = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers)
       df_02.persist(nivel)
       df_02.createOrReplaceTempView("BitsCalidad")
 

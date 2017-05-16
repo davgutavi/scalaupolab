@@ -19,7 +19,7 @@ object ClientesMcontratosExpedientesCurvasCarga {
 
     TimingUtils.time {
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
       df_05C.persist(nivel)
       println("Número de registros en Clientes = " + df_05C.count())
 //      df_05C.createOrReplaceTempView("clientes")
@@ -30,23 +30,23 @@ object ClientesMcontratosExpedientesCurvasCarga {
       println("Número de registros en Clientes sin Repetición = " + df_05Cs.count())
       df_05Cs.createOrReplaceTempView("clientess")
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
       println("Número de registros en Maestro Contratos = " + df_00C.count())
       df_00C.createOrReplaceTempView("contratos")
 
-      val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+      val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
       println("Número de registros en Expedientes = " + df_16.count())
       df_16.createOrReplaceTempView("expedientes")
 //      df_16.show(10,truncate=false)
 
-      val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
       df_00E.persist(nivel)
       println("Número de registros en Aparatos = " + df_00E.count())
       df_00E.createOrReplaceTempView("aparatos")
 
-      val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10,TabPaths.TAB_01_headers)
+      val df_01_10 = LoadTableCsv.loadTable(TabPaths.TAB_01_10_csv,TabPaths.TAB_01_headers)
       df_01_10.persist(nivel)
       println("Número de registros en Curvas de Carga = " + df_01_10.count())
       df_01_10.createOrReplaceTempView("cargas")

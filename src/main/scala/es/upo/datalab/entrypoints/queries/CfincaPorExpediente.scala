@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.queries
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,11 +19,11 @@ object CfincaPorExpediente {
 
     TimingUtils.time {
 
-      val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+      val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("Expedientes")
 
-      sql("""SELECT cfinca, fapexpd, finifran, ffinfran, fnormali, fciexped FROM Expedientes ORDER BY cfinca""").show(20, false)
+      sql("""SELECT cfinca, fapexpd, finifran, ffinfran, fnormali, fciexped FROM Expedientes ORDER BY cfinca""").show(20, truncate = false)
 
       df_16.unpersist()
 

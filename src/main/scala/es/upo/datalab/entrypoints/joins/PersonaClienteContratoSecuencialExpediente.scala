@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.joins
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,25 +19,25 @@ object PersonaClienteContratoSecuencialExpediente {
 
     TimingUtils.time {
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, true)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, dropDuplicates = true)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+      val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("Expedientes")
 
 
       val q1 = sql("""SELECT cnifdnic, count(DISTINCT ccliente) as sumCliente FROM Clientes GROUP BY cnifdnic HAVING sumCliente > 1 ORDER BY sumCliente DESC """)
       println("Número de ccliente por cada cnifdnif = "+q1.count()+" registros")
-      q1.show(11,false)
+      q1.show(11,truncate = false)
       val q2 = sql("""SELECT DISTINCT cnifdnic, ccliente FROM Clientes WHERE cnifdnic = "A28354520" ORDER BY ccliente""")
       println("ccliente para cnifdnic = A28354520  = "+q2.count()+" registros")
-      q2.show(10,false)
+      q2.show(10,truncate = false)
 
       val maestroContratosClientes = sql(
 
@@ -58,28 +58,28 @@ object PersonaClienteContratoSecuencialExpediente {
 
       val q3 = sql("""SELECT cnifdnic, count(DISTINCT cfinca) as SumCfinca FROM MaestroContratosClientes GROUP BY cnifdnic HAVING SumCfinca > 1 ORDER BY SumCfinca DESC """)
       println("Número de cfinca por cada cnifdnic = "+q3.count()+" registros")
-      q3.show(10,false)
+      q3.show(10,truncate = false)
 
       val q4 = sql("""SELECT DISTINCT cnifdnic, cfinca FROM MaestroContratosClientes WHERE cnifdnic = "P0801900B" ORDER BY cfinca""")
       println("cfinca para cnifdnic = P0801900B  = "+q4.count()+" registros")
-      q4.show(10,false)
+      q4.show(10,truncate = false)
 
 
       val q5 = sql("""SELECT ccliente, count(DISTINCT cfinca) as SumCfinca FROM MaestroContratosClientes GROUP BY ccliente HAVING SumCfinca > 1 ORDER BY SumCfinca DESC """)
       println("cfinca por cada ccliente = "+q5.count()+" registros")
-      q5.show(10,false)
+      q5.show(10,truncate = false)
 
       val q6 = sql("""SELECT DISTINCT ccliente, cfinca FROM MaestroContratosClientes WHERE ccliente = "100403491" ORDER BY cfinca""")
       println("cfinca para ccliente = 100403491 = "+q6.count()+" registros")
-      q6.show(10,false)
+      q6.show(10,truncate = false)
 
       val q7 = sql("""SELECT ccontrat, cnumscct, count(DISTINCT cfinca) as SumCfinca FROM MaestroContratosClientes GROUP BY ccontrat, cnumscct HAVING SumCfinca > 1 ORDER BY SumCfinca DESC """)
       println("cfinca por cada ccontrat y cnumscct = "+q7.count()+" registros")
-      q7.show(10,false)
+      q7.show(10,truncate = false)
 
       val q8 = sql("""SELECT DISTINCT ccontrat, cnumscct, cfinca FROM MaestroContratosClientes WHERE ccontrat = "140050102868" AND cnumscct = "001" ORDER BY cfinca""")
       println("cfinca para ccontrat = 140050102868 y cnumscct = 001 = "+q8.count()+" registros")
-      q8.show(10,false)
+      q8.show(10,truncate = false)
 
       df_05C.unpersist()
       df_00C.unpersist()
@@ -115,13 +115,13 @@ object PersonaClienteContratoSecuencialExpediente {
               """)
 
       println("csecexpe, finifran, ffinfran, fapexpd por cada ccontrat y cnumscct = "+q9.count()+" registros")
-      q9.show(10,false)
+      q9.show(10,truncate = false)
 
       val q10 = sql(
         """SELECT ccontrat, cnumscct, csecexpe, finifran, ffinfran, fapexpd, fciexped  FROM MaestroContratosClientesExpedientes WHERE ccontrat = "380046773806" AND cnumscct = "011" AND
           cfinca ="6173636"""")
       println("csecexpe, finifran, ffinfran, fapexpd para ccontrat = 380046773806 y cnumscct = 011 = "+q10.count()+" registros")
-      q10.show(10,false)
+      q10.show(10,truncate = false)
 
     }
 

@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.general
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -20,15 +20,15 @@ object Cardinalidad {
 
     TimingUtils.time {
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, true)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers, dropDuplicates = true)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+      val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("Expedientes")
 
@@ -72,19 +72,19 @@ object Cardinalidad {
 
       val q1 = sql("""SELECT cnifdnic, COUNT(DISTINCT ccliente) AS sumCliente FROM MaestroContratosClientesExpedientes GROUP BY cnifdnic HAVING sumCliente > 1 ORDER BY sumCliente DESC""")
       print("Cardinalidad Persona - Cliente = "+q1.count()+" registros")
-      q1.show(10,false)
-      sql("""SELECT DISTINCT  cnifdnic,  ccliente FROM MaestroContratosClientesExpedientes WHERE cnifdnic = "A28354520" """).show(20,false)
+      q1.show(10,truncate = false)
+      sql("""SELECT DISTINCT  cnifdnic,  ccliente FROM MaestroContratosClientesExpedientes WHERE cnifdnic = "A28354520" """).show(20,truncate = false)
 
       val q2 = sql(
         """SELECT ccliente, COUNT(DISTINCT ccontrat) AS sumCcontrat, COUNT(DISTINCT cnumscct) AS sumCnumscct FROM MaestroContratosClientesExpedientes
           GROUP BY ccliente HAVING (sumCcontrat > 1 OR sumCnumscct > 1) ORDER BY sumCcontrat DESC, sumCnumscct DESC """)
-      q2.show(10,false)
-      sql("""SELECT DISTINCT ccliente, ccontrat, cnumscct FROM MaestroContratosClientesExpedientes WHERE ccliente = "100403491" """).show(20,false)
+      q2.show(10,truncate = false)
+      sql("""SELECT DISTINCT ccliente, ccontrat, cnumscct FROM MaestroContratosClientesExpedientes WHERE ccliente = "100403491" """).show(20,truncate = false)
 
 
       val q3 = sql("""SELECT ccontrat, COUNT(DISTINCT cfinca) AS sumCfinca FROM MaestroContratosClientesExpedientes GROUP BY ccontrat HAVING sumCfinca > 1 ORDER BY sumCfinca DESC""")
-      q3.show(10,false)
-      sql("""SELECT DISTINCT ccontrat, cfinca FROM MaestroContratosClientesExpedientes WHERE ccontrat = "140051783546" """).show(20,false)
+      q3.show(10,truncate = false)
+      sql("""SELECT DISTINCT ccontrat, cfinca FROM MaestroContratosClientesExpedientes WHERE ccontrat = "140051783546" """).show(20,truncate = false)
 
       println("**************************************************************************************")
 
@@ -95,8 +95,8 @@ object Cardinalidad {
           GROUP BY ccontrat
           HAVING (sumCsecexpe > 1 OR sumFinifran > 1 OR   sumFfinfran > 1 OR sumFapexpd > 1  OR sumFciexped >1  )
         ORDER BY sumCsecexpe DESC, sumFinifran DESC, sumFfinfran DESC, sumFapexpd DESC, sumFciexped DESC""")
-      q4.show(10,false)
-      sql("""SELECT DISTINCT ccontrat, csecexpe,finifran,ffinfran,fapexpd, fciexped FROM MaestroContratosClientesExpedientes WHERE ccontrat = "210018123693" """).show(20,false)
+      q4.show(10,truncate = false)
+      sql("""SELECT DISTINCT ccontrat, csecexpe,finifran,ffinfran,fapexpd, fciexped FROM MaestroContratosClientesExpedientes WHERE ccontrat = "210018123693" """).show(20,truncate = false)
 
 
 

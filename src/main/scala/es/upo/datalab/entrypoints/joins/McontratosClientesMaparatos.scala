@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.joins
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,15 +19,15 @@ object McontratosClientesMaparatos {
 
     TimingUtils.time{
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 
-      val df_00E = LoadTable.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 
@@ -45,7 +45,7 @@ object McontratosClientesMaparatos {
       val maestroContratosRepetidos = maestroContratosClientes.except(maestroContratosClientesS)
 
       println("MaestroContratosClientes ("+maestroContratosRepetidos.count()+" registros que están repetidos)\n")
-      maestroContratosRepetidos.show(20,false)
+      maestroContratosRepetidos.show(20,truncate = false)
 
 
       df_00C.unpersist()
@@ -61,7 +61,7 @@ object McontratosClientesMaparatos {
       println("Diferencia = "+(mcc-mccs))
 
 
-      maestroContratosClientes.show(5,false)
+      maestroContratosClientes.show(5,truncate = false)
 
       val maestroContratosClientesMaestroAparatos = sql(
         """SELECT MaestroContratosClientes.origen, MaestroContratosClientes.cptocred, MaestroContratosClientes.cfinca, MaestroContratosClientes.cptoserv, MaestroContratosClientes.cderind, MaestroContratosClientes.cupsree,
@@ -76,7 +76,7 @@ object McontratosClientesMaparatos {
       val maestroContratosClientesMaestroAparatosS = maestroContratosClientesMaestroAparatos.dropDuplicates()
       val maestroContratosClientesMaestroAparatosRepetidos = maestroContratosClientesMaestroAparatosS.except(maestroContratosClientesMaestroAparatos)
       println("MaestroContratosClientesMaestroAparatos ("+maestroContratosClientesMaestroAparatosRepetidos.count()+" registros que están repetidos)\n")
-      maestroContratosClientesMaestroAparatosRepetidos.show(20,false)
+      maestroContratosClientesMaestroAparatosRepetidos.show(20,truncate = false)
 
       df_00E.unpersist()
       maestroContratosClientes.unpersist()
@@ -93,7 +93,7 @@ object McontratosClientesMaparatos {
       println("MaestroContratosClientesMaestroAparatos ("+mccmas+" registros sin repeticion)\n")
       println("Diferencia = "+(mccma-mccmas))
 
-      maestroContratosClientesMaestroAparatos.show(5,false)
+      maestroContratosClientesMaestroAparatos.show(5,truncate = false)
 
       val sumadorCupsree = sql("""SELECT origen, cupsree2, cpuntmed, ccliente, count(cupsree) AS SumCupsree FROM MaestroContratosClientesAparatos GROUP BY origen, cupsree2, cpuntmed, ccliente""")
 
@@ -103,10 +103,10 @@ object McontratosClientesMaparatos {
       sumadorCupsree.createOrReplaceTempView("SumadorCupsree")
 
       println("\nSumadorCupsree ("+sumadorCupsree.count()+" registros)\n")
-      sumadorCupsree.show(5,false)
+      sumadorCupsree.show(5,truncate = false)
 
 
-      sql ("""SELECT ccliente, SumCupsree FROM SumadorCupsree WHERE SumCupsree > 1""").show(10,false)
+      sql ("""SELECT ccliente, SumCupsree FROM SumadorCupsree WHERE SumCupsree > 1""").show(10,truncate = false)
 
       }
 

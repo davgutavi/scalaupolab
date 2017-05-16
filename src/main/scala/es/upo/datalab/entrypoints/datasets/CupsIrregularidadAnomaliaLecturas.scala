@@ -1,6 +1,6 @@
 package es.upo.datalab.entrypoints.datasets
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities._
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,19 +19,19 @@ object CupsIrregularidadAnomaliaLecturas {
 
     TimingUtils.time {
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB_00C)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+      val df_16 = LoadTableParquet.loadTable(TabPaths.TAB_16)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("Expedientes")
 
-      val df_00E = LoadTable.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableParquet.loadTable(TabPaths.TAB_00E)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 
-      val df_01_10 = LoadTable.loadTable(TabPaths.TAB_01_10, TabPaths.TAB_01_headers)
+      val df_01_10 = LoadTableParquet.loadTable(TabPaths.TAB_01)
       df_01_10.persist(nivel)
       df_01_10.createOrReplaceTempView("CurvasCarga")
 
@@ -192,9 +192,9 @@ object CupsIrregularidadAnomaliaLecturas {
       val i = datasetLecturasIrregularidad.count()
 
       println("Registros irregularidad con duplicados = "+iaux)
-      datasetLecturasIrregularidad_aux.show(10,truncate =false)
+//      datasetLecturasIrregularidad_aux.show(10,truncate =false)
       println("Registros irregularidad sin duplicados = "+i)
-      datasetLecturasIrregularidad.show(10,truncate=false)
+//      datasetLecturasIrregularidad.show(10,truncate=false)
       println("Diferencia = "+(iaux-i))
 
       val datasetLecturasAnomalia_aux = maestroContratosExpedientesMaestroAparatosCurvasCargaAnomalia.select(
@@ -237,16 +237,20 @@ object CupsIrregularidadAnomaliaLecturas {
       val an = datasetLecturasAnomalia.count()
 
 
-      println("Registros irregularidad con duplicados = "+anaux)
-      datasetLecturasAnomalia_aux.show(10,truncate = false)
-      println("Registros irregularidad sin duplicados = "+an)
-      datasetLecturasAnomalia.show(10,truncate=false)
+      println("Registros anomalía con duplicados = "+anaux)
+//      datasetLecturasAnomalia_aux.show(10,truncate = false)
+      println("Registros anomalía sin duplicados = "+an)
+//      datasetLecturasAnomalia.show(10,truncate=false)
       println("Diferencia = "+(anaux-an))
 
 
+      println("Parquet")
+      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasIrregularidad")
+      datasetLecturasAnomalia.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasAnomalia")
 
-      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").save(TabPaths.root+"datasets/lecturasIrregularidad")
-      datasetLecturasAnomalia.coalesce(1).write.option("header","true").save(TabPaths.root+"datasets/lecturasAnomalia")
+      println("Csv")
+      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasIrregularidad")
+      datasetLecturasAnomalia.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasAnomalia")
 
       println("DONE!")
 

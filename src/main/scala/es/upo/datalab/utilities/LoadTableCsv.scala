@@ -3,6 +3,7 @@ package es.upo.datalab.utilities
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types._
 
+import scala.collection.mutable
 import scala.collection.mutable.ArrayBuilder
 
 
@@ -10,7 +11,7 @@ import scala.collection.mutable.ArrayBuilder
 /**
   * Created by davgutavi on 15/03/17.
   */
-object LoadTable {
+object LoadTableCsv {
 
   final val datePattern = "yyyyMMdd"
   final val dateTimePattern = "yyyy-MM-dd HH:mm:ss"
@@ -31,8 +32,8 @@ object LoadTable {
 
       val f = StructField(values(0).trim, getType(t), values(2).trim.toBoolean)
 
-      if      (t == "date") pattern  = datePattern
-      else if (t=="datetime") pattern = dateTimePattern
+      if (t == "date") pattern = datePattern
+      else if (t == "datetime") pattern = dateTimePattern
 
       fields += f
 
@@ -43,21 +44,22 @@ object LoadTable {
     val customSchema = StructType(schema)
 
     val loader = SparkSessionUtils.sparkSession.read
-      .option("delimiter",";")
+      .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
-      .option("ignoreTrailingWhiteSpace","true")
+      .option("ignoreTrailingWhiteSpace", "true")
       .schema(customSchema)
 
-    if (!(pattern=="")){
-      loader.option("dateFormat",pattern)
+    if (!(pattern == "")) {
+      loader.option("dateFormat", pattern)
     }
 
-//    println(pathToData)
+    //    println(pathToData)
+
     val data = loader.csv(pathToData)
 
     var r:DataFrame = null
 
-    if (dropDuplicates==true){
+    if (dropDuplicates){
       r = data.dropDuplicates()
     }
     else{

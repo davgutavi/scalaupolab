@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.general
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -59,12 +59,12 @@ object ContadorRegistros {
 //      df_01s.show(20,false)
 //      println("Diferencia = " + (c01 - c01s) + "\n")
 
-      val df_02 = LoadTable.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers)
-      val df_02s = LoadTable.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers,true)
+      val df_02 = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers)
+      val df_02s = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers,dropDuplicates = true)
       val c02 = df_02.count()
       val c02s = df_02s.count()
-      df_02.show(40,false)
-      df_02s.show(20,false)
+      df_02.show(40,truncate = false)
+      df_02s.show(20,truncate = false)
       println("Número de registros en Bits de Calidad = " + c02)
       println("Número de registros en Bits de Calisdad sin Repetición = " + c02s)
       println("Diferencia = " + (c02 - c02s) + "\n")

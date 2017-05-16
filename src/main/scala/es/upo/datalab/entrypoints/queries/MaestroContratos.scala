@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.queries
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,7 +19,7 @@ object MaestroContratos {
 
     TimingUtils.time {
 
-      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
@@ -60,12 +60,12 @@ object MaestroContratos {
                             ORDER BY ccontrat, cnumscct
                              """)
 
-      q7.show(20, false)
+      q7.show(20, truncate = false)
       val q7c = q7.count()
 
       val q7s = q7.dropDuplicates()
 
-      q7s.show(20, false)
+      q7s.show(20, truncate = false)
       val q7sc = q7s.count()
 
       println("q7 = " + q7c + " registros")

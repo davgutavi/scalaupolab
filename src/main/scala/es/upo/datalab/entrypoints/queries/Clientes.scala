@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.queries
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -20,7 +20,7 @@ object Clientes {
 
     TimingUtils.time {
 
-      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers,true)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers,dropDuplicates = true)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 

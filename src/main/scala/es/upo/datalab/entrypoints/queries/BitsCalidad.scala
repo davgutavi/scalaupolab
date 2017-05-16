@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.queries
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,7 +19,7 @@ object BitsCalidad {
 
     TimingUtils.time {
 
-      val df_02 = LoadTable.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers, true)
+      val df_02 = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers, dropDuplicates = true)
       df_02.persist(nivel)
       df_02.createOrReplaceTempView("BitsCalidad")
 
@@ -37,7 +37,7 @@ object BitsCalidad {
 
       sql("""SELECT * FROM BitsCalidad
              WHERE cpuntmed = "CAM638390800100" AND flectreg = "2011-04-01" AND vsecccar = '01' AND hora = '000002'
-          """).show(100,false)
+          """).show(100,truncate = false)
 
     }
 

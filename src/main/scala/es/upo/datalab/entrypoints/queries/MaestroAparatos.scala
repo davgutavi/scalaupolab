@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.queries
 
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,7 +19,7 @@ object MaestroAparatos {
 
     TimingUtils.time {
 
-      val df_00E = LoadTable.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 
@@ -33,7 +33,7 @@ object MaestroAparatos {
                          ORDER BY cupsree
                      """)
 
-      q1.show(30, false)
+      q1.show(30, truncate = false)
 
 
 //                sql("""SELECT *

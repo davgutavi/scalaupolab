@@ -1,6 +1,6 @@
 package es.upo.datalab.entrypoints.queries
 
-import es.upo.datalab.utilities.{LoadTable, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -19,7 +19,7 @@ object CuentaClientes {
     TimingUtils.time {
 
 
-          val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
+          val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
           df_05C.persist(nivel)
           df_05C.createOrReplaceTempView("Clientes")
 
@@ -27,7 +27,7 @@ object CuentaClientes {
           contadorClientes.persist(nivel)
           contadorClientes.createOrReplaceTempView("contadorClientes")
 
-          sql("""SELECT * FROM ContadorClientes  WHERE sumatorio > 1""").show(8,false)
+          sql("""SELECT * FROM ContadorClientes  WHERE sumatorio > 1""").show(8,truncate = false)
 
           df_05C.unpersist()
 
