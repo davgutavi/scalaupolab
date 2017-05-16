@@ -199,6 +199,10 @@ object CupsNormalLecturas {
 
       lecturasNormal_aux.unpersist()
 
+
+      lecturasNormal.show(10,truncate = false)
+
+
       println("Guardando Parquet")
       lecturasNormal.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasNormal")
 
