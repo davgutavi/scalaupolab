@@ -53,14 +53,15 @@ object CupsNormalLecturas {
       maestroContratosMaestroAparatos.persist(nivel)
       maestroContratosMaestroAparatos.createOrReplaceTempView("mCmA")
       println ("Join Maestro Contratos - Maestro Aparatos = "+maestroContratosMaestroAparatos.count()+" registros")
-      maestroContratosMaestroAparatos.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatos")
-      maestroContratosMaestroAparatos.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatos")
-      println("Join Maestro Contratos - Maestro Aparatos almacenado")
+//      maestroContratosMaestroAparatos.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatos")
+//      println("Join Maestro Contratos - Maestro Aparatos almacenado en parquet")
+//      maestroContratosMaestroAparatos.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatos")
+//      println("Join Maestro Contratos - Maestro Aparatos almacenado en csv")
 
 
       val maestroContratosMaestroAparatosCurvasCarga = sql(
         """SELECT mCmA.origen, mCmA.cptocred, mCmA.cfinca, mCmA.cptoserv, mCmA.cderind, mCmA.cupsree, mCmA.ccounips,mCmA.cupsree2,mCmA.cpuntmed, mCmA.tpuntmed, mCmA.vparsist, mCmA.cemptitu,
-                  mCmA.ccontrat, mCmA.cnumscct, mCmA.fpsercon, mCmA.ffinvesu, mCmA.csecptom, mCmA.fvigorpm, mCmA.fbajapm,mCmA.caparmed
+                  mCmA.ccontrat, mCmA.cnumscct, mCmA.fpsercon, mCmA.ffinvesu, mCmA.csecptom, mCmA.fvigorpm, mCmA.fbajapm,mCmA.caparmed,
                   CurvasCarga.flectreg, CurvasCarga.testcaco, CurvasCarga.obiscode, CurvasCarga.vsecccar,
                   CurvasCarga.hora_01, CurvasCarga.1q_consumo_01, CurvasCarga.2q_consumo_01, CurvasCarga.3q_consumo_01, CurvasCarga.4q_consumo_01,CurvasCarga.substatus_01,CurvasCarga.testmenn_01,CurvasCarga.testmecnn_01,
                   CurvasCarga.hora_02, CurvasCarga.1q_consumo_02, CurvasCarga.2q_consumo_02, CurvasCarga.3q_consumo_02, CurvasCarga.4q_consumo_02,CurvasCarga.substatus_02,CurvasCarga.testmenn_02,CurvasCarga.testmecnn_02,
@@ -98,8 +99,9 @@ object CupsNormalLecturas {
       maestroContratosMaestroAparatosCurvasCarga.createOrReplaceTempView("mCmAcC")
       println ("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga = "+maestroContratosMaestroAparatosCurvasCarga.count()+" registros")
       maestroContratosMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatosCurvasCarga")
+      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado en parquet")
       maestroContratosMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatosCurvasCarga")
-      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado")
+      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado en csv")
 
 
       val maestroContratosMaestroAparatosCurvasCargaExpedientesNormal = sql(
@@ -147,8 +149,9 @@ object CupsNormalLecturas {
       maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.persist(nivel)
       println ("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) = "+maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.count()+" registros")
       maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatosCurvasCargaSinExpedientes")
+      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado en parquet")
       maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatosCurvasCargaSinExpedientes")
-      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado")
+      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado en csv")
 
 
 
