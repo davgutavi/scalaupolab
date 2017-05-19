@@ -97,6 +97,14 @@ object TabPaths {
   final val maestroContratosMaestroAparatos = prefix_05+"MaestroContratosMaestroAparatos"
   final val naestroContratosMaestroAparatos_csv = prefix_06+"MaestroContratosMaestroAparatos"
 
+  final val maestroContratosExpedientes_fechas = prefix_05+"MaestroContratosExpedientes_fechas"
+  final val maestroContratosExpedientes_fechas_csv = prefix_06+"MaestroContratosExpedientes_fechas"
+
+  final val maestroContratosExpedientesMaestroAparatosCurvasCarga_fechas = prefix_05+"MaestroContratosExpedientesMaestroAparatosCurvasCarga_fechas"
+  final val maestroContratosExpedientesMaestroAparatosCurvasCarga_fechas_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatosCurvasCarga_fechas"
+
+
+
   //*********************************************************************************DATASETS
 
   final val cupsAnomalia = prefix_03+"cupsAnomalia"

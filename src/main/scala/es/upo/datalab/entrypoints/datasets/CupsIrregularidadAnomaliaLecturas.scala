@@ -36,22 +36,45 @@ object CupsIrregularidadAnomaliaLecturas {
       df_01_10.createOrReplaceTempView("CurvasCarga")
 
 
-      val maestroContratosExpedientes = sql(
-        """
-          SELECT MaestroContratos.origen, MaestroContratos.cptocred, MaestroContratos.cfinca, MaestroContratos.cptoserv, MaestroContratos.cderind, MaestroContratos.cupsree,
-                 MaestroContratos.ccounips,MaestroContratos.cupsree2,MaestroContratos.cpuntmed, MaestroContratos.tpuntmed, MaestroContratos.vparsist, MaestroContratos.cemptitu,
-                 MaestroContratos.ccontrat, MaestroContratos.cnumscct, MaestroContratos.fpsercon, MaestroContratos.ffinvesu,Expedientes.csecexpe, Expedientes.fapexpd,
-                 Expedientes.finifran, Expedientes.ffinfran, Expedientes.anomalia, Expedientes.irregularidad, Expedientes.venacord, Expedientes.vennofai, Expedientes.torigexp,
-                 Expedientes.texpedie, Expedientes.expclass, Expedientes.testexpe, Expedientes.fnormali, Expedientes.cplan, Expedientes.ccampa, Expedientes.cempresa, Expedientes.fciexped
-                 FROM MaestroContratos JOIN Expedientes
-                 ON MaestroContratos.origen=Expedientes.origen AND MaestroContratos.cemptitu=Expedientes.cemptitu AND
-                 MaestroContratos.cfinca=Expedientes.cfinca AND MaestroContratos.cptoserv=Expedientes.cptoserv
-        """
-      )
+//      val maestroContratosExpedientes = sql(
+//        """
+//          SELECT MaestroContratos.origen, MaestroContratos.cptocred, MaestroContratos.cfinca, MaestroContratos.cptoserv, MaestroContratos.cderind, MaestroContratos.cupsree,
+//                 MaestroContratos.ccounips,MaestroContratos.cupsree2,MaestroContratos.cpuntmed, MaestroContratos.tpuntmed, MaestroContratos.vparsist, MaestroContratos.cemptitu,
+//                 MaestroContratos.ccontrat, MaestroContratos.cnumscct, MaestroContratos.fpsercon, MaestroContratos.ffinvesu,Expedientes.csecexpe, Expedientes.fapexpd,
+//                 Expedientes.finifran, Expedientes.ffinfran, Expedientes.anomalia, Expedientes.irregularidad, Expedientes.venacord, Expedientes.vennofai, Expedientes.torigexp,
+//                 Expedientes.texpedie, Expedientes.expclass, Expedientes.testexpe, Expedientes.fnormali, Expedientes.cplan, Expedientes.ccampa, Expedientes.cempresa, Expedientes.fciexped
+//                 FROM MaestroContratos JOIN Expedientes
+//                 ON MaestroContratos.origen=Expedientes.origen AND MaestroContratos.cemptitu=Expedientes.cemptitu AND
+//                     MaestroContratos.cfinca=Expedientes.cfinca AND MaestroContratos.cptoserv=Expedientes.cptoserv
+//        """
+//      )
 
-      df_00C.unpersist()
-      df_16.unpersist()
+      val maestroContratosExpedientes = LoadTableParquet.loadTable(TabPaths.maestroContratosExpedientes)
 
+//      val maestroContratosExpedientes = sql(
+//        """
+//          SELECT MaestroContratos.origen, MaestroContratos.cptocred, MaestroContratos.cfinca, MaestroContratos.cptoserv, MaestroContratos.cderind, MaestroContratos.cupsree,
+//                 MaestroContratos.ccounips,MaestroContratos.cupsree2,MaestroContratos.cpuntmed, MaestroContratos.tpuntmed, MaestroContratos.vparsist, MaestroContratos.cemptitu,
+//                 MaestroContratos.ccontrat, MaestroContratos.cnumscct, MaestroContratos.fpsercon, MaestroContratos.ffinvesu,Expedientes.csecexpe, Expedientes.fapexpd,
+//                 Expedientes.finifran, Expedientes.ffinfran, Expedientes.anomalia, Expedientes.irregularidad, Expedientes.venacord, Expedientes.vennofai, Expedientes.torigexp,
+//                 Expedientes.texpedie, Expedientes.expclass, Expedientes.testexpe, Expedientes.fnormali, Expedientes.cplan, Expedientes.ccampa, Expedientes.cempresa, Expedientes.fciexped
+//                 FROM MaestroContratos JOIN Expedientes
+//                 ON MaestroContratos.origen=Expedientes.origen AND MaestroContratos.cfinca=Expedientes.cfinca AND
+//                    MaestroContratos.cptoserv=Expedientes.cptoserv AND MaestroContratos.cderind=Expedientes.cderind AND
+//                    Expedientes.fapexpd <= MaestroContratos.fpsercon AND Expedientes.fapexpd >= MaestroContratos.ffinvesu
+//        """
+//      )
+//
+//      df_00C.unpersist()
+//      df_16.unpersist()
+//
+//      maestroContratosExpedientes.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosExpedientes_fechas")
+//            println("maestroContratosExpedientes_fechas almacenado en parquet")
+//      maestroContratosExpedientes.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosExpedientes_fechas")
+//            println("maestroContratosExpedientes_fechas almacenado en csv")
+//
+//
+//
       maestroContratosExpedientes.persist(nivel)
       maestroContratosExpedientes.createOrReplaceTempView("mCe")
 
@@ -68,40 +91,14 @@ object CupsIrregularidadAnomaliaLecturas {
       df_00E.unpersist()
       maestroContratosExpedientes.unpersist()
 
+      maestroContratosExpedientesMaestroAparatos.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosExpedientesMaestroAparatos")
+                  println("maestroContratosExpedientesMaestroAparatos almacenado en parquet")
+      maestroContratosExpedientesMaestroAparatos.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosExpedientesMaestroAparatos")
+                  println("maestroContratosExpedientesMaestroAparatos almacenado en csv")
+
 
       maestroContratosExpedientesMaestroAparatos.persist(nivel)
       maestroContratosExpedientesMaestroAparatos.createOrReplaceTempView("mCeMa")
-
-
-
-      //      CurvasCarga.flectreg, CurvasCarga.testcaco, CurvasCarga.obiscode, CurvasCarga.vsecccar,
-      //      CurvasCarga.hora_01, CurvasCarga.1q_consumo_01, CurvasCarga.2q_consumo_01, CurvasCarga.3q_consumo_01, CurvasCarga.4q_consumo_01,CurvasCarga.substatus_01,CurvasCarga.testmenn_01,CurvasCarga.testmecnn_01,
-      //      CurvasCarga.hora_02, CurvasCarga.1q_consumo_02, CurvasCarga.2q_consumo_02, CurvasCarga.3q_consumo_02, CurvasCarga.4q_consumo_02,CurvasCarga.substatus_02,CurvasCarga.testmenn_02,CurvasCarga.testmecnn_02,
-      //      CurvasCarga.hora_03, CurvasCarga.1q_consumo_03, CurvasCarga.2q_consumo_03, CurvasCarga.3q_consumo_03, CurvasCarga.4q_consumo_03,CurvasCarga.substatus_03,CurvasCarga.testmenn_03,CurvasCarga.testmecnn_03,
-      //      CurvasCarga.hora_04, CurvasCarga.1q_consumo_04, CurvasCarga.2q_consumo_04, CurvasCarga.3q_consumo_04, CurvasCarga.4q_consumo_04,CurvasCarga.substatus_04,CurvasCarga.testmenn_04,CurvasCarga.testmecnn_04,
-      //      CurvasCarga.hora_05, CurvasCarga.1q_consumo_05, CurvasCarga.2q_consumo_05, CurvasCarga.3q_consumo_05, CurvasCarga.4q_consumo_05,CurvasCarga.substatus_05,CurvasCarga.testmenn_05,CurvasCarga.testmecnn_05,
-      //      CurvasCarga.hora_06, CurvasCarga.1q_consumo_06, CurvasCarga.2q_consumo_06, CurvasCarga.3q_consumo_06, CurvasCarga.4q_consumo_06,CurvasCarga.substatus_06,CurvasCarga.testmenn_06,CurvasCarga.testmecnn_06,
-      //      CurvasCarga.hora_07, CurvasCarga.1q_consumo_07, CurvasCarga.2q_consumo_07, CurvasCarga.3q_consumo_07, CurvasCarga.4q_consumo_07,CurvasCarga.substatus_07,CurvasCarga.testmenn_07,CurvasCarga.testmecnn_07,
-      //      CurvasCarga.hora_08, CurvasCarga.1q_consumo_08, CurvasCarga.2q_consumo_08, CurvasCarga.3q_consumo_08, CurvasCarga.4q_consumo_08,CurvasCarga.substatus_08,CurvasCarga.testmenn_08,CurvasCarga.testmecnn_08,
-      //      CurvasCarga.hora_09, CurvasCarga.1q_consumo_09, CurvasCarga.2q_consumo_09, CurvasCarga.3q_consumo_09, CurvasCarga.4q_consumo_09,CurvasCarga.substatus_09,CurvasCarga.testmenn_09,CurvasCarga.testmecnn_09,
-      //      CurvasCarga.hora_10, CurvasCarga.1q_consumo_10, CurvasCarga.2q_consumo_10, CurvasCarga.3q_consumo_10, CurvasCarga.4q_consumo_10,CurvasCarga.substatus_10,CurvasCarga.testmenn_10,CurvasCarga.testmecnn_10,
-      //      CurvasCarga.hora_11, CurvasCarga.1q_consumo_11, CurvasCarga.2q_consumo_11, CurvasCarga.3q_consumo_11, CurvasCarga.4q_consumo_11,CurvasCarga.substatus_11,CurvasCarga.testmenn_11,CurvasCarga.testmecnn_11,
-      //      CurvasCarga.hora_12, CurvasCarga.1q_consumo_12, CurvasCarga.2q_consumo_12, CurvasCarga.3q_consumo_12, CurvasCarga.4q_consumo_12,CurvasCarga.substatus_12,CurvasCarga.testmenn_12,CurvasCarga.testmecnn_12,
-      //      CurvasCarga.hora_13, CurvasCarga.1q_consumo_13, CurvasCarga.2q_consumo_13, CurvasCarga.3q_consumo_13, CurvasCarga.4q_consumo_13,CurvasCarga.substatus_13,CurvasCarga.testmenn_13,CurvasCarga.testmecnn_13,
-      //      CurvasCarga.hora_14, CurvasCarga.1q_consumo_14, CurvasCarga.2q_consumo_14, CurvasCarga.3q_consumo_14, CurvasCarga.4q_consumo_14,CurvasCarga.substatus_14,CurvasCarga.testmenn_14,CurvasCarga.testmecnn_14,
-      //      CurvasCarga.hora_15, CurvasCarga.1q_consumo_15, CurvasCarga.2q_consumo_15, CurvasCarga.3q_consumo_15, CurvasCarga.4q_consumo_15, CurvasCarga.substatus_15, CurvasCarga.testmenn_15, CurvasCarga.testmecnn_15,
-      //      CurvasCarga.hora_16, CurvasCarga.1q_consumo_16, CurvasCarga.2q_consumo_16, CurvasCarga.3q_consumo_16, CurvasCarga.4q_consumo_16, CurvasCarga.substatus_16, CurvasCarga.testmenn_16, CurvasCarga.testmecnn_16,
-      //      CurvasCarga.hora_17, CurvasCarga.1q_consumo_17, CurvasCarga.2q_consumo_17, CurvasCarga.3q_consumo_17, CurvasCarga.4q_consumo_17, CurvasCarga.substatus_17, CurvasCarga.testmenn_17, CurvasCarga.testmecnn_17,
-      //      CurvasCarga.hora_18, CurvasCarga.1q_consumo_18, CurvasCarga.2q_consumo_18, CurvasCarga.3q_consumo_18, CurvasCarga.4q_consumo_18, CurvasCarga.substatus_18, CurvasCarga.testmenn_18, CurvasCarga.testmecnn_18,
-      //      CurvasCarga.hora_19, CurvasCarga.1q_consumo_19, CurvasCarga.2q_consumo_19, CurvasCarga.3q_consumo_19, CurvasCarga.4q_consumo_19, CurvasCarga.substatus_19, CurvasCarga.testmenn_19, CurvasCarga.testmecnn_19,
-      //      CurvasCarga.hora_20, CurvasCarga.1q_consumo_20, CurvasCarga.2q_consumo_20, CurvasCarga.3q_consumo_20, CurvasCarga.4q_consumo_20, CurvasCarga.substatus_20, CurvasCarga.testmenn_20, CurvasCarga.testmecnn_20,
-      //      CurvasCarga.hora_21, CurvasCarga.1q_consumo_21, CurvasCarga.2q_consumo_21, CurvasCarga.3q_consumo_21, CurvasCarga.4q_consumo_21, CurvasCarga.substatus_21, CurvasCarga.testmenn_21, CurvasCarga.testmecnn_21,
-      //      CurvasCarga.hora_22, CurvasCarga.1q_consumo_22, CurvasCarga.2q_consumo_22, CurvasCarga.3q_consumo_22, CurvasCarga.4q_consumo_22, CurvasCarga.substatus_22, CurvasCarga.testmenn_22, CurvasCarga.testmecnn_22,
-      //      CurvasCarga.hora_23, CurvasCarga.1q_consumo_23, CurvasCarga.2q_consumo_23, CurvasCarga.3q_consumo_23, CurvasCarga.4q_consumo_23, CurvasCarga.substatus_23, CurvasCarga.testmenn_23, CurvasCarga.testmecnn_23,
-      //      CurvasCarga.hora_24, CurvasCarga.1q_consumo_24, CurvasCarga.2q_consumo_24, CurvasCarga.3q_consumo_24, CurvasCarga.4q_consumo_24, CurvasCarga.substatus_24, CurvasCarga.testmenn_24, CurvasCarga.testmecnn_24,
-      //      CurvasCarga.hora_25, CurvasCarga.1q_consumo_25, CurvasCarga.2q_consumo_25, CurvasCarga.3q_consumo_25, CurvasCarga.4q_consumo_25, CurvasCarga.substatus_25, CurvasCarga.testmenn_25, CurvasCarga.testmecnn_25
-
-
 
       val maestroContratosExpedientesMaestroAparatosCurvasCarga = sql(
         """SELECT mCeMa.origen, mCeMa.cptocred, mCeMa.cfinca, mCeMa.cptoserv, mCeMa.cderind, mCeMa.cupsree, mCeMa.ccounips, mCeMa.cupsree2,mCeMa.cpuntmed, mCeMa.tpuntmed, mCeMa.vparsist,
@@ -143,10 +140,24 @@ object CupsIrregularidadAnomaliaLecturas {
       df_01_10.unpersist()
 
 
-      val maestroContratosExpedientesMaestroAparatosCurvasCargaIrregularidad = maestroContratosExpedientesMaestroAparatosCurvasCarga.where("irregularidad='S'")
+      maestroContratosExpedientesMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosExpedientesMaestroAparatosCurvasCarga")
+      println("maestroContratosExpedientesMaestroAparatosCurvasCargas almacenado en parquet")
+      maestroContratosExpedientesMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosExpedientesMaestroAparatosCurvasCarga")
+      println("maestroContratosExpedientesMaestroAparatosCurvasCarga almacenado en csv")
+
+
+
+//      val maestroContratosExpedientesMaestroAparatosCurvasCarga = LoadTableParquet.loadTable(TabPaths.maestroContratosExpedientesMaestroAparatosCurvasCarga_fechas)
+      maestroContratosExpedientesMaestroAparatosCurvasCarga.persist(nivel)
+
+      val maestroContratosExpedientesMaestroAparatosCurvasCargaIrregularidad =
+        maestroContratosExpedientesMaestroAparatosCurvasCarga.where("irregularidad='S' AND obiscode = 'A' AND testcaco = 'R' AND (flectreg BETWEEN add_months(fapexpd,-6) AND fapexpd) AND (flectreg BETWEEN fpsercon AND ffinvesu)")
+//      maestroContratosExpedientesMaestroAparatosCurvasCarga.where("irregularidad='S' AND obiscode = 'A' AND testcaco = 'R' AND flectreg BETWEEN add_months(fapexpd,-6) AND fapexpd")
       println("Maestro Contratos - Expedientes - Maestro Aparatos - Curvas de Carga con irregularidad = " + maestroContratosExpedientesMaestroAparatosCurvasCargaIrregularidad.count() + " registros")
 
-      val maestroContratosExpedientesMaestroAparatosCurvasCargaAnomalia = maestroContratosExpedientesMaestroAparatosCurvasCarga.where("anomalia='S'")
+      val maestroContratosExpedientesMaestroAparatosCurvasCargaAnomalia =
+        maestroContratosExpedientesMaestroAparatosCurvasCarga.where("anomalia='S'AND obiscode = 'A' AND testcaco = 'R' AND (flectreg BETWEEN add_months(fapexpd,-6) AND fapexpd) AND (flectreg BETWEEN fpsercon AND ffinvesu)")
+//      maestroContratosExpedientesMaestroAparatosCurvasCarga.where("anomalia='S'AND obiscode = 'A' AND testcaco = 'R' AND flectreg BETWEEN add_months(fapexpd,-6) AND fapexpd")
       println("Maestro Contratos - Expedientes - Maestro Aparatos - Curvas de Carga con anomalía = " + maestroContratosExpedientesMaestroAparatosCurvasCargaAnomalia.count() + " registros")
 
 
@@ -154,8 +165,8 @@ object CupsIrregularidadAnomaliaLecturas {
 
 
       val datasetLecturasIrregularidad_aux = maestroContratosExpedientesMaestroAparatosCurvasCargaIrregularidad.select(
-        "cupsree","ccontrat",
-        "finifran", "ffinfran", "fapexpd", "fciexped",
+        "cupsree","cpuntmed","ccontrat","cnumscct",
+        "fpsercon", "ffinvesu", "fapexpd", "fciexped",
         "flectreg", "testcaco", "obiscode", "vsecccar",
         "hora_01","1q_consumo_01", "2q_consumo_01", "3q_consumo_01","4q_consumo_01","substatus_01","testmenn_01","testmecnn_01",
         "hora_02","1q_consumo_02", "2q_consumo_02", "3q_consumo_02","4q_consumo_02","substatus_02","testmenn_02","testmecnn_02",
@@ -191,15 +202,15 @@ object CupsIrregularidadAnomaliaLecturas {
       val datasetLecturasIrregularidad = datasetLecturasIrregularidad_aux.dropDuplicates()
       val i = datasetLecturasIrregularidad.count()
 
-      println("Registros irregularidad con duplicados = "+iaux)
+      println("Dataset Lecturas Irregularidad con duplicados = "+iaux)
 //      datasetLecturasIrregularidad_aux.show(10,truncate =false)
-      println("Registros irregularidad sin duplicados = "+i)
+      println("Dataset Lecturas Irregularidad  sin duplicados = "+i)
 //      datasetLecturasIrregularidad.show(10,truncate=false)
       println("Diferencia = "+(iaux-i))
 
       val datasetLecturasAnomalia_aux = maestroContratosExpedientesMaestroAparatosCurvasCargaAnomalia.select(
-        "cupsree","ccontrat",
-        "finifran", "ffinfran", "fapexpd", "fciexped",
+        "cupsree","cpuntmed","ccontrat","cnumscct",
+        "fpsercon", "ffinvesu", "fapexpd", "fciexped",
         "flectreg", "testcaco", "obiscode", "vsecccar",
         "hora_01","1q_consumo_01", "2q_consumo_01", "3q_consumo_01","4q_consumo_01","substatus_01","testmenn_01","testmecnn_01",
         "hora_02","1q_consumo_02", "2q_consumo_02", "3q_consumo_02","4q_consumo_02","substatus_02","testmenn_02","testmecnn_02",
@@ -237,20 +248,20 @@ object CupsIrregularidadAnomaliaLecturas {
       val an = datasetLecturasAnomalia.count()
 
 
-      println("Registros anomalía con duplicados = "+anaux)
+      println("Dataset Lecturas Annomalia con duplicados = "+anaux)
 //      datasetLecturasAnomalia_aux.show(10,truncate = false)
-      println("Registros anomalía sin duplicados = "+an)
+      println("Dataset Lecturas Annomalia sin duplicados = "+an)
 //      datasetLecturasAnomalia.show(10,truncate=false)
       println("Diferencia = "+(anaux-an))
 
 
-      println("Parquet")
-      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasIrregularidad")
-      datasetLecturasAnomalia.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasAnomalia")
-
-      println("Csv")
-      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasIrregularidad")
-      datasetLecturasAnomalia.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasAnomalia")
+//      println("Parquet")
+//      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasIrregularidad")
+//      datasetLecturasAnomalia.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasAnomalia")
+//
+//      println("Csv")
+//      datasetLecturasIrregularidad.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasIrregularidad")
+//      datasetLecturasAnomalia.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasAnomalia")
 
       println("DONE!")
 

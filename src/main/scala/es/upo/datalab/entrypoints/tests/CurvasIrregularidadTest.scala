@@ -18,37 +18,68 @@ object CurvasIrregularidadTest {
 
     TimingUtils.time {
 
-      val jL_aux = SparkSessionUtils.sparkSession.read.option("header","true").csv("/mnt/datos/recursos/ENDESA/datasets/curvas_irregularidad.csv")
+//      val jL_aux = SparkSessionUtils.sparkSession.read.option("header","true").csv("/mnt/datos/recursos/ENDESA/datasets/curvas_irregularidad.csv")
+
+      val jLGr_aux = SparkSessionUtils.sparkSession.read.load("/mnt/datos/recursos/ENDESA/datasets/ds_curvas.parquet")
+
+      jLGr_aux.persist()
+
+      jLGr_aux.show(10,truncate = false)
+
+      val jLGr = jLGr_aux.dropDuplicates()
+
+      val c = jLGr_aux.count()
+      val s = jLGr.count()
+
+      println("jLGr_aux (con duplicados) = "+c+" registros")
+      println("jLGr = "+s+" registros")
+      println("Diferencia = "+(c-s)+" registros")
+
+
+      val dGa = LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad)
 
 
 
-      val jL = jL_aux.drop("ORIGEN","CPUNTMED","IRR_CNUMSCCT","IRR_CPUNTMED").dropDuplicates()
 
-      val jlc = jL.count()
+      dGa.show(10,truncate = false)
 
-      jL.show(5,truncate = false)
 
-      val dGa_aux = SparkSessionUtils.sparkSession.read.load(TabPaths.lecturasIrregularidad)
 
-      val dGa = dGa_aux.drop("ffinfran","fciexped").dropDuplicates()
 
-      dGa.createOrReplaceTempView("LI")
 
-//      dGa.show(5,truncate = false)
 
-      val q1 = sql(
-        """
-            SELECT * FROM LI
-            WHERE obiscode = 'A' AND testcaco = 'R' AND (flectreg BETWEEN add_months(fapexpd,-6) AND fapexpd)
-        """)
 
-      val q1c = q1.count()
 
-      q1.show(5, truncate = false)
 
-      println("Registros JL = "+jlc)
-      println("Registros DGA = "+q1c)
-      println("Diferencia = "+(jlc-q1c))
+
+
+//      val jL = jL_aux.drop("ORIGEN","CPUNTMED","IRR_CNUMSCCT","IRR_CPUNTMED").dropDuplicates()
+//
+//      val jlc = jL.count()
+//
+//      jL.show(5,truncate = false)
+//
+//      val dGa_aux = SparkSessionUtils.sparkSession.read.load(TabPaths.lecturasIrregularidad)
+//
+//      val dGa = dGa_aux.drop("ffinfran","fciexped").dropDuplicates()
+//
+//      dGa.createOrReplaceTempView("LI")
+//
+////      dGa.show(5,truncate = false)
+//
+//      val q1 = sql(
+//        """
+//            SELECT * FROM LI
+//            WHERE obiscode = 'A' AND testcaco = 'R' AND (flectreg BETWEEN add_months(fapexpd,-6) AND fapexpd)
+//        """)
+//
+//      val q1c = q1.count()
+//
+//      q1.show(5, truncate = false)
+//
+//      println("Registros JL = "+jlc)
+//      println("Registros DGA = "+q1c)
+//      println("Diferencia = "+(jlc-q1c))
 
 
 

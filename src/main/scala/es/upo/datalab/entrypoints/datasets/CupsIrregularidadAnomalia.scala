@@ -26,9 +26,11 @@ object CupsIrregularidadAnomalia {
             val cupsAnomalia = LoadTableParquet.loadTable(TabPaths.cupsAnomalia)
             println("cupsAnomalia = " + cupsAnomalia.count() + " registros")
 
+      cupsAnomalia.show(20,truncate = false)
+
       val cupsIrregularidad = LoadTableParquet.loadTable(TabPaths.cupsIrregularidad)
       println("cupsIrregularidad = " + cupsIrregularidad.count() + " registros")
-
+      cupsIrregularidad.show(20,truncate = false)
 
 
 
