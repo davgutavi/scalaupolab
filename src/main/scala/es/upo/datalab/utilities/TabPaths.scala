@@ -97,25 +97,48 @@ object TabPaths {
   final val maestroContratosMaestroAparatos = prefix_05+"MaestroContratosMaestroAparatos"
   final val naestroContratosMaestroAparatos_csv = prefix_06+"MaestroContratosMaestroAparatos"
 
-  final val maestroContratosExpedientes_fechas = prefix_05+"MaestroContratosExpedientes_fechas"
-  final val maestroContratosExpedientes_fechas_csv = prefix_06+"MaestroContratosExpedientes_fechas"
+  final val maestroContratosExpedientes_fechas_logico = prefix_05+"MaestroContratosExpedientes_fechas_logico"
+  final val maestroContratosExpedientes_fechas_logico_csv = prefix_06+"MaestroContratosExpedientes_fechas_logico"
 
-  final val maestroContratosExpedientesMaestroAparatosCurvasCarga_fechas = prefix_05+"MaestroContratosExpedientesMaestroAparatosCurvasCarga_fechas"
-  final val maestroContratosExpedientesMaestroAparatosCurvasCarga_fechas_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatosCurvasCarga_fechas"
+  final val maestroContratosExpedientesMaestroAparatos_fechas_logico = prefix_05+"MaestroContratosExpedientesMaestroAparatos_fechas_logico"
+  final val maestroContratosExpedientesMaestroAparatos_fechas_logico_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatos_fechas_logico"
 
+
+  final val maestroContratosExpedientes_fechas_endesa = prefix_05+"MaestroContratosExpedientes_fechas_endesa"
+  final val maestroContratosExpedientes_fechas_endesa_csv = prefix_06+"MaestroContratosExpedientes_fechas_endesa"
+
+  final val maestroContratosExpedientesMaestroAparatos_fechas_endesa = prefix_05+"MaestroContratosExpedientesMaestroAparatos_fechas_endesa"
+  final val maestroContratosExpedientesMaestroAparatos_fechas_endesa_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatos_fechas_endesa"
+
+  final val maestroContratosExpedientes_sin_fechas = prefix_05+"MaestroContratosExpedientes_sin_fechas"
+  final val maestroContratosExpedientes_sin_fechas_csv = prefix_06+"MaestroContratosExpedientes_sin_fechas"
 
 
   //*********************************************************************************DATASETS
 
-  final val cupsAnomalia = prefix_03+"cupsAnomalia"
-  final val cupsIrregularidad = prefix_03+"cupsIrregularidad"
-  final val lecturasAnomalia = prefix_03+"lecturasAnomalia"
-  final val lecturasIrregularidad = prefix_03+"lecturasIrregularidad"
+  final val lecturasIrregularidad_03 = prefix_03+"lecturasIrregularidad_03"
+  final val lecturasIrregularidad_04 = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_07 = prefix_03+"lecturasIrregularidad_07"
+  final val lecturasIrregularidad_08 = prefix_03+"lecturasIrregularidad_08"
+  final val lecturasIrregularidad_09 = prefix_03+"lecturasIrregularidad_09"
 
-  final val cupsAnomalia_csv = prefix_04+"cupsAnomalia"
-  final val cupsIrregularidad_csv = prefix_04+"cupsIrregularidad"
-  final val lecturasAnomalia_csv = prefix_04+"lecturasAnomalia"
-  final val lecturasIrregularidad_csv = prefix_04+"lecturasIrregularidad"
+  final val lecturasAnomalia_03 = prefix_03+"lecturasAnomalia_03"
+  final val lecturasAnomalia_04 = prefix_03+"lecturasAnomalia_04"
+  final val lecturasAnomalia_07 = prefix_03+"lecturasAnomalia_07"
+  final val lecturasAnomalia_09 = prefix_03+"lecturasAnomalia_09"
+
+
+
+  final val lecturasIrregularidad_03_csv = prefix_03+"lecturasIrregularidad_03"
+  final val lecturasIrregularidad_04_csv = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_07_csv = prefix_03+"lecturasIrregularidad_07"
+  final val lecturasIrregularidad_08_csv = prefix_03+"lecturasIrregularidad_08"
+  final val lecturasIrregularidad_09_csv = prefix_03+"lecturasIrregularidad_09"
+
+  final val lecturasAnomalia_03_csv = prefix_03+"lecturasAnomalia_03"
+  final val lecturasAnomalia_04_csv = prefix_03+"lecturasAnomalia_04"
+  final val lecturasAnomalia_07_csv = prefix_03+"lecturasAnomalia_07"
+  final val lecturasAnomalia_09_csv = prefix_03+"lecturasAnomalia_09"
 
 
 
