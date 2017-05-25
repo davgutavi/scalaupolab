@@ -28,9 +28,17 @@ object SparkSessionUtils {
 //      enableHiveSupport().
 //      master("spark://192.168.1.10:7077")
 //      config("spark.scheduler.mode", "FAIR").
+
       config("spark.local.dir","/mnt/datos/tempSpark").
       getOrCreate()
-    val sc = sparkSession.sparkContext
+
+  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
+
+
+  val sc = sparkSession.sparkContext
+
+
+
     val sqlContext = sparkSession.sqlContext
 
 

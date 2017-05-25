@@ -113,33 +113,67 @@ object TabPaths {
   final val maestroContratosExpedientes_sin_fechas = prefix_05+"MaestroContratosExpedientes_sin_fechas"
   final val maestroContratosExpedientes_sin_fechas_csv = prefix_06+"MaestroContratosExpedientes_sin_fechas"
 
+  final val maestroContratosExpedientesMaestroAparatos_sin_fechas = prefix_05+"MaestroContratosExpedientesMaestroAparatos_sin_fechas"
+  final val maestroContratosExpedientesMaestroAparatos_sin_fechas_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatos_sin_fechas"
+
 
   //*********************************************************************************DATASETS
 
+
+
+
+  final val lecturasIrregularidad_01 = prefix_03+"lecturasIrregularidad_01"
+  final val lecturasIrregularidad_02 = prefix_03+"lecturasIrregularidad_02"
   final val lecturasIrregularidad_03 = prefix_03+"lecturasIrregularidad_03"
   final val lecturasIrregularidad_04 = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_06 = prefix_03+"lecturasIrregularidad_06"
   final val lecturasIrregularidad_07 = prefix_03+"lecturasIrregularidad_07"
   final val lecturasIrregularidad_08 = prefix_03+"lecturasIrregularidad_08"
   final val lecturasIrregularidad_09 = prefix_03+"lecturasIrregularidad_09"
+  final val lecturasIrregularidad_10 = prefix_03+"lecturasIrregularidad_10"
+  final val lecturasIrregularidad_11 = prefix_03+"lecturasIrregularidad_11"
+  final val lecturasIrregularidad_12 = prefix_03+"lecturasIrregularidad_12"
 
+  final val lecturasAnomalia_01 = prefix_03+"lecturasAnomalia_01"
+  final val lecturasAnomalia_02 = prefix_03+"lecturasAnomalia_02"
   final val lecturasAnomalia_03 = prefix_03+"lecturasAnomalia_03"
   final val lecturasAnomalia_04 = prefix_03+"lecturasAnomalia_04"
+  final val lecturasAnomalia_05 = prefix_03+"lecturasAnomalia_05"
+  final val lecturasAnomalia_06 = prefix_03+"lecturasAnomalia_06"
   final val lecturasAnomalia_07 = prefix_03+"lecturasAnomalia_07"
+  final val lecturasAnomalia_08 = prefix_03+"lecturasAnomalia_08"
   final val lecturasAnomalia_09 = prefix_03+"lecturasAnomalia_09"
+  final val lecturasAnomalia_10 = prefix_03+"lecturasAnomalia_10"
+  final val lecturasAnomalia_11 = prefix_03+"lecturasAnomalia_11"
+  final val lecturasAnomalia_12 = prefix_03+"lecturasAnomalia_12"
 
 
-
+  final val lecturasIrregularidad_01_csv = prefix_03+"lecturasIrregularidad_01"
+  final val lecturasIrregularidad_02_csv = prefix_03+"lecturasIrregularidad_02"
   final val lecturasIrregularidad_03_csv = prefix_03+"lecturasIrregularidad_03"
   final val lecturasIrregularidad_04_csv = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_05_csv = prefix_03+"lecturasIrregularidad_05"
+  final val lecturasIrregularidad_06_csv = prefix_03+"lecturasIrregularidad_06"
   final val lecturasIrregularidad_07_csv = prefix_03+"lecturasIrregularidad_07"
   final val lecturasIrregularidad_08_csv = prefix_03+"lecturasIrregularidad_08"
   final val lecturasIrregularidad_09_csv = prefix_03+"lecturasIrregularidad_09"
+  final val lecturasIrregularidad_10_csv = prefix_03+"lecturasIrregularidad_10"
+  final val lecturasIrregularidad_11_csv = prefix_03+"lecturasIrregularidad_11"
+  final val lecturasIrregularidad_12_csv = prefix_03+"lecturasIrregularidad_12"
 
+
+  final val lecturasAnomalia_01_csv = prefix_03+"lecturasAnomalia_01"
+  final val lecturasAnomalia_02_csv = prefix_03+"lecturasAnomalia_02"
   final val lecturasAnomalia_03_csv = prefix_03+"lecturasAnomalia_03"
   final val lecturasAnomalia_04_csv = prefix_03+"lecturasAnomalia_04"
+  final val lecturasAnomalia_05_csv = prefix_03+"lecturasAnomalia_05"
+  final val lecturasAnomalia_06_csv = prefix_03+"lecturasAnomalia_06"
   final val lecturasAnomalia_07_csv = prefix_03+"lecturasAnomalia_07"
+  final val lecturasAnomalia_08_csv = prefix_03+"lecturasAnomalia_08"
   final val lecturasAnomalia_09_csv = prefix_03+"lecturasAnomalia_09"
-
+  final val lecturasAnomalia_10_csv = prefix_03+"lecturasAnomalia_10"
+  final val lecturasAnomalia_11_csv = prefix_03+"lecturasAnomalia_11"
+  final val lecturasAnomalia_12_csv = prefix_03+"lecturasAnomalia_12"
 
 
 

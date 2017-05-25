@@ -20,28 +20,28 @@ object CurvasIrregularidadTest {
 
 //      val jL_aux = SparkSessionUtils.sparkSession.read.option("header","true").csv("/mnt/datos/recursos/ENDESA/datasets/curvas_irregularidad.csv")
 
-      val jLGr_aux = SparkSessionUtils.sparkSession.read.load("/mnt/datos/recursos/ENDESA/datasets/ds_curvas.parquet")
-
-      jLGr_aux.persist()
-
-      jLGr_aux.show(10,truncate = false)
-
-      val jLGr = jLGr_aux.dropDuplicates()
-
-      val c = jLGr_aux.count()
-      val s = jLGr.count()
-
-      println("jLGr_aux (con duplicados) = "+c+" registros")
-      println("jLGr = "+s+" registros")
-      println("Diferencia = "+(c-s)+" registros")
-
-
-      val dGa = LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad)
-
-
-
-
-      dGa.show(10,truncate = false)
+//      val jLGr_aux = SparkSessionUtils.sparkSession.read.load("/mnt/datos/recursos/ENDESA/datasets/ds_curvas.parquet")
+//
+//      jLGr_aux.persist()
+//
+//      jLGr_aux.show(10,truncate = false)
+//
+//      val jLGr = jLGr_aux.dropDuplicates()
+//
+//      val c = jLGr_aux.count()
+//      val s = jLGr.count()
+//
+//      println("jLGr_aux (con duplicados) = "+c+" registros")
+//      println("jLGr = "+s+" registros")
+//      println("Diferencia = "+(c-s)+" registros")
+//
+//
+//      val dGa = LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad)
+//
+//
+//
+//
+//      dGa.show(10,truncate = false)
 
 
 
