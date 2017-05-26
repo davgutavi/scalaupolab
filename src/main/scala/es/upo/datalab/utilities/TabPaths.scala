@@ -126,6 +126,7 @@ object TabPaths {
   final val lecturasIrregularidad_02 = prefix_03+"lecturasIrregularidad_02"
   final val lecturasIrregularidad_03 = prefix_03+"lecturasIrregularidad_03"
   final val lecturasIrregularidad_04 = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_05 = prefix_03+"lecturasIrregularidad_05"
   final val lecturasIrregularidad_06 = prefix_03+"lecturasIrregularidad_06"
   final val lecturasIrregularidad_07 = prefix_03+"lecturasIrregularidad_07"
   final val lecturasIrregularidad_08 = prefix_03+"lecturasIrregularidad_08"

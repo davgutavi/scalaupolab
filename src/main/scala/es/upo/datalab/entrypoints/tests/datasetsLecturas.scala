@@ -58,9 +58,8 @@ object datasetsLecturas {
 
 //      println("Lecturas Irregularidad 08:")
 //      LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad_08).limit(n).write.option("header","true").csv("/home/davgutavi/Escritorio/print_dataset/lecturasIrregularidad_08")
-
-//    println("Lecturas Anomalia 08:")
-//    LoadTableParquet.loadTable(TabPaths.lecturasAnomalia_08).limit(n).write.option("header","true").csv("/home/davgutavi/Escritorio/print_dataset/lecturasAnomalia_08")
+//      println("Lecturas Anomalia 08:")
+//      LoadTableParquet.loadTable(TabPaths.lecturasAnomalia_08).limit(n).write.option("header","true").csv("/home/davgutavi/Escritorio/print_dataset/lecturasAnomalia_08")
 
 //      println("Lecturas Irregularidad 09:")
 //      LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad_09).limit(n).write.option("header","true").csv("/home/davgutavi/Escritorio/print_dataset/lecturasIrregularidad_09")
