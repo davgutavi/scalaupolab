@@ -10,7 +10,7 @@ object CupsNormalLecturas {
 
   def main(args: Array[String]): Unit = {
 
-    val nivel = StorageLevel.MEMORY_AND_DISK
+    val nivel = StorageLevel.MEMORY_ONLY
 
     val sqlContext = SparkSessionUtils.sqlContext
 
@@ -19,44 +19,21 @@ object CupsNormalLecturas {
 
     TimingUtils.time {
 
-      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB_00C)
-      df_00C.persist(nivel)
-      df_00C.createOrReplaceTempView("MaestroContratos")
-
       val df_16 = LoadTableParquet.loadTable(TabPaths.TAB_16)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("Expedientes")
-
-      val df_00E = LoadTableParquet.loadTable(TabPaths.TAB_00E)
-      df_00E.persist(nivel)
-      df_00E.createOrReplaceTempView("MaestroAparatos")
 
       val df_01 = LoadTableParquet.loadTable(TabPaths.TAB_01)
       df_01.persist(nivel)
       df_01.createOrReplaceTempView("CurvasCarga")
 
-
-      val maestroContratosMaestroAparatos = sql(
-        """
-          SELECT MaestroContratos.origen, MaestroContratos.cptocred, MaestroContratos.cfinca, MaestroContratos.cptoserv, MaestroContratos.cderind, MaestroContratos.cupsree,
-                 MaestroContratos.ccounips,MaestroContratos.cupsree2,MaestroContratos.cpuntmed, MaestroContratos.tpuntmed, MaestroContratos.vparsist, MaestroContratos.cemptitu,
-                 MaestroContratos.ccontrat, MaestroContratos.cnumscct, MaestroContratos.fpsercon, MaestroContratos.ffinvesu, MaestroAparatos.csecptom, MaestroAparatos.fvigorpm,
-                 MaestroAparatos.fbajapm,MaestroAparatos.caparmed
-                 FROM MaestroContratos JOIN MaestroAparatos
-                 ON MaestroContratos.origen = MaestroAparatos.origen AND MaestroContratos.cupsree2 = MaestroAparatos.cupsree2 AND MaestroContratos.cpuntmed = MaestroAparatos.cpuntmed
-        """
-      )
-
-      df_00C.unpersist()
-      df_00E.unpersist()
+      val maestroContratosMaestroAparatos = LoadTableParquet.loadTable(TabPaths.maestroContratosMaestroAparatos)
 
       maestroContratosMaestroAparatos.persist(nivel)
+//      maestroContratosMaestroAparatos.checkpoint()
+
+
       maestroContratosMaestroAparatos.createOrReplaceTempView("mCmA")
-      println ("Join Maestro Contratos - Maestro Aparatos = "+maestroContratosMaestroAparatos.count()+" registros")
-//      maestroContratosMaestroAparatos.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatos")
-//      println("Join Maestro Contratos - Maestro Aparatos almacenado en parquet")
-//      maestroContratosMaestroAparatos.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatos")
-//      println("Join Maestro Contratos - Maestro Aparatos almacenado en csv")
 
 
       val maestroContratosMaestroAparatosCurvasCarga = sql(
@@ -89,26 +66,28 @@ object CupsNormalLecturas {
                   CurvasCarga.hora_24, CurvasCarga.1q_consumo_24, CurvasCarga.2q_consumo_24, CurvasCarga.3q_consumo_24, CurvasCarga.4q_consumo_24, CurvasCarga.substatus_24, CurvasCarga.testmenn_24, CurvasCarga.testmecnn_24,
                   CurvasCarga.hora_25, CurvasCarga.1q_consumo_25, CurvasCarga.2q_consumo_25, CurvasCarga.3q_consumo_25, CurvasCarga.4q_consumo_25, CurvasCarga.substatus_25, CurvasCarga.testmenn_25, CurvasCarga.testmecnn_25
                   FROM mCmA JOIN CurvasCarga
-                  ON mCmA.origen = CurvasCarga.origen AND mCmA.cpuntmed = CurvasCarga.cpuntmed
+                  ON mCmA.origen = CurvasCarga.origen AND mCmA.cpuntmed = CurvasCarga.cpuntmed AND CurvasCarga.obiscode = 'A' AND CurvasCarga.testcaco = 'R'
                    """)
 
       df_01.unpersist()
       maestroContratosMaestroAparatos.unpersist()
 
       maestroContratosMaestroAparatosCurvasCarga.persist(nivel)
+//      maestroContratosMaestroAparatosCurvasCarga.checkpoint()
+
       maestroContratosMaestroAparatosCurvasCarga.createOrReplaceTempView("mCmAcC")
-      println ("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga = "+maestroContratosMaestroAparatosCurvasCarga.count()+" registros")
-      maestroContratosMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatosCurvasCarga")
-      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado en parquet")
-      maestroContratosMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatosCurvasCarga")
-      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado en csv")
+
+      //      println ("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga = "+maestroContratosMaestroAparatosCurvasCarga.count()+" registros")
+//      maestroContratosMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatosCurvasCarga")
+//      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado en parquet")
+//      maestroContratosMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatosCurvasCarga")
+//      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga almacenado en csv")
 
 
       val maestroContratosMaestroAparatosCurvasCargaExpedientesNormal = sql(
         """SELECT  mCmAcC.origen,   mCmAcC.cptocred, mCmAcC.cfinca, mCmAcC.cptoserv, mCmAcC.cderind, mCmAcC.cupsree, mCmAcC.ccounips, mCmAcC.cupsree2,mCmAcC.cpuntmed,
-                   mCmAcC.tpuntmed, mCmAcC.vparsist, mCmAcC.cemptitu,mCmAcC.ccontrat, mCmAcC.cnumscct, mCmAcC.fpsercon,mCmAcC.ffinvesu, mCmAcC.ccliente, mCmAcC.fechamov,
-                   mCmAcC.tindfiju, mCmAcC.cnifdnic, mCmAcC.dapersoc,mCmAcC.dnombcli, mCmAcC.csecptom, mCmAcC.fvigorpm,mCmAcC.fbajapm,mCmAcC.caparmed, mCmAcC.flectreg,
-                   mCmAcC.testcaco, mCmAcC.obiscode, mCmAcC.vsecccar,
+                   mCmAcC.tpuntmed, mCmAcC.vparsist, mCmAcC.cemptitu,mCmAcC.ccontrat, mCmAcC.cnumscct, mCmAcC.fpsercon,mCmAcC.ffinvesu,
+                   mCmAcC.csecptom, mCmAcC.fvigorpm,mCmAcC.fbajapm,mCmAcC.caparmed,
                    mCmAcC.flectreg, mCmAcC.testcaco, mCmAcC.obiscode, mCmAcC.vsecccar,
                    mCmAcC.hora_01, mCmAcC.1q_consumo_01, mCmAcC.2q_consumo_01, mCmAcC.3q_consumo_01, mCmAcC.4q_consumo_01,mCmAcC.substatus_01,mCmAcC.testmenn_01,mCmAcC.testmecnn_01,
                    mCmAcC.hora_02, mCmAcC.1q_consumo_02, mCmAcC.2q_consumo_02, mCmAcC.3q_consumo_02, mCmAcC.4q_consumo_02,mCmAcC.substatus_02,mCmAcC.testmenn_02,mCmAcC.testmecnn_02,
@@ -138,27 +117,41 @@ object CupsNormalLecturas {
                    Expedientes.csecexpe, Expedientes.fapexpd, Expedientes.finifran, Expedientes.ffinfran, Expedientes.anomalia, Expedientes.irregularidad,
                    Expedientes.venacord, Expedientes.vennofai, Expedientes.torigexp, Expedientes.texpedie, Expedientes.expclass, Expedientes.testexpe, Expedientes.fnormali,
                    Expedientes.cplan, Expedientes.ccampa, Expedientes.cempresa,Expedientes.fciexped
-                   FROM mCmAcC LEFT JOIN Expedientes
-                   ON mCmAcC.origen=Expedientes.origen AND mCmAcC.cemptitu=Expedientes.cemptitu AND mCmAcC.cfinca=Expedientes.cfinca AND mCmAcC.cptoserv=Expedientes.cptoserv
-                   WHERE Expedientes.origen IS NULL AND Expedientes.cemptitu IS NULL AND Expedientes.cfinca IS NULL AND Expedientes.cptoserv IS NULL
+                   FROM mCmAcC LEFT JOIN Expedientes ON
+                   mCmAcC.origen=Expedientes.origen AND mCmAcC.cfinca=Expedientes.cfinca AND mCmAcC.cptoserv=Expedientes.cptoserv AND mCmAcC.cderind=Expedientes.cderind
+                   AND Expedientes.fapexpd >= mCmAcC.fpsercon AND Expedientes.fapexpd <= mCmAcC.ffinvesu
+                   WHERE Expedientes.origen IS NULL AND Expedientes.cfinca IS NULL AND Expedientes.cptoserv IS NULL AND Expedientes.cderind IS NULL AND Expedientes.fapexpd IS NULL
+
                    """)
+
+//      mCmAcC.origen=Expedientes.origen AND mCmAcC.cfinca=Expedientes.cfinca AND mCmAcC.cptoserv=Expedientes.cptoserv AND mCmAcC.cderind=Expedientes.cderind
+//      AND Expedientes.fapexpd >= mCmAcC.fpsercon AND Expedientes.fapexpd <= mCmAcC.ffinvesu
+//      WHERE Expedientes.origen IS NULL AND Expedientes.cfinca IS NULL AND Expedientes.cptoserv IS NULL AND Expedientes.cderind IS AND NULL Expedientes.fapexpd IS NULL
+
+//      mCmAcC.origen=Expedientes.origen AND mCmAcC.cemptitu=Expedientes.cemptitu AND mCmAcC.cfinca=Expedientes.cfinca AND mCmAcC.cptoserv=Expedientes.cptoserv
+//      WHERE Expedientes.origen IS NULL AND Expedientes.cemptitu IS NULL AND Expedientes.cfinca IS NULL AND Expedientes.cptoserv IS NULL
+
+
 
       df_16.unpersist()
       maestroContratosMaestroAparatosCurvasCarga.unpersist()
 
       maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.persist(nivel)
-      println ("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) = "+maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.count()+" registros")
-      maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatosCurvasCargaSinExpedientes")
-      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado en parquet")
-      maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatosCurvasCargaSinExpedientes")
-      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado en csv")
+
+//      maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.checkpoint()
+
+//      println ("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) = "+maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.count()+" registros")
+//      maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosMaestroAparatosCurvasCargaSinExpedientes")
+//      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado en parquet")
+//      maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosMaestroAparatosCurvasCargaSinExpedientes")
+//      println("Join Maestro Contratos - Maestro Aparatos - Curvas de Carga - Expedientes (Normal) almacenado en csv")
 
 
 
 
       val lecturasNormal_aux = maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.select(
-        "cupsree","ccontrat",
-        "finifran", "ffinfran", "fapexpd", "fciexped",
+        "cupsree","cpuntmed","ccontrat","cnumscct",
+        "fpsercon", "ffinvesu", "fapexpd", "fciexped",
         "flectreg", "testcaco", "obiscode", "vsecccar",
         "hora_01","1q_consumo_01", "2q_consumo_01", "3q_consumo_01","4q_consumo_01","substatus_01","testmenn_01","testmecnn_01",
         "hora_02","1q_consumo_02", "2q_consumo_02", "3q_consumo_02","4q_consumo_02","substatus_02","testmenn_02","testmecnn_02",
@@ -189,11 +182,15 @@ object CupsNormalLecturas {
 
       maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.unpersist()
 
-      lecturasNormal_aux.persist(nivel)
+//      lecturasNormal_aux.persist(nivel)
+      lecturasNormal_aux.checkpoint()
+
       val iaux = lecturasNormal_aux.count()
 
       val lecturasNormal = lecturasNormal_aux.dropDuplicates()
-      lecturasNormal.persist(nivel)
+//      lecturasNormal.persist(nivel)
+      lecturasNormal.checkpoint()
+
       val i = lecturasNormal.count()
 
       println("Registros curvas normal con duplicados = "+iaux)
@@ -202,15 +199,15 @@ object CupsNormalLecturas {
 
       lecturasNormal_aux.unpersist()
 
-
       lecturasNormal.show(10,truncate = false)
 
+      lecturasNormal.checkpoint()
 
       println("Guardando Parquet")
-      lecturasNormal.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasNormal")
+      lecturasNormal.coalesce(1).write.option("header","true").save("/mnt/datos/recursos/ENDESA/lecturasNormal")
 
-      println("Guardando Csv")
-      lecturasNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasNormal")
+//      println("Guardando Csv")
+//      lecturasNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasNormal")
 
       println("DONE!")
 

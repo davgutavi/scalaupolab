@@ -6,15 +6,15 @@ version := "1.0"
 //si se va a usar Java 8, la versión de Scala tiene que ser igual o superior a la 2.10.3
 //scalaVersion := "2.10.6"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.9"
 
 libraryDependencies ++= Seq(
 
 
-  "org.apache.spark" %% "spark-core" % "2.1.0",
-  "org.apache.spark" %% "spark-sql" % "2.1.0",
-  "org.apache.spark" %% "spark-mllib" % "2.1.0",
-  "org.apache.spark" %% "spark-hive" % "2.1.0"
+  "org.apache.spark" %% "spark-core" % "2.1.1",
+  "org.apache.spark" %% "spark-sql" % "2.1.1",
+  "org.apache.spark" %% "spark-mllib" % "2.1.1",
+  "org.apache.spark" %% "spark-hive" % "2.1.1"
 
 //  "org.apache.spark" %% "spark-core" % "2.0.2",
 //  "org.apache.spark" %% "spark-sql" % "2.0.2",

@@ -32,8 +32,9 @@ object SparkSessionUtils {
       config("spark.local.dir","/mnt/datos/tempSpark").
       getOrCreate()
 
-  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
+//  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
 
+  sparkSession.sparkContext.setCheckpointDir("/mnt/datos/checkpointSpark")
 
   val sc = sparkSession.sparkContext
 
