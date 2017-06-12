@@ -10,7 +10,7 @@ object CupsNormalLecturas {
 
   def main(args: Array[String]): Unit = {
 
-    val nivel = StorageLevel.MEMORY_ONLY
+    val nivel = StorageLevel.DISK_ONLY_2
 
     val sqlContext = SparkSessionUtils.sqlContext
 
@@ -182,29 +182,28 @@ object CupsNormalLecturas {
 
       maestroContratosMaestroAparatosCurvasCargaExpedientesNormal.unpersist()
 
-//      lecturasNormal_aux.persist(nivel)
-      lecturasNormal_aux.checkpoint()
+      lecturasNormal_aux.persist(nivel)
+//      lecturasNormal_aux.checkpoint()
 
-      val iaux = lecturasNormal_aux.count()
+//      val iaux = lecturasNormal_aux.count()
 
       val lecturasNormal = lecturasNormal_aux.dropDuplicates()
 //      lecturasNormal.persist(nivel)
-      lecturasNormal.checkpoint()
 
-      val i = lecturasNormal.count()
-
-      println("Registros curvas normal con duplicados = "+iaux)
-      println("Registros curvas normal sin duplicados = "+i)
-      println("Diferencia = "+(iaux-i))
+//      val i = lecturasNormal.count()
+//      println("Registros curvas normal con duplicados = "+iaux)
+//      println("Registros curvas normal sin duplicados = "+i)
+//      println("Diferencia = "+(iaux-i))
 
       lecturasNormal_aux.unpersist()
 
-      lecturasNormal.show(10,truncate = false)
+//      lecturasNormal.show(10,truncate = false)
 
-      lecturasNormal.checkpoint()
+      lecturasNormal.persist()
 
       println("Guardando Parquet")
-      lecturasNormal.coalesce(1).write.option("header","true").save("/mnt/datos/recursos/ENDESA/lecturasNormal")
+      lecturasNormal.coalesce(1).write.option("header","true").save("/mnt/datos/lecturasNormal")
+//         lecturasNormal.coalesce(1).write.option("header","true").save(TabPaths.prefix_03+"lecturasNormal")
 
 //      println("Guardando Csv")
 //      lecturasNormal.coalesce(1).write.option("header","true").csv(TabPaths.prefix_04+"lecturasNormal")

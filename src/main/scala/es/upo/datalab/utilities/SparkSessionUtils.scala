@@ -29,12 +29,18 @@ object SparkSessionUtils {
 //      master("spark://192.168.1.10:7077")
 //      config("spark.scheduler.mode", "FAIR").
 
+      config("spark.network.timeout","10000000").
+      config("spark.executor.heartbeatInterval","10000000").
       config("spark.local.dir","/mnt/datos/tempSpark").
       getOrCreate()
 
-//  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
+  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
 
-  sparkSession.sparkContext.setCheckpointDir("/mnt/datos/checkpointSpark")
+//  sparkSession.sparkContext.setCheckpointDir("/mnt/datos/checkpointSpark")
+
+
+//  --conf spark.driver.maxResultSize=4g
+
 
   val sc = sparkSession.sparkContext
 
