@@ -1,7 +1,6 @@
-package es.upo.datalab.entrypoints.datasets
+package es.upo.datalab.entrypoints.old
 
 import es.upo.datalab.utilities._
-import org.apache.spark.SparkConf
 import org.apache.spark.storage.StorageLevel
 
 /**

@@ -1,5 +1,4 @@
-package es.upo.datalab.entrypoints.datasets
-
+package es.upo.datalab.entrypoints.old
 
 import es.upo.datalab.utilities._
 import org.apache.spark.storage.StorageLevel
@@ -15,8 +14,6 @@ object CupsIrregularidadAnomalia {
     val nivel = StorageLevel.MEMORY_AND_DISK
 
     val sqlContext = SparkSessionUtils.sqlContext
-
-    import sqlContext._
 
 
     TimingUtils.time {
