@@ -52,7 +52,7 @@ object LecturasIA {
 
       mce.checkpoint()
 
-      mce.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mce")
+//      mce.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mce")
 
       mce.createOrReplaceTempView("MCE")
 
@@ -74,17 +74,18 @@ object LecturasIA {
 
       mcema.checkpoint()
 
-      mcema.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mcema")
+//      mcema.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mcema")
 
       mcema.createOrReplaceTempView("MCEMA")
 
 
-      val mcemacc = sql(
+      val mcemacc_diff = sql(
         """
             SELECT MCEMA.origen, MCEMA.cptocred, MCEMA.cfinca, MCEMA.cptoserv,MCEMA.cderind, MCEMA.cupsree,MCEMA.ccounips,MCEMA.cupsree2,MCEMA.cpuntmed, MCEMA.tpuntmed, MCEMA.vparsist, MCEMA.cemptitu,
                    MCEMA.ccontrat, MCEMA.cnumscct, MCEMA.fpsercon, MCEMA.ffinvesu,MCEMA.csecexpe, MCEMA.fapexpd, MCEMA.finifran, MCEMA.ffinfran,MCEMA.anomalia, MCEMA.irregularidad,MCEMA.venacord, MCEMA.vennofai,
                    MCEMA.torigexp, MCEMA.texpedie,MCEMA.expclass, MCEMA.testexpe,MCEMA.fnormali, MCEMA.cplan, MCEMA.ccampa, MCEMA.cempresa,MCEMA.fciexped,MCEMA.csecptom, MCEMA.fvigorpm, MCEMA.fbajapm,MCEMA.caparmed,
-                   CC.flectreg, CC.testcaco, CC.obiscode, CC.vsecccar,
+                   CC.flectreg, datediff ( flectreg , fapexpd ) AS diff
+                   CC.testcaco, CC.obiscode, CC.vsecccar,
                    CC.hora_01, CC.1q_consumo_01, CC.2q_consumo_01, CC.3q_consumo_01, CC.4q_consumo_01,CC.substatus_01,CC.testmenn_01,CC.testmecnn_01,
                    CC.hora_02, CC.1q_consumo_02, CC.2q_consumo_02, CC.3q_consumo_02, CC.4q_consumo_02,CC.substatus_02,CC.testmenn_02,CC.testmecnn_02,
                    CC.hora_03, CC.1q_consumo_03, CC.2q_consumo_03, CC.3q_consumo_03, CC.4q_consumo_03,CC.substatus_03,CC.testmenn_03,CC.testmecnn_03,
@@ -114,17 +115,59 @@ object LecturasIA {
            ON MCEMA.origen = CC.origen AND MCEMA.cpuntmed = CC.cpuntmed AND CC.obiscode = 'A' AND CC.testcaco = 'R'
            """)
 
-      mcemacc.persist(nivel)
+      mcemacc_diff.persist(nivel)
+
       df_01.unpersist()
-
-
       mcema.unpersist()
 
-      mcemacc.checkpoint()
-
-      mcemacc.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mcemacc")
-
       mcemacc.createOrReplaceTempView("MCEMACC")
+
+      val mcemacc_diff_rango = sql(
+        """
+            SELECT MCEMACC.origen, MCEMACC.cptocred, MCEMACC.cfinca, MCEMACC.cptoserv,MCEMACC.cderind, MCEMACC.cupsree,MCEMACC.ccounips,MCEMACC.cupsree2,MCEMACC.cpuntmed, MCEMACC.tpuntmed, MCEMACC.vparsist, MCEMACC.cemptitu,
+                   MCEMACC.ccontrat, MCEMACC.cnumscct, MCEMACC.fpsercon, MCEMACC.ffinvesu,MCEMACC.csecexpe, MCEMACC.fapexpd, MCEMACC.finifran, MCEMACC.ffinfran,MCEMACC.anomalia, MCEMACC.irregularidad,MCEMACC.venacord, MCEMACC.vennofai,
+                   MCEMACC.torigexp, MCEMACC.texpedie,MCEMACC.expclass, MCEMACC.testexpe,MCEMACC.fnormali, MCEMACC.cplan, MCEMACC.ccampa, MCEMACC.cempresa,MCEMACC.fciexped,MCEMACC.csecptom, MCEMACC.fvigorpm, MCEMACC.fbajapm,MCEMACC.caparmed,
+                   add_months(flectreg,-6) AS inicio, MCEMACC.flectreg, MCEMACCCC.diff
+                   MCEMACC.testcaco, MCEMACC.obiscode, MCEMACC.vseMCEMACCcar,
+                   MCEMACC.hora_01, MCEMACC.1q_consumo_01, MCEMACC.2q_consumo_01, MCEMACC.3q_consumo_01, MCEMACC.4q_consumo_01,MCEMACC.substatus_01,MCEMACC.testmenn_01,MCEMACC.testmecnn_01,
+                   MCEMACC.hora_02, MCEMACC.1q_consumo_02, MCEMACC.2q_consumo_02, MCEMACC.3q_consumo_02, MCEMACC.4q_consumo_02,MCEMACC.substatus_02,MCEMACC.testmenn_02,MCEMACC.testmecnn_02,
+                   MCEMACC.hora_03, MCEMACC.1q_consumo_03, MCEMACC.2q_consumo_03, MCEMACC.3q_consumo_03, MCEMACC.4q_consumo_03,MCEMACC.substatus_03,MCEMACC.testmenn_03,MCEMACC.testmecnn_03,
+                   MCEMACC.hora_04, MCEMACC.1q_consumo_04, MCEMACC.2q_consumo_04, MCEMACC.3q_consumo_04, MCEMACC.4q_consumo_04,MCEMACC.substatus_04,MCEMACC.testmenn_04,MCEMACC.testmecnn_04,
+                   MCEMACC.hora_05, MCEMACC.1q_consumo_05, MCEMACC.2q_consumo_05, MCEMACC.3q_consumo_05, MCEMACC.4q_consumo_05,MCEMACC.substatus_05,MCEMACC.testmenn_05,MCEMACC.testmecnn_05,
+                   MCEMACC.hora_06, MCEMACC.1q_consumo_06, MCEMACC.2q_consumo_06, MCEMACC.3q_consumo_06, MCEMACC.4q_consumo_06,MCEMACC.substatus_06,MCEMACC.testmenn_06,MCEMACC.testmecnn_06,
+                   MCEMACC.hora_07, MCEMACC.1q_consumo_07, MCEMACC.2q_consumo_07, MCEMACC.3q_consumo_07, MCEMACC.4q_consumo_07,MCEMACC.substatus_07,MCEMACC.testmenn_07,MCEMACC.testmecnn_07,
+                   MCEMACC.hora_08, MCEMACC.1q_consumo_08, MCEMACC.2q_consumo_08, MCEMACC.3q_consumo_08, MCEMACC.4q_consumo_08,MCEMACC.substatus_08,MCEMACC.testmenn_08,MCEMACC.testmecnn_08,
+                   MCEMACC.hora_09, MCEMACC.1q_consumo_09, MCEMACC.2q_consumo_09, MCEMACC.3q_consumo_09, MCEMACC.4q_consumo_09,MCEMACC.substatus_09,MCEMACC.testmenn_09,MCEMACC.testmecnn_09,
+                   MCEMACC.hora_10, MCEMACC.1q_consumo_10, MCEMACC.2q_consumo_10, MCEMACC.3q_consumo_10, MCEMACC.4q_consumo_10,MCEMACC.substatus_10,MCEMACC.testmenn_10,MCEMACC.testmecnn_10,
+                   MCEMACC.hora_11, MCEMACC.1q_consumo_11, MCEMACC.2q_consumo_11, MCEMACC.3q_consumo_11, MCEMACC.4q_consumo_11,MCEMACC.substatus_11,MCEMACC.testmenn_11,MCEMACC.testmecnn_11,
+                   MCEMACC.hora_12, MCEMACC.1q_consumo_12, MCEMACC.2q_consumo_12, MCEMACC.3q_consumo_12, MCEMACC.4q_consumo_12,MCEMACC.substatus_12,MCEMACC.testmenn_12,MCEMACC.testmecnn_12,
+                   MCEMACC.hora_13, MCEMACC.1q_consumo_13, MCEMACC.2q_consumo_13, MCEMACC.3q_consumo_13, MCEMACC.4q_consumo_13,MCEMACC.substatus_13,MCEMACC.testmenn_13,MCEMACC.testmecnn_13,
+                   MCEMACC.hora_14, MCEMACC.1q_consumo_14, MCEMACC.2q_consumo_14, MCEMACC.3q_consumo_14, MCEMACC.4q_consumo_14,MCEMACC.substatus_14,MCEMACC.testmenn_14,MCEMACC.testmecnn_14,
+                   MCEMACC.hora_15, MCEMACC.1q_consumo_15, MCEMACC.2q_consumo_15, MCEMACC.3q_consumo_15, MCEMACC.4q_consumo_15, MCEMACC.substatus_15, MCEMACC.testmenn_15, MCEMACC.testmecnn_15,
+                   MCEMACC.hora_16, MCEMACC.1q_consumo_16, MCEMACC.2q_consumo_16, MCEMACC.3q_consumo_16, MCEMACC.4q_consumo_16, MCEMACC.substatus_16, MCEMACC.testmenn_16, MCEMACC.testmecnn_16,
+                   MCEMACC.hora_17, MCEMACC.1q_consumo_17, MCEMACC.2q_consumo_17, MCEMACC.3q_consumo_17, MCEMACC.4q_consumo_17, MCEMACC.substatus_17, MCEMACC.testmenn_17, MCEMACC.testmecnn_17,
+                   MCEMACC.hora_18, MCEMACC.1q_consumo_18, MCEMACC.2q_consumo_18, MCEMACC.3q_consumo_18, MCEMACC.4q_consumo_18, MCEMACC.substatus_18, MCEMACC.testmenn_18, MCEMACC.testmecnn_18,
+                   MCEMACC.hora_19, MCEMACC.1q_consumo_19, MCEMACC.2q_consumo_19, MCEMACC.3q_consumo_19, MCEMACC.4q_consumo_19, MCEMACC.substatus_19, MCEMACC.testmenn_19, MCEMACC.testmecnn_19,
+                   MCEMACC.hora_20, MCEMACC.1q_consumo_20, MCEMACC.2q_consumo_20, MCEMACC.3q_consumo_20, MCEMACC.4q_consumo_20, MCEMACC.substatus_20, MCEMACC.testmenn_20, MCEMACC.testmecnn_20,
+                   MCEMACC.hora_21, MCEMACC.1q_consumo_21, MCEMACC.2q_consumo_21, MCEMACC.3q_consumo_21, MCEMACC.4q_consumo_21, MCEMACC.substatus_21, MCEMACC.testmenn_21, MCEMACC.testmecnn_21,
+                   MCEMACC.hora_22, MCEMACC.1q_consumo_22, MCEMACC.2q_consumo_22, MCEMACC.3q_consumo_22, MCEMACC.4q_consumo_22, MCEMACC.substatus_22, MCEMACC.testmenn_22, MCEMACC.testmecnn_22,
+                   MCEMACC.hora_23, MCEMACC.1q_consumo_23, MCEMACC.2q_consumo_23, MCEMACC.3q_consumo_23, MCEMACC.4q_consumo_23, MCEMACC.substatus_23, MCEMACC.testmenn_23, MCEMACC.testmecnn_23,
+                   MCEMACC.hora_24, MCEMACC.1q_consumo_24, MCEMACC.2q_consumo_24, MCEMACC.3q_consumo_24, MCEMACC.4q_consumo_24, MCEMACC.substatus_24, MCEMACC.testmenn_24, MCEMACC.testmecnn_24,
+                   MCEMACC.hora_25, MCEMACC.1q_consumo_25, MCEMACC.2q_consumo_25, MCEMACC.3q_consumo_25, MCEMACC.4q_consumo_25, MCEMACC.substatus_25, MCEMACC.testmenn_25, MCEMACC.testmecnn_25
+                   FROM MCEMACC WHERE (cupsree,diff) IN (SELECT cupsree, max(diff) as minimo FROM MCEMACC GROUP BY cupsree)
+           """)
+
+
+      mcemacc_diff_rango.persist(nivel)
+
+      mcemacc_diff.unpersist()
+
+      mcemacc_diff_rango.createOrReplaceTempView("T")
+
+
+     //mcemacc.checkpoint()
+
+//      mcemacc.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mcemacc")
 
 
       val li_aux = sql(
@@ -157,8 +200,10 @@ object LecturasIA {
            MCEMACC.hora_23, MCEMACC.1q_consumo_23, MCEMACC.2q_consumo_23, MCEMACC.3q_consumo_23, MCEMACC.4q_consumo_23, MCEMACC.substatus_23, MCEMACC.testmenn_23, MCEMACC.testmecnn_23,
            MCEMACC.hora_24, MCEMACC.1q_consumo_24, MCEMACC.2q_consumo_24, MCEMACC.3q_consumo_24, MCEMACC.4q_consumo_24, MCEMACC.substatus_24, MCEMACC.testmenn_24, MCEMACC.testmecnn_24,
            MCEMACC.hora_25, MCEMACC.1q_consumo_25, MCEMACC.2q_consumo_25, MCEMACC.3q_consumo_25, MCEMACC.4q_consumo_25, MCEMACC.substatus_25, MCEMACC.testmenn_25, MCEMACC.testmecnn_25
-           FROM MCEMACC WHERE MCEMACC.irregularidad='S' AND  MCEMACC.flectreg BETWEEN add_months(MCEMACC.fapexpd,-6) AND MCEMACC.fapexpd
+           FROM MCEMACC WHERE MCEMACC.irregularidad='S' AND flectreg BETWEEN inicio AND flectreg
           """)
+
+//      FROM MCEMACC WHERE MCEMACC.irregularidad='S' AND  MCEMACC.flectreg BETWEEN add_months(MCEMACC.fapexpd,-6) AND MCEMACC.fapexpd
 
       val la_aux = sql(
         """
@@ -190,8 +235,10 @@ object LecturasIA {
            MCEMACC.hora_23, MCEMACC.1q_consumo_23, MCEMACC.2q_consumo_23, MCEMACC.3q_consumo_23, MCEMACC.4q_consumo_23, MCEMACC.substatus_23, MCEMACC.testmenn_23, MCEMACC.testmecnn_23,
            MCEMACC.hora_24, MCEMACC.1q_consumo_24, MCEMACC.2q_consumo_24, MCEMACC.3q_consumo_24, MCEMACC.4q_consumo_24, MCEMACC.substatus_24, MCEMACC.testmenn_24, MCEMACC.testmecnn_24,
            MCEMACC.hora_25, MCEMACC.1q_consumo_25, MCEMACC.2q_consumo_25, MCEMACC.3q_consumo_25, MCEMACC.4q_consumo_25, MCEMACC.substatus_25, MCEMACC.testmenn_25, MCEMACC.testmecnn_25
-           FROM MCEMACC WHERE MCEMACC.anomalia='S' AND  MCEMACC.flectreg BETWEEN add_months(MCEMACC.fapexpd,-6) AND MCEMACC.fapexpd
+           FROM MCEMACC WHERE MCEMACC.anomalia='S'
           """)
+
+//      FROM MCEMACC WHERE MCEMACC.anomalia='S' AND  MCEMACC.flectreg BETWEEN add_months(MCEMACC.fapexpd,-6) AND MCEMACC.fapexpd
 
       li_aux.persist(nivel)
 
@@ -199,37 +246,37 @@ object LecturasIA {
 
       mcemacc.unpersist()
 
-      li_aux.checkpoint()
+//      li_aux.checkpoint()
 
-      la_aux.checkpoint()
+//      la_aux.checkpoint()
 
       val li = li_aux.dropDuplicates()
 
       val la = la_aux.dropDuplicates()
 
-      li.checkpoint()
+//      li.checkpoint()
 
-      la.checkpoint()
+//      la.checkpoint()
 
 
-      val iaux = li_aux.count()
-      val i = li.count()
-      println("Dataset Lecturas Irregularidad con duplicados = " + iaux)
-      println("Dataset Lecturas Irregularidad sin duplicados = " + i)
-      println("Diferencia = " + (iaux - i))
+//      val iaux = li_aux.count()
+//      val i = li.count()
+//      println("Dataset Lecturas Irregularidad con duplicados = " + iaux)
+//      println("Dataset Lecturas Irregularidad sin duplicados = " + i)
+//      println("Diferencia = " + (iaux - i))
 
       println("Guardando Irregularidad")
-      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasIrregularidad")
+      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasIrregularidadSinGuarda")
       println("Parquet Irregularidad Guardada")
 
-      val aaux = la_aux.count()
-      val a = la.count()
-      println("Dataset Lecturas Anomalia con duplicados = " + aaux)
-      println("Dataset Lecturas Anomalia sin duplicados = " + a)
-      println("Diferencia = " + (aaux - a))
+//      val aaux = la_aux.count()
+//      val a = la.count()
+//      println("Dataset Lecturas Anomalia con duplicados = " + aaux)
+//      println("Dataset Lecturas Anomalia sin duplicados = " + a)
+//      println("Diferencia = " + (aaux - a))
 
       println("Guardando Anomalía")
-      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasAnomalia")
+      la.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasAnomaliaSinGuarda")
       println("Parquet Anomalia Guardada")
 
 
