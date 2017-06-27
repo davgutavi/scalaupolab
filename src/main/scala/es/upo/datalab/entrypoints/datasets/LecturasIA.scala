@@ -27,81 +27,49 @@ object LecturasIA {
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("E")
 
-      val df_00E = LoadTableParquet.loadTable(TabPaths.TAB_00E)
-      df_00E.persist(nivel)
-      df_00E.createOrReplaceTempView("MA")
-
       val df_01 = LoadTableParquet.loadTable(TabPaths.TAB_01)
       df_01.persist(nivel)
       df_01.createOrReplaceTempView("CC")
 
 
-      ///******************************************************************************************PASO 1: MCE = MC U E ==> fapexpd >= fpsercon
+      ///**********************************PASO 1.1: MC U E ==>  eliminar duplicados por fapexpd >= fpsercon y fapexpd <= ffinvesu y por eliminación del secuencial de contrato del join
 
-      val mce = sql(
+      val mce_aux = sql(
         """
-                SELECT MC.origen, MC.cptocred, MC.cfinca, MC.cptoserv, MC.cderind, MC.cupsree, MC.ccounips,MC.cupsree2, MC.cpuntmed, MC.tpuntmed, MC.vparsist, MC.cemptitu,MC.ccontrat, MC.cnumscct, MC.fpsercon, MC.ffinvesu,
-                       E.csecexpe, E.fapexpd, E.finifran, E.ffinfran, E.anomalia, E.irregularidad, E.venacord, E.vennofai, E.torigexp, E.texpedie,E.expclass, E.testexpe,
-                       E.fnormali, E.cplan, E.ccampa, E.cempresa, E.fciexped
-                FROM MC JOIN E
-                ON MC.origen=E.origen AND MC.cfinca=E.cfinca AND MC.cptoserv=E.cptoserv AND MC.cderind=E.cderind AND E.fapexpd >= MC.fpsercon
+                SELECT DISTINCT MC.origen, MC.cptocred, MC.cfinca, MC.cptoserv, MC.cderind, MC.cupsree, MC.ccounips,MC.cupsree2, MC.cpuntmed, MC.tpuntmed, MC.vparsist, MC.cemptitu,MC.ccontrat, MC.fpsercon,
+                                MC.ffinvesu,E.csecexpe, E.fapexpd, E.finifran, E.ffinfran, E.anomalia, E.irregularidad, E.venacord, E.vennofai, E.torigexp, E.texpedie,E.expclass, E.testexpe,
+                                E.fnormali, E.cplan, E.ccampa, E.cempresa, E.fciexped
+                                FROM MC JOIN E
+                                ON MC.origen=E.origen AND MC.cfinca=E.cfinca AND MC.cptoserv=E.cptoserv AND MC.cderind=E.cderind AND E.fapexpd >= MC.fpsercon AND E.fapexpd <= MC.ffinvesu
               """)
 
-      println("Persistiendo mce")
-
-      mce.persist(nivel)
-
+      println("Persistiendo mce_aux")
+      mce_aux.show(5,truncate=false)
+      mce_aux.persist(nivel)
       df_00C.unpersist()
-
       df_16.unpersist()
+      mce_aux.createOrReplaceTempView("MCE_aux")
 
-      println("Checkpoint mce")
 
-      mce.checkpoint()
+      ///**********************************PASO 1.2: Eliminar duplicados por fechas infinitas
 
-//      mce.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mce")
+      val mce = sql("""SELECT * FROM MCE_aux WHERE fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31" """)
 
+      println("Persistiendo mce")
+      mce.show(5,truncate=false)
+      mce.persist(nivel)
+      mce_aux.unpersist()
       mce.createOrReplaceTempView("MCE")
 
 
-      ///******************************************************************************************PASO 2: MCEMA = MCE U MA
+      ///**********************************PASO 2.1: MCECC = MCE U CC   ==> diferencia = datediff(flectreg,fapexpd)
 
-      val mcema = sql(
+      val mcecc = sql(
         """
-              SELECT MCE.origen, MCE.cptocred, MCE.cfinca, MCE.cptoserv, MCE.cderind, MCE.cupsree,MCE.ccounips,MCE.cupsree2, MCE.cpuntmed, MCE.tpuntmed, MCE.vparsist, MCE.cemptitu,
-                     MCE.ccontrat, MCE.cnumscct, MCE.fpsercon, MCE.ffinvesu,MCE.csecexpe, MCE.fapexpd, MCE.finifran, MCE.ffinfran, MCE.anomalia, MCE.irregularidad,
-                     MCE.venacord, MCE.vennofai, MCE.torigexp, MCE.texpedie,MCE.expclass, MCE.testexpe,MCE.fnormali, MCE.cplan, MCE.ccampa, MCE.cempresa, MCE.fciexped,
-                     MA.csecptom, MA.fvigorpm, MA.fbajapm,MA.caparmed
-              FROM MCE JOIN MA
-              ON MCE.origen = MA.origen AND MCE.cupsree2 = MA.cupsree2 AND MCE.cpuntmed = MA.cpuntmed
-            """)
-
-      println("Persistiendo mcema")
-
-      mcema.persist(nivel)
-
-      df_00E.unpersist()
-
-      mce.unpersist()
-
-      println("Checkpoint mcema")
-
-      mcema.checkpoint()
-
-//      mcema.coalesce(1).write.option("header", "true").save(TabPaths.prefix_05 + "mcema")
-
-      mcema.createOrReplaceTempView("MCEMA")
-
-
-      ///******************************************************************************************PASO 3: MCEMACC = MCEMA U CC ==> datediff ( flectreg , fapexpd ) AS dif
-
-
-      val mcemacc_diff = sql(
-        """
-            SELECT MCEMA.origen, MCEMA.cptocred, MCEMA.cfinca, MCEMA.cptoserv,MCEMA.cderind, MCEMA.cupsree,MCEMA.ccounips,MCEMA.cupsree2,MCEMA.cpuntmed, MCEMA.tpuntmed, MCEMA.vparsist, MCEMA.cemptitu,
-                   MCEMA.ccontrat, MCEMA.cnumscct, MCEMA.fpsercon, MCEMA.ffinvesu,MCEMA.csecexpe, MCEMA.fapexpd, MCEMA.finifran, MCEMA.ffinfran,MCEMA.anomalia, MCEMA.irregularidad,MCEMA.venacord, MCEMA.vennofai,
-                   MCEMA.torigexp, MCEMA.texpedie,MCEMA.expclass, MCEMA.testexpe,MCEMA.fnormali, MCEMA.cplan, MCEMA.ccampa, MCEMA.cempresa,MCEMA.fciexped,MCEMA.csecptom, MCEMA.fvigorpm, MCEMA.fbajapm,MCEMA.caparmed,
-                   CC.flectreg, datediff ( flectreg , fapexpd ) AS dif,
+            SELECT MCE.origen, MCE.cptocred, MCE.cfinca, MCE.cptoserv,MCE.cderind, MCE.cupsree,MCE.ccounips,MCE.cupsree2,MCE.cpuntmed, MCE.tpuntmed, MCE.vparsist, MCE.cemptitu,
+                   MCE.ccontrat, MCE.fpsercon, MCE.ffinvesu,MCE.csecexpe, MCE.fapexpd, MCE.finifran, MCE.ffinfran,MCE.anomalia, MCE.irregularidad,MCE.venacord, MCE.vennofai,
+                   MCE.torigexp, MCE.texpedie,MCE.expclass, MCE.testexpe,MCE.fnormali, MCE.cplan, MCE.ccampa, MCE.cempresa,MCE.fciexped,
+                   CC.flectreg, datediff ( flectreg , fapexpd ) AS diferencia,
                    CC.testcaco, CC.obiscode, CC.vsecccar,
                    CC.hora_01, CC.1q_consumo_01, CC.2q_consumo_01, CC.3q_consumo_01, CC.4q_consumo_01,CC.substatus_01,CC.testmenn_01,CC.testmecnn_01,
                    CC.hora_02, CC.1q_consumo_02, CC.2q_consumo_02, CC.3q_consumo_02, CC.4q_consumo_02,CC.substatus_02,CC.testmenn_02,CC.testmecnn_02,
@@ -128,102 +96,83 @@ object LecturasIA {
                    CC.hora_23, CC.1q_consumo_23, CC.2q_consumo_23, CC.3q_consumo_23, CC.4q_consumo_23, CC.substatus_23, CC.testmenn_23, CC.testmecnn_23,
                    CC.hora_24, CC.1q_consumo_24, CC.2q_consumo_24, CC.3q_consumo_24, CC.4q_consumo_24, CC.substatus_24, CC.testmenn_24, CC.testmecnn_24,
                    CC.hora_25, CC.1q_consumo_25, CC.2q_consumo_25, CC.3q_consumo_25, CC.4q_consumo_25, CC.substatus_25, CC.testmenn_25, CC.testmecnn_25
-           FROM MCEMA JOIN CC
-           ON MCEMA.origen = CC.origen AND MCEMA.cpuntmed = CC.cpuntmed AND CC.obiscode = 'A' AND CC.testcaco = 'R'
+           FROM MCE JOIN CC
+           ON MCE.origen = CC.origen AND MCE.cpuntmed = CC.cpuntmed AND CC.obiscode = 'A' AND CC.testcaco = 'R'
            """)
 
-      println("Persistiendo mcemacc_diff")
-
-      mcemacc_diff.persist(nivel)
-
+      println("Persistiendo mcecc")
+      mcecc.show(5,truncate = false)
+      mcecc.persist(nivel)
       df_01.unpersist()
-      mcema.unpersist()
+      mce.unpersist()
+      mcecc.createOrReplaceTempView("MCECC")
 
-      mcemacc_diff.createOrReplaceTempView("MCEMACC")
+      ///**********************************PASO 2.2: Construir LRDATES
 
-
-
-      ///******************************************************************************************PASO 4: LRDATES = CUPSREE, LEFTDATE, RIGHTDATE, DIF
-
-
-      val lrdates_aux = sql(
+      val lrdates = sql(
         """
-           SELECT cupsree,add_months(flectreg,-6) AS leftdate, flectreg AS rightdate, dif, fapexpd FROM MCEMACC
-           WHERE (cupsree,dif) IN (SELECT cupsree, max(dif) as maximo FROM MCEMACC GROUP BY cupsree)
+           SELECT DISTINCT cupsree, add_months(flectreg,-6) AS ldate, flectreg AS rdate, diferencia, fapexpd  FROM MCECC
+ |         WHERE diferencia<=0 AND add_months(fapexpd,-3)>flectreg AND (cupsree,diferencia) IN (SELECT cupsree, max(diferencia) as maximo FROM MCECC GROUP BY cupsree)
         """)
 
-      println("Persistiendo lrdates_aux")
-
-      lrdates_aux.persist(nivel)
-
-      val lrdates = lrdates_aux.dropDuplicates()
-
       println("Persistiendo lrdates")
-
+      lrdates.show(5,truncate=false)
       lrdates.persist(nivel)
-
-      lrdates_aux.unpersist()
-
       lrdates.createOrReplaceTempView("LRDATES")
 
-      ///******************************************************************************************PASO 5: MCEMACCLR =  MCEMACC U LRDATES ==> flectreg BETWEEN leftdate AND rightdate (JOIN: cupsree, fapexpd)
+
+      ///***********************************PASO 2.3: MCECCLR =  MCECC U LRDATES ==> flectreg BETWEEN ldate AND rdate (JOIN: cupsree, fapexpd)
 
 
-      val mcemacclr = sql(
+
+      val mcecclr = sql(
         """
-            SELECT MCEMACC.origen, MCEMACC.cptocred, MCEMACC.cfinca, MCEMACC.cptoserv,MCEMACC.cderind, MCEMACC.cupsree,MCEMACC.ccounips,MCEMACC.cupsree2,MCEMACC.cpuntmed, MCEMACC.tpuntmed, MCEMACC.vparsist, MCEMACC.cemptitu,
-                   MCEMACC.ccontrat, MCEMACC.cnumscct, MCEMACC.fpsercon, MCEMACC.ffinvesu,MCEMACC.csecexpe, MCEMACC.fapexpd, MCEMACC.finifran, MCEMACC.ffinfran,MCEMACC.anomalia, MCEMACC.irregularidad,MCEMACC.venacord, MCEMACC.vennofai,
-                   MCEMACC.torigexp, MCEMACC.texpedie,MCEMACC.expclass, MCEMACC.testexpe,MCEMACC.fnormali, MCEMACC.cplan, MCEMACC.ccampa, MCEMACC.cempresa,MCEMACC.fciexped,MCEMACC.csecptom, MCEMACC.fvigorpm, MCEMACC.fbajapm,MCEMACC.caparmed,
-                   MCEMACC.flectreg, LRDATES.rightdate, LRDATES.leftdate,
-                   MCEMACC.testcaco, MCEMACC.obiscode, MCEMACC.vsecccar,
-                   MCEMACC.hora_01, MCEMACC.1q_consumo_01, MCEMACC.2q_consumo_01, MCEMACC.3q_consumo_01, MCEMACC.4q_consumo_01,MCEMACC.substatus_01,MCEMACC.testmenn_01,MCEMACC.testmecnn_01,
-                   MCEMACC.hora_02, MCEMACC.1q_consumo_02, MCEMACC.2q_consumo_02, MCEMACC.3q_consumo_02, MCEMACC.4q_consumo_02,MCEMACC.substatus_02,MCEMACC.testmenn_02,MCEMACC.testmecnn_02,
-                   MCEMACC.hora_03, MCEMACC.1q_consumo_03, MCEMACC.2q_consumo_03, MCEMACC.3q_consumo_03, MCEMACC.4q_consumo_03,MCEMACC.substatus_03,MCEMACC.testmenn_03,MCEMACC.testmecnn_03,
-                   MCEMACC.hora_04, MCEMACC.1q_consumo_04, MCEMACC.2q_consumo_04, MCEMACC.3q_consumo_04, MCEMACC.4q_consumo_04,MCEMACC.substatus_04,MCEMACC.testmenn_04,MCEMACC.testmecnn_04,
-                   MCEMACC.hora_05, MCEMACC.1q_consumo_05, MCEMACC.2q_consumo_05, MCEMACC.3q_consumo_05, MCEMACC.4q_consumo_05,MCEMACC.substatus_05,MCEMACC.testmenn_05,MCEMACC.testmecnn_05,
-                   MCEMACC.hora_06, MCEMACC.1q_consumo_06, MCEMACC.2q_consumo_06, MCEMACC.3q_consumo_06, MCEMACC.4q_consumo_06,MCEMACC.substatus_06,MCEMACC.testmenn_06,MCEMACC.testmecnn_06,
-                   MCEMACC.hora_07, MCEMACC.1q_consumo_07, MCEMACC.2q_consumo_07, MCEMACC.3q_consumo_07, MCEMACC.4q_consumo_07,MCEMACC.substatus_07,MCEMACC.testmenn_07,MCEMACC.testmecnn_07,
-                   MCEMACC.hora_08, MCEMACC.1q_consumo_08, MCEMACC.2q_consumo_08, MCEMACC.3q_consumo_08, MCEMACC.4q_consumo_08,MCEMACC.substatus_08,MCEMACC.testmenn_08,MCEMACC.testmecnn_08,
-                   MCEMACC.hora_09, MCEMACC.1q_consumo_09, MCEMACC.2q_consumo_09, MCEMACC.3q_consumo_09, MCEMACC.4q_consumo_09,MCEMACC.substatus_09,MCEMACC.testmenn_09,MCEMACC.testmecnn_09,
-                   MCEMACC.hora_10, MCEMACC.1q_consumo_10, MCEMACC.2q_consumo_10, MCEMACC.3q_consumo_10, MCEMACC.4q_consumo_10,MCEMACC.substatus_10,MCEMACC.testmenn_10,MCEMACC.testmecnn_10,
-                   MCEMACC.hora_11, MCEMACC.1q_consumo_11, MCEMACC.2q_consumo_11, MCEMACC.3q_consumo_11, MCEMACC.4q_consumo_11,MCEMACC.substatus_11,MCEMACC.testmenn_11,MCEMACC.testmecnn_11,
-                   MCEMACC.hora_12, MCEMACC.1q_consumo_12, MCEMACC.2q_consumo_12, MCEMACC.3q_consumo_12, MCEMACC.4q_consumo_12,MCEMACC.substatus_12,MCEMACC.testmenn_12,MCEMACC.testmecnn_12,
-                   MCEMACC.hora_13, MCEMACC.1q_consumo_13, MCEMACC.2q_consumo_13, MCEMACC.3q_consumo_13, MCEMACC.4q_consumo_13,MCEMACC.substatus_13,MCEMACC.testmenn_13,MCEMACC.testmecnn_13,
-                   MCEMACC.hora_14, MCEMACC.1q_consumo_14, MCEMACC.2q_consumo_14, MCEMACC.3q_consumo_14, MCEMACC.4q_consumo_14,MCEMACC.substatus_14,MCEMACC.testmenn_14,MCEMACC.testmecnn_14,
-                   MCEMACC.hora_15, MCEMACC.1q_consumo_15, MCEMACC.2q_consumo_15, MCEMACC.3q_consumo_15, MCEMACC.4q_consumo_15, MCEMACC.substatus_15, MCEMACC.testmenn_15, MCEMACC.testmecnn_15,
-                   MCEMACC.hora_16, MCEMACC.1q_consumo_16, MCEMACC.2q_consumo_16, MCEMACC.3q_consumo_16, MCEMACC.4q_consumo_16, MCEMACC.substatus_16, MCEMACC.testmenn_16, MCEMACC.testmecnn_16,
-                   MCEMACC.hora_17, MCEMACC.1q_consumo_17, MCEMACC.2q_consumo_17, MCEMACC.3q_consumo_17, MCEMACC.4q_consumo_17, MCEMACC.substatus_17, MCEMACC.testmenn_17, MCEMACC.testmecnn_17,
-                   MCEMACC.hora_18, MCEMACC.1q_consumo_18, MCEMACC.2q_consumo_18, MCEMACC.3q_consumo_18, MCEMACC.4q_consumo_18, MCEMACC.substatus_18, MCEMACC.testmenn_18, MCEMACC.testmecnn_18,
-                   MCEMACC.hora_19, MCEMACC.1q_consumo_19, MCEMACC.2q_consumo_19, MCEMACC.3q_consumo_19, MCEMACC.4q_consumo_19, MCEMACC.substatus_19, MCEMACC.testmenn_19, MCEMACC.testmecnn_19,
-                   MCEMACC.hora_20, MCEMACC.1q_consumo_20, MCEMACC.2q_consumo_20, MCEMACC.3q_consumo_20, MCEMACC.4q_consumo_20, MCEMACC.substatus_20, MCEMACC.testmenn_20, MCEMACC.testmecnn_20,
-                   MCEMACC.hora_21, MCEMACC.1q_consumo_21, MCEMACC.2q_consumo_21, MCEMACC.3q_consumo_21, MCEMACC.4q_consumo_21, MCEMACC.substatus_21, MCEMACC.testmenn_21, MCEMACC.testmecnn_21,
-                   MCEMACC.hora_22, MCEMACC.1q_consumo_22, MCEMACC.2q_consumo_22, MCEMACC.3q_consumo_22, MCEMACC.4q_consumo_22, MCEMACC.substatus_22, MCEMACC.testmenn_22, MCEMACC.testmecnn_22,
-                   MCEMACC.hora_23, MCEMACC.1q_consumo_23, MCEMACC.2q_consumo_23, MCEMACC.3q_consumo_23, MCEMACC.4q_consumo_23, MCEMACC.substatus_23, MCEMACC.testmenn_23, MCEMACC.testmecnn_23,
-                   MCEMACC.hora_24, MCEMACC.1q_consumo_24, MCEMACC.2q_consumo_24, MCEMACC.3q_consumo_24, MCEMACC.4q_consumo_24, MCEMACC.substatus_24, MCEMACC.testmenn_24, MCEMACC.testmecnn_24,
-                   MCEMACC.hora_25, MCEMACC.1q_consumo_25, MCEMACC.2q_consumo_25, MCEMACC.3q_consumo_25, MCEMACC.4q_consumo_25, MCEMACC.substatus_25, MCEMACC.testmenn_25, MCEMACC.testmecnn_25
-           FROM MCEMACC JOIN LRDATES
-           ON MCEMACC.cupsree = LRDATES.cupsree AND MCEMACC.fapexpd = LRDATES.fapexpd AND MCEMACC.flectreg BETWEEN LRDATES.leftdate AND LRDATES.rightdate
+            SELECT MCECC.origen, MCECC.cptocred, MCECC.cfinca, MCECC.cptoserv,MCECC.cderind, MCECC.cupsree,MCECC.ccounips,MCECC.cupsree2,MCECC.cpuntmed, MCECC.tpuntmed, MCECC.vparsist, MCECC.cemptitu,
+                   MCECC.ccontrat, MCECC.fpsercon, MCECC.ffinvesu,MCECC.csecexpe, MCECC.fapexpd, MCECC.finifran, MCECC.ffinfran,MCECC.anomalia, MCECC.irregularidad,MCECC.venacord, MCECC.vennofai,
+                   MCECC.torigexp, MCECC.texpedie,MCECC.expclass, MCECC.testexpe,MCECC.fnormali, MCECC.cplan, MCECC.ccampa, MCECC.cempresa,MCECC.fciexped,
+                   MCECC.testcaco, MCECC.obiscode, MCECC.vsecccar,
+                   MCECC.hora_01, MCECC.1q_consumo_01, MCECC.2q_consumo_01, MCECC.3q_consumo_01, MCECC.4q_consumo_01,MCECC.substatus_01,MCECC.testmenn_01,MCECC.testmecnn_01,
+                   MCECC.hora_02, MCECC.1q_consumo_02, MCECC.2q_consumo_02, MCECC.3q_consumo_02, MCECC.4q_consumo_02,MCECC.substatus_02,MCECC.testmenn_02,MCECC.testmecnn_02,
+                   MCECC.hora_03, MCECC.1q_consumo_03, MCECC.2q_consumo_03, MCECC.3q_consumo_03, MCECC.4q_consumo_03,MCECC.substatus_03,MCECC.testmenn_03,MCECC.testmecnn_03,
+                   MCECC.hora_04, MCECC.1q_consumo_04, MCECC.2q_consumo_04, MCECC.3q_consumo_04, MCECC.4q_consumo_04,MCECC.substatus_04,MCECC.testmenn_04,MCECC.testmecnn_04,
+                   MCECC.hora_05, MCECC.1q_consumo_05, MCECC.2q_consumo_05, MCECC.3q_consumo_05, MCECC.4q_consumo_05,MCECC.substatus_05,MCECC.testmenn_05,MCECC.testmecnn_05,
+                   MCECC.hora_06, MCECC.1q_consumo_06, MCECC.2q_consumo_06, MCECC.3q_consumo_06, MCECC.4q_consumo_06,MCECC.substatus_06,MCECC.testmenn_06,MCECC.testmecnn_06,
+                   MCECC.hora_07, MCECC.1q_consumo_07, MCECC.2q_consumo_07, MCECC.3q_consumo_07, MCECC.4q_consumo_07,MCECC.substatus_07,MCECC.testmenn_07,MCECC.testmecnn_07,
+                   MCECC.hora_08, MCECC.1q_consumo_08, MCECC.2q_consumo_08, MCECC.3q_consumo_08, MCECC.4q_consumo_08,MCECC.substatus_08,MCECC.testmenn_08,MCECC.testmecnn_08,
+                   MCECC.hora_09, MCECC.1q_consumo_09, MCECC.2q_consumo_09, MCECC.3q_consumo_09, MCECC.4q_consumo_09,MCECC.substatus_09,MCECC.testmenn_09,MCECC.testmecnn_09,
+                   MCECC.hora_10, MCECC.1q_consumo_10, MCECC.2q_consumo_10, MCECC.3q_consumo_10, MCECC.4q_consumo_10,MCECC.substatus_10,MCECC.testmenn_10,MCECC.testmecnn_10,
+                   MCECC.hora_11, MCECC.1q_consumo_11, MCECC.2q_consumo_11, MCECC.3q_consumo_11, MCECC.4q_consumo_11,MCECC.substatus_11,MCECC.testmenn_11,MCECC.testmecnn_11,
+                   MCECC.hora_12, MCECC.1q_consumo_12, MCECC.2q_consumo_12, MCECC.3q_consumo_12, MCECC.4q_consumo_12,MCECC.substatus_12,MCECC.testmenn_12,MCECC.testmecnn_12,
+                   MCECC.hora_13, MCECC.1q_consumo_13, MCECC.2q_consumo_13, MCECC.3q_consumo_13, MCECC.4q_consumo_13,MCECC.substatus_13,MCECC.testmenn_13,MCECC.testmecnn_13,
+                   MCECC.hora_14, MCECC.1q_consumo_14, MCECC.2q_consumo_14, MCECC.3q_consumo_14, MCECC.4q_consumo_14,MCECC.substatus_14,MCECC.testmenn_14,MCECC.testmecnn_14,
+                   MCECC.hora_15, MCECC.1q_consumo_15, MCECC.2q_consumo_15, MCECC.3q_consumo_15, MCECC.4q_consumo_15, MCECC.substatus_15, MCECC.testmenn_15, MCECC.testmecnn_15,
+                   MCECC.hora_16, MCECC.1q_consumo_16, MCECC.2q_consumo_16, MCECC.3q_consumo_16, MCECC.4q_consumo_16, MCECC.substatus_16, MCECC.testmenn_16, MCECC.testmecnn_16,
+                   MCECC.hora_17, MCECC.1q_consumo_17, MCECC.2q_consumo_17, MCECC.3q_consumo_17, MCECC.4q_consumo_17, MCECC.substatus_17, MCECC.testmenn_17, MCECC.testmecnn_17,
+                   MCECC.hora_18, MCECC.1q_consumo_18, MCECC.2q_consumo_18, MCECC.3q_consumo_18, MCECC.4q_consumo_18, MCECC.substatus_18, MCECC.testmenn_18, MCECC.testmecnn_18,
+                   MCECC.hora_19, MCECC.1q_consumo_19, MCECC.2q_consumo_19, MCECC.3q_consumo_19, MCECC.4q_consumo_19, MCECC.substatus_19, MCECC.testmenn_19, MCECC.testmecnn_19,
+                   MCECC.hora_20, MCECC.1q_consumo_20, MCECC.2q_consumo_20, MCECC.3q_consumo_20, MCECC.4q_consumo_20, MCECC.substatus_20, MCECC.testmenn_20, MCECC.testmecnn_20,
+                   MCECC.hora_21, MCECC.1q_consumo_21, MCECC.2q_consumo_21, MCECC.3q_consumo_21, MCECC.4q_consumo_21, MCECC.substatus_21, MCECC.testmenn_21, MCECC.testmecnn_21,
+                   MCECC.hora_22, MCECC.1q_consumo_22, MCECC.2q_consumo_22, MCECC.3q_consumo_22, MCECC.4q_consumo_22, MCECC.substatus_22, MCECC.testmenn_22, MCECC.testmecnn_22,
+                   MCECC.hora_23, MCECC.1q_consumo_23, MCECC.2q_consumo_23, MCECC.3q_consumo_23, MCECC.4q_consumo_23, MCECC.substatus_23, MCECC.testmenn_23, MCECC.testmecnn_23,
+                   MCECC.hora_24, MCECC.1q_consumo_24, MCECC.2q_consumo_24, MCECC.3q_consumo_24, MCECC.4q_consumo_24, MCECC.substatus_24, MCECC.testmenn_24, MCECC.testmecnn_24,
+                   MCECC.hora_25, MCECC.1q_consumo_25, MCECC.2q_consumo_25, MCECC.3q_consumo_25, MCECC.4q_consumo_25, MCECC.substatus_25, MCECC.testmenn_25, MCECC.testmecnn_25
+           FROM MCECC JOIN LRDATES
+           ON MCECC.cupsree = LRDATES.cupsree AND MCECC.fapexpd = LRDATES.fapexpd AND MCECC.flectreg BETWEEN LRDATES.leftdate AND LRDATES.rightdate
            """)
 
-      println("Persistiendo mcemacclr")
-
-      mcemacclr.persist(nivel)
-
-      mcemacc_diff.unpersist()
-
+      println("Persistiendo mcecclr")
+      mcecclr.show(5,truncate = false)
+      mcecclr.persist(nivel)
+      mcecc.unpersist()
       lrdates.unpersist()
+      mcecclr.createOrReplaceTempView("MCECCLR")
 
-      mcemacclr.createOrReplaceTempView("MCEMACCLR")
+     ///*********************************************************PASO 3.1: lecturasIrregularidad =  MCEMACCLR con Irregularidad
 
-
-
-      ///******************************************************************************************PASO 6: lecturasIrregularidad =  MCEMACCLR con Irregularidad
-
-
-      val li_aux = sql(
+      val li = sql(
         """
-            SELECT
-           cupsree, ccontrat, cnumscct, fpsercon, ffinvesu, fapexpd, fciexped,
+            SELECT DISTINCT
+           cupsree, ccontrat, fpsercon, ffinvesu, fapexpd, fciexped,
            flectreg, testcaco, obiscode, vsecccar,
            hora_01, 1q_consumo_01, 2q_consumo_01, 3q_consumo_01, 4q_consumo_01,substatus_01,testmenn_01,testmecnn_01,
            hora_02, 1q_consumo_02, 2q_consumo_02, 3q_consumo_02, 4q_consumo_02,substatus_02,testmenn_02,testmecnn_02,
@@ -252,14 +201,19 @@ object LecturasIA {
            hora_25, 1q_consumo_25, 2q_consumo_25, 3q_consumo_25, 4q_consumo_25, substatus_25, testmenn_25, testmecnn_25
            FROM MCEMACCLR WHERE irregularidad='S'""")
 
+      println("Persistiendo li")
+      li.show(5,truncate = false)
+      li.persist(nivel)
 
-       ///******************************************************************************************PASO 7: lecturasAnomalia =  MCEMACCLR con Anomalía
 
 
-      val la_aux = sql(
+      ///*********************************************************PASO 3.1: lecturasIrregularidad =  MCEMACCLR con Anomalía
+
+
+      val la = sql(
         """
-            SELECT
-           cupsree, ccontrat, cnumscct, fpsercon, ffinvesu, fapexpd, fciexped,
+            SELECT DISTINCT
+           cupsree, ccontrat, fpsercon, ffinvesu, fapexpd, fciexped,
            flectreg, testcaco, obiscode, vsecccar,
            hora_01, 1q_consumo_01, 2q_consumo_01, 3q_consumo_01, 4q_consumo_01,substatus_01,testmenn_01,testmecnn_01,
            hora_02, 1q_consumo_02, 2q_consumo_02, 3q_consumo_02, 4q_consumo_02,substatus_02,testmenn_02,testmecnn_02,
@@ -288,61 +242,18 @@ object LecturasIA {
            hora_25, 1q_consumo_25, 2q_consumo_25, 3q_consumo_25, 4q_consumo_25, substatus_25, testmenn_25, testmecnn_25
            FROM MCEMACCLR WHERE anomalia='S'""")
 
+      println("Persistiendo la")
+      la.show(5,truncate = false)
+      la.persist(nivel)
 
-      ///******************************************************************************************PASO 8: Borrar duplicados y guardar datasets
 
+    ///*********************************************************PASO 4S: Borrar duplicados y guardar datasets
 
-//      li_aux.persist(nivel)
-
-//      la_aux.persist(nivel)
-
-      println("Checkpoint li_aux")
-
-      li_aux.checkpoint()
-
-      println("Checkpoint la_aux")
-
-      la_aux.checkpoint()
-
-      mcemacclr.unpersist()
-
-      val li = li_aux.dropDuplicates()
-
-      val la = la_aux.dropDuplicates()
-
-      println("Checkpoint li")
-
-      li.checkpoint()
-
-      println("Checkpoint la")
-
-      la.checkpoint()
-
-      println("Count li_aux")
-
-      val iaux = li_aux.count()
-
-      println("Count li")
-
-      val i = li.count()
-      println("Dataset Lecturas Irregularidad con duplicados = " + iaux)
-      println("Dataset Lecturas Irregularidad                = " + i)
-      println("Diferencia = " + (iaux - i))
+      mcecclr.unpersist()
 
       println("Guardando Irregularidad")
       li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasIrregularidad")
       println("Parquet Irregularidad Guardada")
-
-      println("Count la_aux")
-
-      val aaux = la_aux.count()
-
-      println("Count la")
-
-      val a = la.count()
-      println("Dataset Lecturas Anomalía con duplicados = " + aaux)
-      println("Dataset Lecturas Anomalía                = " + a)
-      println("Diferencia = " + (aaux - a))
 
       println("Guardando Anomalía")
       la.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasAnomalia")
