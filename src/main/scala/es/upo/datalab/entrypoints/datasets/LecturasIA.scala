@@ -44,7 +44,7 @@ object LecturasIA {
               """)
 
       println("Persistiendo mce_aux")
-      mce_aux.show(5,truncate=false)
+//      mce_aux.show(5,truncate=false)
       mce_aux.persist(nivel)
       df_00C.unpersist()
       df_16.unpersist()
@@ -56,7 +56,7 @@ object LecturasIA {
       val mce = sql("""SELECT * FROM MCE_aux WHERE fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31" """)
 
       println("Persistiendo mce")
-      mce.show(5,truncate=false)
+//      mce.show(5,truncate=false)
       mce.persist(nivel)
       mce_aux.unpersist()
       mce.createOrReplaceTempView("MCE")
@@ -101,7 +101,7 @@ object LecturasIA {
            """)
 
       println("Persistiendo mcecc")
-      mcecc.show(5,truncate = false)
+//      mcecc.show(5,truncate = false)
       mcecc.persist(nivel)
       df_01.unpersist()
       mce.unpersist()
@@ -116,7 +116,7 @@ object LecturasIA {
         """)
 
       println("Persistiendo lrdates")
-      lrdates.show(5,truncate=false)
+//      lrdates.show(5,truncate=false)
       lrdates.persist(nivel)
       lrdates.createOrReplaceTempView("LRDATES")
 
@@ -161,7 +161,7 @@ object LecturasIA {
            """)
 
       println("Persistiendo mcecclr")
-      mcecclr.show(5,truncate = false)
+//      mcecclr.show(5,truncate = false)
       mcecclr.persist(nivel)
       mcecc.unpersist()
       lrdates.unpersist()
@@ -202,7 +202,7 @@ object LecturasIA {
            FROM MCEMACCLR WHERE irregularidad='S'""")
 
       println("Persistiendo li")
-      li.show(5,truncate = false)
+//      li.show(5,truncate = false)
       li.persist(nivel)
 
 
@@ -243,7 +243,7 @@ object LecturasIA {
            FROM MCEMACCLR WHERE anomalia='S'""")
 
       println("Persistiendo la")
-      la.show(5,truncate = false)
+//      la.show(5,truncate = false)
       la.persist(nivel)
 
 
