@@ -44,8 +44,9 @@ object LecturasIA {
               """)
 
       println("Persistiendo mce_aux")
-//      mce_aux.show(5,truncate=false)
       mce_aux.persist(nivel)
+      println("Mostrando mce_aux")
+      mce_aux.show(5,truncate=false)
       df_00C.unpersist()
       df_16.unpersist()
       mce_aux.createOrReplaceTempView("MCE_aux")
@@ -56,8 +57,9 @@ object LecturasIA {
       val mce = sql("""SELECT * FROM MCE_aux WHERE fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31" """)
 
       println("Persistiendo mce")
-//      mce.show(5,truncate=false)
       mce.persist(nivel)
+      println("Mostrando mce")
+      mce.show(5,truncate=false)
       mce_aux.unpersist()
       mce.createOrReplaceTempView("MCE")
 
@@ -101,8 +103,8 @@ object LecturasIA {
            """)
 
       println("Persistiendo mcecc")
-//      mcecc.show(5,truncate = false)
       mcecc.persist(nivel)
+      mcecc.show(5,truncate = false)
       df_01.unpersist()
       mce.unpersist()
       mcecc.createOrReplaceTempView("MCECC")
@@ -112,24 +114,23 @@ object LecturasIA {
       val lrdates = sql(
         """
            SELECT DISTINCT cupsree, add_months(flectreg,-6) AS ldate, flectreg AS rdate, diferencia, fapexpd  FROM MCECC
- |         WHERE diferencia<=0 AND add_months(fapexpd,-3)>flectreg AND (cupsree,diferencia) IN (SELECT cupsree, max(diferencia) as maximo FROM MCECC GROUP BY cupsree)
+           WHERE diferencia<=0 AND add_months(fapexpd,-3)>flectreg AND (cupsree,diferencia) IN (SELECT cupsree, max(diferencia) as maximo FROM MCECC GROUP BY cupsree)
         """)
 
       println("Persistiendo lrdates")
-//      lrdates.show(5,truncate=false)
       lrdates.persist(nivel)
+      lrdates.show(5,truncate=false)
       lrdates.createOrReplaceTempView("LRDATES")
 
 
       ///***********************************PASO 2.3: MCECCLR =  MCECC U LRDATES ==> flectreg BETWEEN ldate AND rdate (JOIN: cupsree, fapexpd)
-
-
 
       val mcecclr = sql(
         """
             SELECT MCECC.origen, MCECC.cptocred, MCECC.cfinca, MCECC.cptoserv,MCECC.cderind, MCECC.cupsree,MCECC.ccounips,MCECC.cupsree2,MCECC.cpuntmed, MCECC.tpuntmed, MCECC.vparsist, MCECC.cemptitu,
                    MCECC.ccontrat, MCECC.fpsercon, MCECC.ffinvesu,MCECC.csecexpe, MCECC.fapexpd, MCECC.finifran, MCECC.ffinfran,MCECC.anomalia, MCECC.irregularidad,MCECC.venacord, MCECC.vennofai,
                    MCECC.torigexp, MCECC.texpedie,MCECC.expclass, MCECC.testexpe,MCECC.fnormali, MCECC.cplan, MCECC.ccampa, MCECC.cempresa,MCECC.fciexped,
+                   MCECC.flectreg, LRDATES.ldate,LRDATES.rdate, LRDATES.diferencia,
                    MCECC.testcaco, MCECC.obiscode, MCECC.vsecccar,
                    MCECC.hora_01, MCECC.1q_consumo_01, MCECC.2q_consumo_01, MCECC.3q_consumo_01, MCECC.4q_consumo_01,MCECC.substatus_01,MCECC.testmenn_01,MCECC.testmecnn_01,
                    MCECC.hora_02, MCECC.1q_consumo_02, MCECC.2q_consumo_02, MCECC.3q_consumo_02, MCECC.4q_consumo_02,MCECC.substatus_02,MCECC.testmenn_02,MCECC.testmecnn_02,
@@ -157,12 +158,12 @@ object LecturasIA {
                    MCECC.hora_24, MCECC.1q_consumo_24, MCECC.2q_consumo_24, MCECC.3q_consumo_24, MCECC.4q_consumo_24, MCECC.substatus_24, MCECC.testmenn_24, MCECC.testmecnn_24,
                    MCECC.hora_25, MCECC.1q_consumo_25, MCECC.2q_consumo_25, MCECC.3q_consumo_25, MCECC.4q_consumo_25, MCECC.substatus_25, MCECC.testmenn_25, MCECC.testmecnn_25
            FROM MCECC JOIN LRDATES
-           ON MCECC.cupsree = LRDATES.cupsree AND MCECC.fapexpd = LRDATES.fapexpd AND MCECC.flectreg BETWEEN LRDATES.leftdate AND LRDATES.rightdate
+           ON MCECC.cupsree = LRDATES.cupsree AND MCECC.fapexpd = LRDATES.fapexpd AND MCECC.flectreg BETWEEN LRDATES.ldate AND LRDATES.rdate
            """)
 
       println("Persistiendo mcecclr")
-//      mcecclr.show(5,truncate = false)
       mcecclr.persist(nivel)
+      mcecclr.show(5,truncate = false)
       mcecc.unpersist()
       lrdates.unpersist()
       mcecclr.createOrReplaceTempView("MCECCLR")
@@ -199,11 +200,11 @@ object LecturasIA {
            hora_23, 1q_consumo_23, 2q_consumo_23, 3q_consumo_23, 4q_consumo_23, substatus_23, testmenn_23, testmecnn_23,
            hora_24, 1q_consumo_24, 2q_consumo_24, 3q_consumo_24, 4q_consumo_24, substatus_24, testmenn_24, testmecnn_24,
            hora_25, 1q_consumo_25, 2q_consumo_25, 3q_consumo_25, 4q_consumo_25, substatus_25, testmenn_25, testmecnn_25
-           FROM MCEMACCLR WHERE irregularidad='S'""")
+           FROM MCECCLR WHERE irregularidad='S'""")
 
       println("Persistiendo li")
-//      li.show(5,truncate = false)
       li.persist(nivel)
+      li.show(5,truncate = false)
 
 
 
@@ -240,11 +241,11 @@ object LecturasIA {
            hora_23, 1q_consumo_23, 2q_consumo_23, 3q_consumo_23, 4q_consumo_23, substatus_23, testmenn_23, testmecnn_23,
            hora_24, 1q_consumo_24, 2q_consumo_24, 3q_consumo_24, 4q_consumo_24, substatus_24, testmenn_24, testmecnn_24,
            hora_25, 1q_consumo_25, 2q_consumo_25, 3q_consumo_25, 4q_consumo_25, substatus_25, testmenn_25, testmecnn_25
-           FROM MCEMACCLR WHERE anomalia='S'""")
+           FROM MCECCLR WHERE anomalia='S'""")
 
       println("Persistiendo la")
-//      la.show(5,truncate = false)
       la.persist(nivel)
+      la.show(5,truncate = false)
 
 
     ///*********************************************************PASO 4S: Borrar duplicados y guardar datasets
