@@ -28,7 +28,7 @@ object SparkSessionUtils {
 //      enableHiveSupport().
 //      master("spark://192.168.1.10:7077")
 //      config("spark.scheduler.mode", "FAIR").
-
+      config("spark.speculation", "false").
       config("spark.network.timeout","10000000").
       config("spark.executor.heartbeatInterval","10000000").
       config("spark.local.dir","/mnt/datos/tempSpark").

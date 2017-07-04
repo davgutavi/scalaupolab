@@ -15,6 +15,7 @@ object LoadTableCsv {
 
   final val datePattern = "yyyyMMdd"
   final val dateTimePattern = "yyyy-MM-dd HH:mm:ss"
+  final val dateVoidPattern = "0001-01-01"
 
 
   def loadTable(pathToData: String, pathToHeaders: String, dropDuplicates:Boolean=false): DataFrame = {
@@ -32,8 +33,9 @@ object LoadTableCsv {
 
       val f = StructField(values(0).trim, getType(t), values(2).trim.toBoolean)
 
-      if (t == "date") pattern = datePattern
-      else if (t == "datetime") pattern = dateTimePattern
+      if (t == "date") {pattern = datePattern}
+      else if (t == "datetime") {pattern = dateTimePattern}
+
 
       fields += f
 
@@ -47,15 +49,18 @@ object LoadTableCsv {
       .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace", "true")
+//      .option("nullValue","Null")
       .schema(customSchema)
 
     if (!(pattern == "")) {
       loader.option("dateFormat", pattern)
     }
 
-    //    println(pathToData)
+//    println(pathToData)
 
     val data = loader.csv(pathToData)
+
+//    println("loaded")
 
     var r:DataFrame = null
 

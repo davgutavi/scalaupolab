@@ -20,15 +20,15 @@ object Test01 {
 
     val n = 20
 
-   val lecturasIrregularidad = LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad_04)
-
-    lecturasIrregularidad.createOrReplaceTempView("lect")
-
-    val aux1 = sql("SELECT DISTINCT ccontrat, cnumscct FROM lect")
-
-    println("Registros = "+ aux1.count())
-
-    aux1.show(20,truncate = false)
+//   val lecturasIrregularidad = LoadTableParquet.loadTable(TabPaths.lecturasIrregularidad_04)
+//
+//    lecturasIrregularidad.createOrReplaceTempView("lect")
+//
+//    val aux1 = sql("SELECT DISTINCT ccontrat, cnumscct FROM lect")
+//
+//    println("Registros = "+ aux1.count())
+//
+//    aux1.show(20,truncate = false)
 
 
     println("DONE!")

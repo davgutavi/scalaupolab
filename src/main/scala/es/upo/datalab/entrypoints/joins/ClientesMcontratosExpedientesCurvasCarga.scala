@@ -172,7 +172,7 @@ object ClientesMcontratosExpedientesCurvasCarga {
       capscargas.show(20,truncate = false)
       capscarga.unpersist()
 
-      capscargas.write.option("header","true").save(TabPaths.root+"datasets/clientes_expedientes_curvas")
+      capscargas.write.option("header","true").save(TabPaths.rootHDFS+"datasets/clientes_expedientes_curvas")
 
       val fraude = capscargas.where("irregularidad='S'")
       val no_fraude = capscargas.where("irregularidad='N'")
@@ -187,7 +187,7 @@ object ClientesMcontratosExpedientesCurvasCarga {
       println("Join Clientes y Cargas con fraude sin repetición =  " + fraudes.count() + " registros")
       fraudes.show(20,truncate = false)
 
-      fraudes.write.option("header","true").save(TabPaths.root+"datasets/clientes_expedientes_curvas_con_fraude")
+      fraudes.write.option("header","true").save(TabPaths.rootHDFS+"datasets/clientes_expedientes_curvas_con_fraude")
       fraudes.unpersist()
 
       no_fraude.persist(nivel)
@@ -199,7 +199,7 @@ object ClientesMcontratosExpedientesCurvasCarga {
       println("Join Clientes y Cargas sin fraude sin repetición =  " + no_fraudes.count() + " registros")
       no_fraudes.show(20,truncate = false)
 
-      no_fraudes.write.option("header","true").save(TabPaths.root+"datasets/clientes_expedientes_curvas_sin_fraude")
+      no_fraudes.write.option("header","true").save(TabPaths.rootHDFS+"datasets/clientes_expedientes_curvas_sin_fraude")
       no_fraudes.unpersist()
 
     }
