@@ -19,58 +19,60 @@ object LecturasIA {
 
     TimingUtils.time {
 
-      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB_00C)
-      df_00C.persist(nivel)
-      df_00C.createOrReplaceTempView("MC")
+      println("Prueba jar con spark")
 
-      val df_16 = LoadTableParquet.loadTable(TabPaths.TAB_16)
-      df_16.persist(nivel)
-      df_16.createOrReplaceTempView("E")
-
-      val df_01 = LoadTableParquet.loadTable(TabPaths.TAB_01)
-      df_01.persist(nivel)
-      df_01.createOrReplaceTempView("CC")
-
-
-      //**********************************PASO 1: MC U E ==>  eliminar duplicados por fapexpd >= fpsercon y fapexpd <= ffinvesu,
-      //**********************************                                        por eliminación del secuencial de contrato del join y
-      //**********************************                                        por fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31"
-
-      val mce = sql(
-        """
-                SELECT DISTINCT MC.origen, MC.cptocred, MC.cfinca, MC.cptoserv, MC.cderind, MC.cupsree, MC.ccounips,MC.cupsree2, MC.cpuntmed, MC.tpuntmed, MC.vparsist, MC.cemptitu,MC.ccontrat, MC.fpsercon,
-                                MC.ffinvesu,E.csecexpe, E.fapexpd, E.finifran, E.ffinfran, E.anomalia, E.irregularidad, E.venacord, E.vennofai, E.torigexp, E.texpedie,E.expclass, E.testexpe,
-                                E.fnormali, E.cplan, E.ccampa, E.cempresa, E.fciexped
-                                FROM MC JOIN E
-                                ON MC.origen=E.origen AND MC.cfinca=E.cfinca AND MC.cptoserv=E.cptoserv AND MC.cderind=E.cderind AND
-                                E.fapexpd >= MC.fpsercon AND E.fapexpd <= MC.ffinvesu
-
-              """)
-//      AND (fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31")
-
-      println("Persistiendo mce")
-      mce.persist(nivel)
-      println("Mostrando mce")
-      println("\nNúmero de registros de mce = "+mce.count())
-      mce.show(5,truncate=false)
-      df_00C.unpersist()
-      df_16.unpersist()
-      mce.createOrReplaceTempView("MCE")
-
-
-      ///**********************************PASO 1.2: Eliminar duplicados por fechas infinitas
-
-      val mce_aux = sql("""SELECT * FROM MCE WHERE fpsercon <> "0002-11-30" OR ffinvesu <> "9999-12-31" """)
-
-//      val mce_aux = sql("""SELECT * FROM MCE WHERE fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31" """)
-
-      println("Persistiendo mce_aux")
-      mce_aux.persist(nivel)
-      println("Mostrando mce_aux")
-      println("\nNúmero de registros de mce_aux = "+mce_aux.count())
-      mce_aux.show(200,truncate=false)
-      mce_aux.unpersist()
-      mce_aux.createOrReplaceTempView("MCE")
+//      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB_00C)
+//      df_00C.persist(nivel)
+//      df_00C.createOrReplaceTempView("MC")
+//
+//      val df_16 = LoadTableParquet.loadTable(TabPaths.TAB_16)
+//      df_16.persist(nivel)
+//      df_16.createOrReplaceTempView("E")
+//
+//      val df_01 = LoadTableParquet.loadTable(TabPaths.TAB_01)
+//      df_01.persist(nivel)
+//      df_01.createOrReplaceTempView("CC")
+//
+//
+//      //**********************************PASO 1: MC U E ==>  eliminar duplicados por fapexpd >= fpsercon y fapexpd <= ffinvesu,
+//      //**********************************                                        por eliminación del secuencial de contrato del join y
+//      //**********************************                                        por fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31"
+//
+//      val mce = sql(
+//        """
+//                SELECT DISTINCT MC.origen, MC.cptocred, MC.cfinca, MC.cptoserv, MC.cderind, MC.cupsree, MC.ccounips,MC.cupsree2, MC.cpuntmed, MC.tpuntmed, MC.vparsist, MC.cemptitu,MC.ccontrat, MC.fpsercon,
+//                                MC.ffinvesu,E.csecexpe, E.fapexpd, E.finifran, E.ffinfran, E.anomalia, E.irregularidad, E.venacord, E.vennofai, E.torigexp, E.texpedie,E.expclass, E.testexpe,
+//                                E.fnormali, E.cplan, E.ccampa, E.cempresa, E.fciexped
+//                                FROM MC JOIN E
+//                                ON MC.origen=E.origen AND MC.cfinca=E.cfinca AND MC.cptoserv=E.cptoserv AND MC.cderind=E.cderind AND
+//                                E.fapexpd >= MC.fpsercon AND E.fapexpd <= MC.ffinvesu
+//
+//              """)
+////      AND (fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31")
+//
+//      println("Persistiendo mce")
+//      mce.persist(nivel)
+//      println("Mostrando mce")
+//      println("\nNúmero de registros de mce = "+mce.count())
+//      mce.show(5,truncate=false)
+//      df_00C.unpersist()
+//      df_16.unpersist()
+//      mce.createOrReplaceTempView("MCE")
+//
+//
+//      ///**********************************PASO 1.2: Eliminar duplicados por fechas infinitas
+//
+//      val mce_aux = sql("""SELECT * FROM MCE WHERE fpsercon <> "0002-11-30" OR ffinvesu <> "9999-12-31" """)
+//
+////      val mce_aux = sql("""SELECT * FROM MCE WHERE fpsercon <> "0002-11-30" OR ffinvesu <>  "9999-12-31" """)
+//
+//      println("Persistiendo mce_aux")
+//      mce_aux.persist(nivel)
+//      println("Mostrando mce_aux")
+//      println("\nNúmero de registros de mce_aux = "+mce_aux.count())
+//      mce_aux.show(200,truncate=false)
+//      mce_aux.unpersist()
+//      mce_aux.createOrReplaceTempView("MCE")
 
 
       ///**********************************PASO 2.1: MCECC = MCE U CC   ==> diferencia = datediff(flectreg,fapexpd)

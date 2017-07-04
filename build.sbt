@@ -1,31 +1,34 @@
 name := "UpoLab"
-
-version := "1.0"
-
+version := "1.0.0"
 //para Spark 1.6.2 sólo se puede usar Scala 2.10.0
 //si se va a usar Java 8, la versión de Scala tiene que ser igual o superior a la 2.10.3
 //scalaVersion := "2.10.6"
-
-scalaVersion := "2.11.9"
+scalaVersion := "2.11.8"
+val sparkVersion = "2.1.1"
 
 libraryDependencies ++= Seq(
-
-
-  "org.apache.spark" %% "spark-core" % "2.1.1",
-  "org.apache.spark" %% "spark-sql" % "2.1.1",
-  "org.apache.spark" %% "spark-mllib" % "2.1.1",
-  "org.apache.spark" %% "spark-hive" % "2.1.1"
-
-//  "org.apache.spark" %% "spark-core" % "2.0.2",
-//  "org.apache.spark" %% "spark-sql" % "2.0.2",
-//  "org.apache.spark" %% "spark-mllib" % "2.0.2",
-//  "com.databricks" % "spark-csv_2.11" % "1.5.0",
-//  "org.apache.spark" %% "spark-hive" % "2.1.0"
-
-  //"org.apache.spark" %% "spark-core" % "1.6.0",
-  //"org.apache.spark" %% "spark-sql" % "1.6.0",
-  //"org.apache.spark" %% "spark-mllib" % "1.6.0",
-  //se realiza la importación de spark_csv por usar la versión 1.6.2, a partir de la versión 2.0.0 de
-  //Spark la lectura de csvs va incluida
-  //"com.databricks" % "spark-csv_2.10" % "1.5.0"
+  "org.apache.spark" %% "spark-core" % sparkVersion
+  ,"org.apache.spark" %% "spark-sql" % sparkVersion
+  //,"org.apache.spark" %% "spark-mllib" % sparkVersion
+  //,"org.apache.spark" %% "spark-hive" % sparkVersion
 )
+
+
+assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
+assemblyJarName in assembly := "endesa_"+version+".jar"
+mainClass in assembly := Some("es.upo.datalab.entrypoints.datasets.LecturasIA")
+mainClass := Some("es.upo.datalab.entrypoints.datasets.LecturasIA")
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+
+
+
+
+
+/* you need to be able to undo the "provided" annotation on the deps when running your spark
+   programs locally i.e. from sbt; this bit reincludes the full classpaths in the compile and run tasks. */
+//fullClasspath in Runtime := (fullClasspath in (Compile, run)).value
