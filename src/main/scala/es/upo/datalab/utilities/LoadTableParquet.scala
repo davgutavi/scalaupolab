@@ -13,7 +13,7 @@ object LoadTableParquet {
 
   def loadTable(pathToData: String): DataFrame = {
 
-    val r = SparkSessionUtils.sparkSession.read.load(pathToData)
+    val r = SparkSessionUtils.sparkSession.read.parquet(pathToData)
 
     r
   }
