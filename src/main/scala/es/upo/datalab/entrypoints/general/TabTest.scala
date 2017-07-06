@@ -1,7 +1,7 @@
 package es.upo.datalab.entrypoints.general
 
 
-import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
+import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
 
 /**
@@ -17,7 +17,7 @@ object TabTest {
 
     TimingUtils.time {
 
-      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers)
+      val df_05C = LoadTableParquet.loadTable(TabPaths.TAB_05C)
       df_05C.persist(nivel)
       println("Número de registros en Clientes = " + df_05C.count())
       df_05C.show(50,truncate = false)

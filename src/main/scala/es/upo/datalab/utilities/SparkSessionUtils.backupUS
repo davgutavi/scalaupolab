@@ -1,0 +1,34 @@
+package es.upo.datalab.utilities
+
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.{SQLContext, SparkSession}
+
+
+object SparkSessionUtils {
+
+
+  Logger.getLogger("org").setLevel(Level.OFF)
+  Logger.getLogger("akka").setLevel(Level.OFF)
+
+
+
+    val sparkSession = SparkSession.builder().
+      appName("upolab").
+      master("local[*]").
+//      enableHiveSupport().
+//      master("spark://192.168.1.10:7077")
+//      config("spark.scheduler.mode", "FAIR").
+
+      config("spark.network.timeout","10000000").
+      config("spark.executor.heartbeatInterval","10000000").
+      config("spark.local.dir","D:/tempSpark").
+      getOrCreate()
+
+  sparkSession.sparkContext.setCheckpointDir("hdfs://10.141.0.224:9000/fabregas/checkpointSpark")
+
+  val sc = sparkSession.sparkContext
+
+    val sqlContext = sparkSession.sqlContext
+
+
+}

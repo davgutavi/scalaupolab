@@ -1,21 +1,14 @@
 package es.upo.datalab.entrypoints.general
 
-
-import es.upo.datalab.utilities.{LoadTableCsv, LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils}
-import org.apache.spark.sql.catalyst.util.DateTimeUtils
+import es.upo.datalab.utilities.{SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.storage.StorageLevel
-
 
 /**
   * Created by davgutavi on 12/05/17.
   */
 object CstToParquet {
 
-  final val HDFSPATH = "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/"
-
-  val sqlContext = SparkSessionUtils.sqlContext
-
-  import sqlContext._
+  final val HDFSPATH = "hdfs://10.141.0.224/database/endesa/"
 
   def main(args: Array[String]): Unit = {
 
@@ -33,16 +26,9 @@ object CstToParquet {
 //      df_03.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_04")
 //      println("TAB_04")
 
-//      val df_05A = LoadTableCsv.loadTable(TabPaths.TAB_05A_csv, TabPaths.TAB_05A_headers)
-//
-//      df_05A.coalesce(1).write.option("header","true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB_05A")
-
-
-
-//      val df_06 = LoadTableCsv.loadTable(TabPaths.TAB_06_csv, TabPaths.TAB_06_headers)
-//
-//      df_06.coalesce(1).write.option("header","true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB_06")
-
+        //val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
+       //      df_00C.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_00C")
+       //      println("TAB_01")
 
 //      val df_05B = LoadTable.loadTable(TabPaths.TAB_05B, TabPaths.TAB_05B_headers)
 //      df_05B.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_05B")

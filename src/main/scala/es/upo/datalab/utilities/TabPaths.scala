@@ -6,18 +6,14 @@ package es.upo.datalab.utilities
 object TabPaths {
 
   //HDFS Laboratorio
-  final val rootHDFS = "hdfs://192.168.47.247/user/gutierrez/endesa/"
-  final val prefix_01 = rootHDFS+"database_parquet/"
-  final val prefix_02 = rootHDFS+"database_csv/"
-  final val prefix_03 = rootHDFS+"datasets_parquet/"
-  final val prefix_04 = rootHDFS+"datasets_csv/"
-  final val prefix_05 = rootHDFS+"joins_parquet/"
-  final val prefix_06 = rootHDFS+"joins_csv/"
-
-  final val rootHDD = "/mnt/datos/recursos/ENDESA/"
-  final val headers = rootHDD+"headers/"
-
-
+  final val root = "hdfs://192.168.47.247/user/gutierrez/endesa/"
+  final val prefix_01 = root+"database_parquet/"
+  final val prefix_02 = root+"database_csv/"
+  final val prefix_03 = root+"datasets_parquet/"
+  final val prefix_04 = root+"datasets_csv/"
+  final val prefix_05 = root+"joins_parquet/"
+  final val prefix_06 = root+"joins_csv/"
+  final val headers = "/mnt/datos/recursos/ENDESA/headers/"
 
   //MAC David
   //final val root = "/Volumes/david/endesa/"
@@ -26,38 +22,25 @@ object TabPaths {
 
   //*********************************************************************************TABLAS
 
-  //Maestro Aparatos
-  final val TAB_00E = prefix_01+"TAB_00E"
-  final val TAB_00E_headers =  headers+"TAB_00E_headers.csv"
-  final val TAB_00E_csv = prefix_02+"TAB_00E/Endesa_TAB_00E_20170127_CZZ_20100101_20161231.csv"
-
   //Maestro Contratos
   final val TAB_00C = prefix_01+"TAB_00C"
   final val TAB_00C_headers = headers+"TAB_00C_headers.csv"
   final val TAB_00C_csv = prefix_02+"TAB_00C/Endesa_TAB_00C_20170127_CZZ_20100101_20161231.csv"
-
-  //Contratación
-  final val TAB_05A = prefix_01+"TAB_05A"
-  final val TAB_05A_headers =  headers+"TAB_05A_headers.csv"
-  final val TAB_05A_csv = rootHDD+"TAB_05A/Endesa_TAB_05A_20170127_CZZ_20100101_20161231.csv"
 
   //Clientes
   final val TAB_05C = prefix_01+"TAB_05C"
   final val TAB_05C_headers =  headers+"TAB_05C_headers.csv"
   final val TAB_05C_csv = prefix_02+"TAB_05C/Endesa_TAB_05C_20170126_CZZ_20100101_20161231.csv"
 
-  //Aparatos
-  final val TAB_06 = prefix_01+"TAB_06"
-  final val TAB_06_headers =  headers+"TAB_06_headers.csv"
-  final val TAB_06_csv = rootHDD+"TAB_06/Endesa_TAB_06_20170127_CZZ_20100101_20161231.csv"
-
-
   //Expedientes
   final val TAB_16 = prefix_01+"TAB_16"
   final val TAB_16_headers =  headers+"TAB_16_headers.csv"
   final val TAB_16_csv = prefix_02+"TAB_16/Endesa_TAB_16_20170127_CZZ_20100101_20161231.csv"
 
-
+  //Maestro Aparatos
+  final val TAB_00E = prefix_01+"TAB_00E"
+  final val TAB_00E_headers =  headers+"TAB_00E_headers.csv"
+  final val TAB_00E_csv = prefix_02+"TAB_00E/Endesa_TAB_00E_20170127_CZZ_20100101_20161231.csv"
 
   //Curvas de Carga
   final val TAB_01 = prefix_01+"TAB_01"
@@ -88,6 +71,118 @@ object TabPaths {
   final val TAB_02_15_csv = prefix_02+"Endesa_TAB_02_20170127_CZZ_20150101_20151231.csv"
   final val TAB_02_16_csv = prefix_02+"Endesa_TAB_02_20170127_CZZ_20160101_20161231.csv"
 
+
+
+
+  //*********************************************************************************JOINS
+
+  final val maestroContratosClientes = prefix_05+"MaestroContratosClientes"
+  final val maestroContratosClientes_csv = prefix_06+"MaestroContratosClientes"
+
+  final val maestroContratosClientesExpedientes = prefix_05+"MaestroContratosClientesExpedientes"
+  final val maestroContratosClientesExpedientes_csv = prefix_06+"MaestroContratosClientesExpedientes"
+
+  final val maestroContratosClientesMaestroAparatos = prefix_05+"MaestroContratosClientesMaestroAparatos"
+  final val maestroContratosClientesMaestroAparatos_csv = prefix_06+"MaestroContratosClientesMaestroAparatos"
+
+  final val maestroContratosExpedientes = prefix_05+"mce"
+  final val maestroContratosExpedientes_csv = prefix_06+"MaestroContratosExpedientes"
+
+  final val maestroContratosExpedientesAnomalia = prefix_05+"MaestroContratosExpedientesAnomalia"
+  final val maestroContratosExpedientesAnomalia_csv = prefix_06+"MaestroContratosExpedientesAnomalia"
+
+  final val maestroContratosExpedientesIrregularidad = prefix_05+"MaestroContratosExpedientesIrregularidad"
+  final val maestroContratosExpedientesIrregularidad_csv = prefix_06+"MaestroContratosExpedientesIrregularidad"
+
+  final val maestroContratosMaestroAparatos = prefix_05+"MaestroContratosMaestroAparatos"
+  final val naestroContratosMaestroAparatos_csv = prefix_06+"MaestroContratosMaestroAparatos"
+
+  final val maestroContratosExpedientes_fechas_logico = prefix_05+"MaestroContratosExpedientes_fechas_logico"
+  final val maestroContratosExpedientes_fechas_logico_csv = prefix_06+"MaestroContratosExpedientes_fechas_logico"
+
+  final val maestroContratosExpedientesMaestroAparatos_fechas_logico = prefix_05+"MaestroContratosExpedientesMaestroAparatos_fechas_logico"
+  final val maestroContratosExpedientesMaestroAparatos_fechas_logico_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatos_fechas_logico"
+
+
+  final val maestroContratosExpedientes_fechas_endesa = prefix_05+"MaestroContratosExpedientes_fechas_endesa"
+  final val maestroContratosExpedientes_fechas_endesa_csv = prefix_06+"MaestroContratosExpedientes_fechas_endesa"
+
+  final val maestroContratosExpedientesMaestroAparatos_fechas_endesa = prefix_05+"MaestroContratosExpedientesMaestroAparatos_fechas_endesa"
+  final val maestroContratosExpedientesMaestroAparatos_fechas_endesa_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatos_fechas_endesa"
+
+  final val maestroContratosExpedientes_sin_fechas = prefix_05+"MaestroContratosExpedientes_sin_fechas"
+  final val maestroContratosExpedientes_sin_fechas_csv = prefix_06+"MaestroContratosExpedientes_sin_fechas"
+
+  final val maestroContratosExpedientesMaestroAparatos_sin_fechas = prefix_05+"MaestroContratosExpedientesMaestroAparatos_sin_fechas"
+  final val maestroContratosExpedientesMaestroAparatos_sin_fechas_csv = prefix_06+"MaestroContratosExpedientesMaestroAparatos_sin_fechas"
+
+
+  //*********************************************************************************DATASETS
+
+
+
+
+  final val lecturasIrregularidad_01 = prefix_03+"lecturasIrregularidad_01"
+  final val lecturasIrregularidad_02 = prefix_03+"lecturasIrregularidad_02"
+  final val lecturasIrregularidad_03 = prefix_03+"lecturasIrregularidad_03"
+  final val lecturasIrregularidad_04 = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_05 = prefix_03+"lecturasIrregularidad_05"
+  final val lecturasIrregularidad_06 = prefix_03+"lecturasIrregularidad_06"
+  final val lecturasIrregularidad_07 = prefix_03+"lecturasIrregularidad_07"
+  final val lecturasIrregularidad_08 = prefix_03+"lecturasIrregularidad_08"
+  final val lecturasIrregularidad_09 = prefix_03+"lecturasIrregularidad_09"
+  final val lecturasIrregularidad_10 = prefix_03+"lecturasIrregularidad_10"
+  final val lecturasIrregularidad_11 = prefix_03+"lecturasIrregularidad_11"
+  final val lecturasIrregularidad_12 = prefix_03+"lecturasIrregularidad_12"
+
+  final val lecturasAnomalia_01 = prefix_03+"lecturasAnomalia_01"
+  final val lecturasAnomalia_02 = prefix_03+"lecturasAnomalia_02"
+  final val lecturasAnomalia_03 = prefix_03+"lecturasAnomalia_03"
+  final val lecturasAnomalia_04 = prefix_03+"lecturasAnomalia_04"
+  final val lecturasAnomalia_05 = prefix_03+"lecturasAnomalia_05"
+  final val lecturasAnomalia_06 = prefix_03+"lecturasAnomalia_06"
+  final val lecturasAnomalia_07 = prefix_03+"lecturasAnomalia_07"
+  final val lecturasAnomalia_08 = prefix_03+"lecturasAnomalia_08"
+  final val lecturasAnomalia_09 = prefix_03+"lecturasAnomalia_09"
+  final val lecturasAnomalia_10 = prefix_03+"lecturasAnomalia_10"
+  final val lecturasAnomalia_11 = prefix_03+"lecturasAnomalia_11"
+  final val lecturasAnomalia_12 = prefix_03+"lecturasAnomalia_12"
+
+
+  final val lecturasIrregularidad_01_csv = prefix_03+"lecturasIrregularidad_01"
+  final val lecturasIrregularidad_02_csv = prefix_03+"lecturasIrregularidad_02"
+  final val lecturasIrregularidad_03_csv = prefix_03+"lecturasIrregularidad_03"
+  final val lecturasIrregularidad_04_csv = prefix_03+"lecturasIrregularidad_04"
+  final val lecturasIrregularidad_05_csv = prefix_03+"lecturasIrregularidad_05"
+  final val lecturasIrregularidad_06_csv = prefix_03+"lecturasIrregularidad_06"
+  final val lecturasIrregularidad_07_csv = prefix_03+"lecturasIrregularidad_07"
+  final val lecturasIrregularidad_08_csv = prefix_03+"lecturasIrregularidad_08"
+  final val lecturasIrregularidad_09_csv = prefix_03+"lecturasIrregularidad_09"
+  final val lecturasIrregularidad_10_csv = prefix_03+"lecturasIrregularidad_10"
+  final val lecturasIrregularidad_11_csv = prefix_03+"lecturasIrregularidad_11"
+  final val lecturasIrregularidad_12_csv = prefix_03+"lecturasIrregularidad_12"
+
+
+  final val lecturasAnomalia_01_csv = prefix_03+"lecturasAnomalia_01"
+  final val lecturasAnomalia_02_csv = prefix_03+"lecturasAnomalia_02"
+  final val lecturasAnomalia_03_csv = prefix_03+"lecturasAnomalia_03"
+  final val lecturasAnomalia_04_csv = prefix_03+"lecturasAnomalia_04"
+  final val lecturasAnomalia_05_csv = prefix_03+"lecturasAnomalia_05"
+  final val lecturasAnomalia_06_csv = prefix_03+"lecturasAnomalia_06"
+  final val lecturasAnomalia_07_csv = prefix_03+"lecturasAnomalia_07"
+  final val lecturasAnomalia_08_csv = prefix_03+"lecturasAnomalia_08"
+  final val lecturasAnomalia_09_csv = prefix_03+"lecturasAnomalia_09"
+  final val lecturasAnomalia_10_csv = prefix_03+"lecturasAnomalia_10"
+  final val lecturasAnomalia_11_csv = prefix_03+"lecturasAnomalia_11"
+  final val lecturasAnomalia_12_csv = prefix_03+"lecturasAnomalia_12"
+
+
+
+
+
+
+
+
   ///////////************OTROS
 
   //Consumos de Tipo I - IV
@@ -116,7 +211,8 @@ object TabPaths {
   final val TAB_15A_headers = headers+"TAB_15A_headers.csv"
   final val TAB_15A_csv = prefix_02+"TAB_15A/Endesa_TAB_15A_20170127_CZZ_20100101_20161231.csv"
 
-
+  //Contratacion
+  final val TAB_05A = prefix_01+"TAB_05A"
 
 
 

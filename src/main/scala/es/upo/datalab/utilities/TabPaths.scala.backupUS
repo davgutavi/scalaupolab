@@ -1,0 +1,131 @@
+package es.upo.datalab.utilities
+
+/**
+  * Created by davgutavi on 15/03/17.
+  */
+object TabPaths {
+
+  //HDFS Laboratorio
+  final val root = "hdfs://10.141.0.224:9000/database/endesa/"
+  final val prefix = root+"/datasets/"
+
+  //MAC David
+  //final val root = "/Volumes/david/endesa/"
+  //final val prefix = "/Volumes/david/endesa/base_de_datos_descomprimida/"
+  //final val headers= prefix+"headers/"
+
+  //*********************************************************************************TABLAS
+
+  //Maestro Contratos
+  final val TAB_00C = root+"TAB_00C"
+
+  //Clientes
+  final val TAB_05C = root+"TAB_05C"
+
+
+  //Expedientes
+  final val TAB_16 = root+"TAB_16"
+
+
+  //Maestro Aparatos
+  final val TAB_00E = root+"TAB_00E"
+
+
+  //Curvas de Carga
+  final val TAB_01 = root+"TAB_01"
+  //final val TAB_01_10 = root+"TAB_01_10"
+  //final val TAB_01_11 = root+"TAB_01_11"
+  //final val TAB_01_12 = root+"TAB_01_12"
+  //final val TAB_01_13 = root+"TAB_01_13"
+  //final val TAB_01_14 = root+"TAB_01_14"
+  //final val TAB_01_15 = root+"TAB_01_15"
+  //final val TAB_01_16 = root+"TAB_01_16"
+
+
+  //Bits de Calidad
+  final val TAB_02 = root+"TAB_02"
+
+  //*********************************************************************************JOINS
+  //tabla Maestro Contratos Expedientes con filtros
+  final val MCE = prefix+"MCE"
+
+  //Consumos de Tipo I - IV
+  final val TAB_03 = root+"TAB_03"
+
+  //Consumos de Tipo V
+  final val TAB_04 = root+"TAB_04"
+
+  //Geolocalización
+  final val TAB_05B = root+"TAB_05B"
+
+  //TDC
+  final val TAB_15A = root+"TAB_15A"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ///////////************OTROS
+//  //Clientes PTOSE
+//  final val TAB_05D = prefix+"TAB_05D/Endesa_TAB_05D_20170126_CZZ_20100101_20161231.csv"
+//  final val TAB_05D_headers = headers+"TAB_05D_headers.csv"
+//  //Movimientos TDC
+//  final val TAB_15C = prefix+"TAB_15C/Endesa_TAB_15C_20170127_CZZ_20100101_20161231.csv"
+//  final val TAB_15C_headers = headers+"TAB_15C_headers.csv"
+//  //Operaciones TDC
+//  final val TAB_15B = prefix+"TAB_15B/Endesa_TAB_15B_20170127_CZZ_20100101_20161231.csv"
+//  final val TAB_15B_headers = headers+"TAB_15B_headers.csv"
+//  //Contratación
+//  final val TAB_05A = prefix+"TAB_05A/Endesa_TAB_05A_20170127_CZZ_20100101_20161231.csv"
+//  final val TAB_05A_headers = headers+"TAB_05A_headers.csv"
+//  //Magnitudes TPL
+//  final val TAB_10 = prefix+"TAB_10/Endesa_TAB_10_20170127_CZZ_20100101_20161231.csv"
+//  final val TAB_10_headers = prefix+"TAB_10/TAB_10_headers.csv"
+//  //Facturación
+//  final val TAB_12_10_12 = prefix+"TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2010_A_2012.csv"
+//  final val TAB_12_12_13 = prefix+"TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2012_A_2013.csv"
+//  final val TAB_12_14_15 = prefix+"TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2014_A_2015.csv"
+//  final val TAB_12_16_17 = prefix+"TAB_12/Endesa_TAB_12_20170127_CZZ_DE_2016_A_2017.csv"
+//  final val TAB_12_headers = prefix+"TAB_12/TAB_12_headers.csv"
+//  //Interrupciones
+//  final val TAB_18_ene_mar_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20160411_XZZ_20160123_20160331_1.csv"
+//  final val TAB_18_jul_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20160712_XZZ_1.csv"
+//  final val TAB_18_ago_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20160816_XZZ_1.csv"
+//  final val TAB_18_sep_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20160921_XZZ_1.csv"
+//  final val TAB_18_oct_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20161010_XZZ_1.csv"
+//  final val TAB_18_nov_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20161108_XZZ_1.csv"
+//  final val TAB_18_dic_16 = prefix+"TAB_18/C3_Endesa_TAB_18_20161222_XZZ_1.csv"
+//  final val TAB_18_ene_17 = prefix+"TAB_18/C3_Endesa_TAB_18_20170111_XZZ_1.csv"
+//  final val TAB_18_headers = prefix+"TAB_18/TAB_18_headers.csv"
+
+}
