@@ -10,60 +10,34 @@ object SparkSessionUtils {
   Logger.getLogger("org").setLevel(Level.OFF)
   Logger.getLogger("akka").setLevel(Level.OFF)
 
-  //SPARK 1.6.2
-//  val sparConf:SparkConf = new SparkConf()
-//    .setAppName("upolab")
-//    .setMaster("local[*]")
-//    .setMaster("spark://192.168.47.241:7077")
-//    .set("spark.scheduler.mode", "FAIR")
-//  val sc:SparkContext = new SparkContext(sparConf)
-//  val sqlContext:SQLContext =  new org.apache.spark.sql.SQLContext(sc)
 
+  //############################Configuración en intellij
+    val sparkSession = SparkSession.builder().
+      appName("upolab").
+      master("local[*]").
+      config("spark.scheduler.mode", "FAIR").
+      config("spark.speculation", "false").
+      config("spark.network.timeout","10000000").
+      config("spark.executor.heartbeatInterval","10000000").
+      config("spark.local.dir","/mnt/datos/tempSpark").
+      config("spark.driver.memory","10g").
+      config("spark.executor.memory","10g").
+      config("spark.local.dir","/mnt/datos/tempSpark").
+      getOrCreate()
 
-  //SPARK 2.0.2
-
-//    val sparkSession = SparkSession.builder().
-//      appName("upolab").
-//      master("local[*]").
-////      enableHiveSupport().
-////      master("spark://192.168.1.10:7077")
-////      config("spark.scheduler.mode", "FAIR").
-//      config("spark.speculation", "false").
-//      config("spark.network.timeout","10000000").
-//      config("spark.executor.heartbeatInterval","10000000").
-//      config("spark.local.dir","/mnt/datos/tempSpark").
-//      config("spark.driver.memory","10g").
-//      config("spark.executor.memory","10g").
-//      getOrCreate()
-
-
-  val sparkSession = SparkSession.builder().
-    appName("upolab").
-    //master("local[*]").
-    //      enableHiveSupport().
-    //      master("spark://192.168.1.10:7077")
-    //      config("spark.scheduler.mode", "FAIR").
-    config("spark.speculation", "false").
-    config("spark.network.timeout","10000000").
-    config("spark.executor.heartbeatInterval","10000000").
-    //config("spark.local.dir","/mnt/datos/tempSpark").
-    config("spark.driver.memory","10g").
-    config("spark.executor.memory","10g").
-    getOrCreate()
+//############################Configuración para el submit
+//  val sparkSession = SparkSession.builder().
+//    appName("upolab").
+//    config("spark.speculation", "false").
+//    config("spark.network.timeout","10000000").
+//    config("spark.executor.heartbeatInterval","10000000").
+//    getOrCreate()
 
   sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
 
-//  sparkSession.sparkContext.setCheckpointDir("/mnt/datos/checkpointSpark")
-
-
-//  --conf spark.driver.maxResultSize=4g
-
 
   val sc = sparkSession.sparkContext
-
-
-
-    val sqlContext = sparkSession.sqlContext
+  val sqlContext = sparkSession.sqlContext
 
 
 }

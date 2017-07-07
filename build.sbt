@@ -15,21 +15,21 @@ lazy val root = (project in file(".")).
 
 val sparkVersion = "2.1.1"
 
-//libraryDependencies ++= Seq(
-//  "org.apache.spark" %% "spark-core" % sparkVersion % "provided"
-//  ,"org.apache.spark" %% "spark-sql" % sparkVersion % "provided"
-//  //,"org.apache.spark" %% "spark-mllib" % sparkVersion
-//  //,"org.apache.spark" %% "spark-hive" % sparkVersion
-//)
-
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % sparkVersion% "provided"
-  ,"org.apache.spark" %% "spark-sql" % sparkVersion% "provided"
-  ,"org.apache.spark" %% "spark-mllib" % sparkVersion% "provided"
-  ,"org.apache.spark" %% "spark-hive" % sparkVersion% "provided"
+  "org.apache.spark" %% "spark-core" % sparkVersion
+  ,"org.apache.spark" %% "spark-sql" % sparkVersion
+  ,"org.apache.spark" %% "spark-mllib" % sparkVersion
+  ,"org.apache.spark" %% "spark-hive" % sparkVersion
 )
 
-mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+//libraryDependencies ++= Seq(
+//  "org.apache.spark" %% "spark-core" % sparkVersion% "provided"
+//  ,"org.apache.spark" %% "spark-sql" % sparkVersion% "provided"
+//  ,"org.apache.spark" %% "spark-mllib" % sparkVersion% "provided"
+//  ,"org.apache.spark" %% "spark-hive" % sparkVersion% "provided"
+//)
+
+assemblyMergeStrategy in assembly <<= (assemblyMergeStrategy in assembly) { (old) =>
 {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case x => MergeStrategy.first
