@@ -59,8 +59,8 @@ object ContadorRegistros {
 //      df_01s.show(20,false)
 //      println("Diferencia = " + (c01 - c01s) + "\n")
 
-      val df_02 = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers)
-      val df_02s = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers,dropDuplicates = true)
+      val df_02 = LoadTableCsv.loadTable(TabPaths.TAB02, TabPaths.TAB02_headers)
+      val df_02s = LoadTableCsv.loadTable(TabPaths.TAB02, TabPaths.TAB02_headers,dropDuplicates = true)
       val c02 = df_02.count()
       val c02s = df_02s.count()
       df_02.show(40,truncate = false)

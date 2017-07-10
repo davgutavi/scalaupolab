@@ -15,8 +15,9 @@ object LoadTableCsv {
 
   final val datePattern = "yyyyMMdd"
   final val dateTimePattern = "yyyy-MM-dd HH:mm:ss"
-  final val dateVoidPattern = "0001-01-01"
-
+  final val dateTime2Pattern = "YYYYMMddHHmmss"
+  final val dateTime3Pattern =  "EEE MMM dd HH:mm:ss z YYYY"
+ // Thu Mar 03 00:00:00 CET 2016
 
   def loadTable(pathToData: String, pathToHeaders: String, dropDuplicates:Boolean=false): DataFrame = {
 
@@ -35,7 +36,8 @@ object LoadTableCsv {
 
       if (t == "date") {pattern = datePattern}
       else if (t == "datetime") {pattern = dateTimePattern}
-
+      else if (t == "datetime2") {pattern = dateTime2Pattern}
+      else if (t == "datetime3") {pattern = dateTime3Pattern}
 
       fields += f
 
@@ -49,6 +51,8 @@ object LoadTableCsv {
       .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace", "true")
+//        .option("charset","ASCII")
+//      .option("mode", "DROPMALFORMED")
 //      .option("nullValue","Null")
       .schema(customSchema)
 
@@ -85,8 +89,8 @@ object LoadTableCsv {
     else if (name.equalsIgnoreCase("long"))    r = DataTypes.LongType
     else if (name.equalsIgnoreCase("date"))    r = DataTypes.DateType
     else if (name.equalsIgnoreCase("datetime"))    r = DataTypes.DateType
-
-
+    else if (name.equalsIgnoreCase("datetime2"))    r = DataTypes.DateType
+    else if (name.equalsIgnoreCase("datetime3"))    r = DataTypes.DateType
     r
   }
 

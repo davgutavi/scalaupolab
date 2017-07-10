@@ -27,15 +27,15 @@ object LecturasIA {
       r.show(20,truncate=false)
 
 
-      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB_00C)
+      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB00C)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MC")
 
-      val df_16 = LoadTableParquet.loadTable(TabPaths.TAB_16)
+      val df_16 = LoadTableParquet.loadTable(TabPaths.TAB16)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("E")
 
-      val df_01 = LoadTableParquet.loadTable(TabPaths.TAB_01)
+      val df_01 = LoadTableParquet.loadTable(TabPaths.TAB01)
       df_01.persist(nivel)
       df_01.createOrReplaceTempView("CC")
 
@@ -228,7 +228,7 @@ object LecturasIA {
       mcecclr.unpersist()
 
       println("Guardando Dataset Lecturas Irregularidad Industrial")
-      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_03 + "lecturasIrregularidadIndustrial")
+      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_datasets + "lecturasIrregularidadIndustrial")
       println("Parquet Dataset Lecturas Irregularidad Industrial Guardada")
 
       println("DONE!")

@@ -19,15 +19,15 @@ object McontratosClientesMaparatos {
 
     TimingUtils.time{
 
-      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB_00C,TabPaths.TAB_00C_headers)
+      val df_00C = LoadTableCsv.loadTable(TabPaths.TAB00C,TabPaths.TAB00C_headers)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C,TabPaths.TAB_05C_headers)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB05C,TabPaths.TAB05C_headers)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 
-      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB_00E,TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB00E,TabPaths.TAB00E_headers)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 

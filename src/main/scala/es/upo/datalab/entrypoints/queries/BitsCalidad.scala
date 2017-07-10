@@ -19,7 +19,7 @@ object BitsCalidad {
 
     TimingUtils.time {
 
-      val df_02 = LoadTableCsv.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers, dropDuplicates = true)
+      val df_02 = LoadTableCsv.loadTable(TabPaths.TAB02, TabPaths.TAB02_headers, dropDuplicates = true)
       df_02.persist(nivel)
       df_02.createOrReplaceTempView("BitsCalidad")
 

@@ -19,7 +19,7 @@ object Expedientes {
 
     TimingUtils.time {
 
-      val df_16 = LoadTableCsv.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
+      val df_16 = LoadTableCsv.loadTable(TabPaths.TAB16, TabPaths.TAB16_headers)
       df_16.persist(nivel)
       df_16.createOrReplaceTempView("Expedientes")
 

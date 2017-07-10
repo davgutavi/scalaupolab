@@ -20,7 +20,7 @@ object Clientes {
 
     TimingUtils.time {
 
-      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers,dropDuplicates = true)
+      val df_05C = LoadTableCsv.loadTable(TabPaths.TAB05C, TabPaths.TAB05C_headers,dropDuplicates = true)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 

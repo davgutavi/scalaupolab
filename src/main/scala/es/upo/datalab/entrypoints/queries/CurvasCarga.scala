@@ -19,7 +19,7 @@ object CurvasCarga {
 
     TimingUtils.time {
 
-      val df_01 = LoadTableCsv.loadTable(TabPaths.TAB_01_10_csv, TabPaths.TAB_01_headers)
+      val df_01 = LoadTableCsv.loadTable(TabPaths.TAB01_csv, TabPaths.TAB01_headers)
       df_01.persist(nivel)
       df_01.createOrReplaceTempView("CurvasCarga")
 

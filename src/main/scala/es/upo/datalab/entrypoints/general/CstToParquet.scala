@@ -1,6 +1,8 @@
 package es.upo.datalab.entrypoints.general
 
 
+import java.text.SimpleDateFormat
+
 import es.upo.datalab.utilities.{LoadTableCsv, LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.sql.catalyst.util.DateTimeUtils
 import org.apache.spark.storage.StorageLevel
@@ -11,8 +13,6 @@ import org.apache.spark.storage.StorageLevel
   */
 object CstToParquet {
 
-  final val HDFSPATH = "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/"
-
   val sqlContext = SparkSessionUtils.sqlContext
 
   import sqlContext._
@@ -21,89 +21,109 @@ object CstToParquet {
 
     TimingUtils.time {
 
-//      val df_00C = LoadTable.loadTable(TabPaths.TAB_00C, TabPaths.TAB_00C_headers)
-//      df_00C.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_00C")
-//      println("TAB_01")
+      println("almacenando TAB00C")
+      val df00C = LoadTableCsv.loadTable("/media/davgutavi/Modelo Datos ENDESA/Entregas/Absolutas (2010-2016)/descomprimidas/TAB00C/", "/media/davgutavi/Modelo Datos ENDESA/Entregas/headers/TAB00C_headers.csv")
+//      df00C.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB00C")
+      df00C.show(40)
+      println("TAB00C almacenada")
 
-//      val df_03 = LoadTable.loadTable(TabPaths.TAB_03, TabPaths.TAB_03_headers)
-//      df_03.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_03")
-//      println("TAB_03")
 
-//      val df_04 = LoadTable.loadTable(TabPaths.TAB_04, TabPaths.TAB_04_headers)
-//      df_03.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_04")
-//      println("TAB_04")
-
-//      val df_05A = LoadTableCsv.loadTable(TabPaths.TAB_05A_csv, TabPaths.TAB_05A_headers)
+//      val loader = SparkSessionUtils.sparkSession.read
+//        .option("delimiter", ";")
+//        .option("ignoreLeadingWhiteSpace", "true")
+//        .option("ignoreTrailingWhiteSpace", "true")
+//        .option("inferSchema","true")
+////                .option("charset","ASCII")
+//        //      .option("mode", "DROPMALFORMED")
+//        //      .option("nullValue","Null")
 //
-//      df_05A.coalesce(1).write.option("header","true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB_05A")
-
-
-
-//      val df_06 = LoadTableCsv.loadTable(TabPaths.TAB_06_csv, TabPaths.TAB_06_headers)
+////      val df00C = loader.csv(TabPaths.TAB00C_csv)
 //
-//      df_06.coalesce(1).write.option("header","true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB_06")
-
-
-//      val df_05B = LoadTable.loadTable(TabPaths.TAB_05B, TabPaths.TAB_05B_headers)
-//      df_05B.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_05B")
-//      println("TAB_05B")
-
-//      val df_05C = LoadTable.loadTable(TabPaths.TAB_05C, TabPaths.TAB_05C_headers,dropDuplicates = true)
-//      df_05C.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_05C")
-//      println("TAB_05C")
-
-//      val df_05D = LoadTable.loadTable(TabPaths.TAB_05D, TabPaths.TAB_05D_headers)
-//      df_05D.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_05D")
-//      println("TAB_05D")
-
-//      val df_15A = LoadTable.loadTable(TabPaths.TAB_15A, TabPaths.TAB_15A_headers)
-//      df_15A.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_15A")
-//      println("TAB_15A")
-
-//      val df_16 = LoadTable.loadTable(TabPaths.TAB_16, TabPaths.TAB_16_headers)
-//      df_16.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_16")
-//      println("TAB_16")
-
-//      val df_00E = LoadTable.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
-//      df_00E.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_00E")
-//      println("TAB_00E")
-
-
-//      val df_01 = LoadTableCsv.loadTable(TabPaths.TAB_01, TabPaths.TAB_01_headers)
-//      df_01.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01")
-//      println("TAB_01")
-
-//      val df_01_10 = LoadTableCsv.loadTable(TabPaths.TAB_01_10_csv, TabPaths.TAB_01_headers)
-//      df_01_10.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_10")
-//      println("TAB_01_10")
+//      val df00C = loader.csv("/media/davgutavi/Modelo Datos ENDESA/Entregas/Absolutas (2010-2016)/descomprimidas/TAB00C/")
 //
-//      val df_01_11 = LoadTableCsv.loadTable(TabPaths.TAB_01_11_csv, TabPaths.TAB_01_headers)
-//      df_01_11.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_11")
-//      println("TAB_01_11")
+//      df00C.show(20)
 //
-//      val df_01_12 = LoadTableCsv.loadTable(TabPaths.TAB_01_12_csv, TabPaths.TAB_01_headers)
-//      df_01_12.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_12")
-//      println("TAB_01_12")
+//      println("almacenando TAB00E")
+//      val df00E = LoadTableCsv.loadTable(TabPaths.TAB00E_csv, TabPaths.TAB00E_headers)
+//      df00E.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB00E")
+//      println("TAB00E almacenada")
 //
-//      val df_01_13 = LoadTableCsv.loadTable(TabPaths.TAB_01_13_csv, TabPaths.TAB_01_headers)
-//      df_01_13.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_13")
-//      println("TAB_01_13")
+//      println("almacenando TAB01")
+//      val df01 = LoadTableCsv.loadTable(TabPaths.TAB01_csv, TabPaths.TAB01_headers)
+//      df01.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB01")
+//      println("TAB01 almacenada")
 //
-//      val df_01_14 = LoadTableCsv.loadTable(TabPaths.TAB_01_14_csv, TabPaths.TAB_01_headers)
-//      df_01_14.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_14")
-//      println("TAB_01_14")
+//      println("almacenando TAB02")
+//      val df02 = LoadTableCsv.loadTable(TabPaths.TAB02_csv, TabPaths.TAB02_headers)
+//      df02.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB02")
+//      println("TAB02 almacenada")
 //
-//      val df_01_15 = LoadTableCsv.loadTable(TabPaths.TAB_01_15_csv, TabPaths.TAB_01_headers)
-//      df_01_15.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_15")
-//      println("TAB_01_15")
+////      println("almacenando TAB05A")
+////      val df05A = LoadTableCsv.loadTable(TabPaths.TAB05A_csv, TabPaths.TAB05A_headers)
+////      df05A.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05A")
+////      println("TAB05A almacenada")
+////
+////      println("almacenando TAB05B")
+////      val df05B = LoadTableCsv.loadTable(TabPaths.TAB05B_csv, TabPaths.TAB05B_headers)
+////      df05B.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05B")
+////      println("TAB05B almacenada")
+////
+////      println("almacenando TAB05C")
+////      val df05C = LoadTableCsv.loadTable(TabPaths.TAB05C_csv, TabPaths.TAB05C_headers)
+////      df05C.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05C")
+////      println("TAB05C almacenada")
+////
+////      println("almacenando TAB05D")
+////      val df05D = LoadTableCsv.loadTable(TabPaths.TAB05D_csv, TabPaths.TAB05D_headers)
+////      df05D.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05D")
+////      println("TAB05D almacenada")
 //
-//      val df_01_16 = LoadTableCsv.loadTable(TabPaths.TAB_01_16_csv, TabPaths.TAB_01_headers)
-//      df_01_16.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_01_16")
-//      println("TAB_01_16")
+//      println("almacenando TAB06")
+//      val df06 = LoadTableCsv.loadTable(TabPaths.TAB06_csv, TabPaths.TAB06_headers)
+//      df06.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB06")
+//      println("TAB06 almacenada")
 
-//      val df_02 = LoadTable.loadTable(TabPaths.TAB_02, TabPaths.TAB_02_headers, dropDuplicates = true)
-//      df_02.coalesce(1).write.option("header","true").save(HDFSPATH+"TAB_02")
-//      println("TAB_02")
+//      println("almacenando TAB08:"+TabPaths.TAB08_csv)
+//      val df08 = LoadTableCsv.loadTable(TabPaths.TAB08_csv, TabPaths.TAB08_headers)
+//
+//      df08.show(40)
+//      df08.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB08")
+//      println("TAB08 almacenada")
+
+//      println("almacenando TAB15A")
+//      val df15A = LoadTableCsv.loadTable(TabPaths.TAB15A_csv, TabPaths.TAB15A_headers)
+//      df15A.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB15A")
+//      println("TAB15A almacenada")
+//
+//      println("almacenando TAB15B")
+//      val df15B = LoadTableCsv.loadTable(TabPaths.TAB15B_csv, TabPaths.TAB15B_headers)
+//      df15B.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05B")
+//      println("TAB15B almacenada")
+//
+//      println("almacenando TAB15C")
+//      val df15C = LoadTableCsv.loadTable(TabPaths.TAB15C_csv, TabPaths.TAB15C_headers)
+//      df15C.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB15C")
+//      println("TAB15C almacenada")
+//
+//      println("almacenando TAB16")
+//      val df16 = LoadTableCsv.loadTable(TabPaths.TAB16_csv, TabPaths.TAB16_headers)
+//      df16.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB16")
+//      println("TAB16 almacenada")
+//
+//      println("almacenando TAB24")
+//      val df24 = LoadTableCsv.loadTable(TabPaths.TAB24_csv, TabPaths.TAB24_headers)
+//
+//      df24.show(10,truncate=false)
+//
+//      val fl = df24.head().getString(1)
+//
+//      val  f = new SimpleDateFormat("EEE MMM dd HH:mm:ss z YYYY")
+//
+//      println("Apply = "+f.applyPattern(fl))
+//
+//
+//      //df24.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB24")
+//      println("TAB24 almacenada")
 
       println("DONE!")
 

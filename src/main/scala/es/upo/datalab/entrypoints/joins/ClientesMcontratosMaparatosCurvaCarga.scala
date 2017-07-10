@@ -22,19 +22,19 @@ object ClientesMcontratosMaparatosCurvaCarga {
     TimingUtils.time {
 
 
-      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB_00C)
+      val df_00C = LoadTableParquet.loadTable(TabPaths.TAB00C)
       df_00C.persist(nivel)
       df_00C.createOrReplaceTempView("MaestroContratos")
 
-      val df_05C = LoadTableParquet.loadTable(TabPaths.TAB_05C)
+      val df_05C = LoadTableParquet.loadTable(TabPaths.TAB05C)
       df_05C.persist(nivel)
       df_05C.createOrReplaceTempView("Clientes")
 
-      val df_00E =LoadTableParquet.loadTable(TabPaths.TAB_00E)
+      val df_00E =LoadTableParquet.loadTable(TabPaths.TAB00E)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 
-      val df_01 = LoadTableParquet.loadTable(TabPaths.TAB_01_10)
+      val df_01 = LoadTableParquet.loadTable(TabPaths.TAB01)
       df_01.persist(nivel)
       df_01.createOrReplaceTempView("CurvasCarga")
 
@@ -126,10 +126,10 @@ object ClientesMcontratosMaparatosCurvaCarga {
 
       println("Escritura MaestroContratosClientesMaestroAparatosCurvasCarga")
 
-      maestroContratosClientesMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").save(TabPaths.prefix_05+"MaestroContratosClientesMaestroAparatosCurvasCarga_10")
-      println("MaestroContratosClientesMaestroAparatos guardado en parquet")
-      maestroContratosClientesMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosClientesMaestroAparatosCurvasCarga_10")
-      println("MaestroContratosClientesMaestroAparatos guardado en csv")
+//      maestroContratosClientesMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").save(TabPaths._05+"MaestroContratosClientesMaestroAparatosCurvasCarga_10")
+//      println("MaestroContratosClientesMaestroAparatos guardado en parquet")
+//      maestroContratosClientesMaestroAparatosCurvasCarga.coalesce(1).write.option("header","true").csv(TabPaths.prefix_06+"MaestroContratosClientesMaestroAparatosCurvasCarga_10")
+//      println("MaestroContratosClientesMaestroAparatos guardado en csv")
 
       println("\nMaestroContratosClientesMaestroAparatosCurvasCarga_10 (" + maestroContratosClientesMaestroAparatosCurvasCarga.count() + " registros)\n")
 

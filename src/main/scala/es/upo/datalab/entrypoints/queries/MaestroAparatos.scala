@@ -19,7 +19,7 @@ object MaestroAparatos {
 
     TimingUtils.time {
 
-      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB_00E, TabPaths.TAB_00E_headers)
+      val df_00E = LoadTableCsv.loadTable(TabPaths.TAB00E, TabPaths.TAB00E_headers)
       df_00E.persist(nivel)
       df_00E.createOrReplaceTempView("MaestroAparatos")
 
