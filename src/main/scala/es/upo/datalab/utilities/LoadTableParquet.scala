@@ -1,6 +1,6 @@
 package es.upo.datalab.utilities
 
-import es.upo.datalab.utilities.LoadTableCsv.{datePattern, dateTimePattern}
+import es.upo.datalab.utilities.LoadTableCsv.{datePattern, dateTime1Pattern}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types.{DataType, DataTypes, StructField, StructType}
 

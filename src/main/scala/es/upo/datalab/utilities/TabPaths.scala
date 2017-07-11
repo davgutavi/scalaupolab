@@ -12,14 +12,20 @@ object TabPaths {
 
   //HD PC LABORATORIO
   final val rootHDPCLAB = "/mnt/datos/recursos/ENDESA/"
-  final val headersPCLAB = rootHDPCLAB+"headers/"
+  final val headersHDPCLAB = rootHDPCLAB+"headers/"
+  final val rootHDPCLABAbsolutas = rootHDPCLAB+"absolutas/descomprimidas/"
+
+  //HD PORTATIL LAB
+  final val rootHDUPO = "/media/davgutavi/Maxtor/ENDESA/"
+  final val headersHDUPO = rootHDUPO+"headers/"
+  final val rootHDUPOAbsolutas = rootHDPCLAB+"absolutas/descomprimidas/"
 
   //HD PORTATIL US
-  final val rootHDUS = "/media/davgutavi/Modelo Datos ENDESA/Entregas/"
+  final val rootHDUS = "/media/davgutavi/ushdportatil/entregas/"
   final val headersHDUS = rootHDUS+"headers/"
-  final val rootAbsolutas = rootHDUS+"Absolutas (2010-2016)/"
-  final val rootIncrementales = rootHDUS+"Incrementales (2017 en adelante)/"
-  final val rootAbsolutasComprimidas = rootHDUS+"Absolutas (2010-2016)/comprimidas/"
+  final val rootAbsolutas = rootHDUS+"absolutas/"
+  final val rootIncrementales = rootHDUS+"incrementales/"
+  final val rootAbsolutasComprimidas = rootHDUS+"absolutas/comprimidas/"
 
   //MAC David
   final val rootHDMio = "/Volumes/david/endesa/"
@@ -32,7 +38,13 @@ object TabPaths {
   //******************************************TAB00C
   final val TAB00C = prefix_database+"TAB00C"
   final val TAB00C_headers =  headersHDUS+"TAB00C_headers.csv"
-  final val TAB00C_csv = rootAbsolutasComprimidas+"TAB00C/"
+  final val TAB00C_csv = rootAbsolutasComprimidas+"TAB00C"
+  final val TAB00C_csv_hdpclab = rootHDPCLABAbsolutas+"TAB00C"
+  final val TAB00C_headers_hdpclab =  headersHDPCLAB+"TAB00C_headers.csv"
+
+  final val TAB00C_csv_hdupo = rootHDUPOAbsolutas+"TAB00C"
+  final val TAB00C_headers_hdupo =  headersHDUPO+"TAB00C_headers.csv"
+
 
   //******************************************TAB00E
   final val TAB00E = prefix_database+"TAB00E"
@@ -81,7 +93,7 @@ object TabPaths {
 
   //******************************************TAB15A
   final val TAB15A = prefix_database+"TAB15A"
-  final val TAB15A_headers =  headersHDUS+"TAB15A_headers.csv"
+  final val TAB15A_headers =  headersHDPCLAB+"TAB15A_headers.csv"
   final val TAB15A_csv = rootAbsolutasComprimidas+"TAB15A"
 
   //******************************************TAB15B
@@ -91,8 +103,8 @@ object TabPaths {
 
   //******************************************TAB15C
   final val TAB15C = prefix_database+"TAB15C"
-  final val TAB15C_headers =  headersHDUS+"TAB15C_headers.csv"
-  final val TAB15C_csv = rootAbsolutasComprimidas+"TAB15C"
+  final val TAB15C_headers_hdpclab =  headersHDPCLAB+"TAB15C_headers.csv"
+  final val TAB15C_csv_hdpclab = rootHDPCLABAbsolutas+"TAB15C"
 
   //******************************************TAB16
   final val TAB16 = prefix_database+"TAB16"
