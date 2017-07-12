@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.sql.Date
 import java.util.Calendar
 
-import es.upo.datalab.utilities.{LoadTableCsv, LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils, FuntionUtils}
+import es.upo.datalab.utilities.{LoadTableCsv, LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils, FunctionUtilities}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.catalyst.util.DateTimeUtils

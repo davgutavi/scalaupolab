@@ -8,7 +8,7 @@ import org.apache.spark.sql.Row
 /**
   * Created by davgutavi on 12/07/17.
   */
-object FuntionUtils {
+object FunctionUtilities {
 
 
 
