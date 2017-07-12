@@ -12,26 +12,26 @@ object SparkSessionUtils {
 
 
   //############################Configuración en intellij
-    val sparkSession = SparkSession.builder().
-      appName("upolab").
-      master("local[*]").
-      config("spark.scheduler.mode", "FAIR").
-      config("spark.speculation", "false").
-      config("spark.network.timeout","10000000").
-      config("spark.executor.heartbeatInterval","10000000").
-      config("spark.local.dir","/mnt/datos/tempSpark").
-      config("spark.driver.memory","10g").
-      config("spark.executor.memory","10g").
-      getOrCreate()
+//    val sparkSession = SparkSession.builder().
+//      appName("upolab").
+//      master("local[*]").
+//      config("spark.scheduler.mode", "FAIR").
+//      config("spark.speculation", "false").
+//      config("spark.network.timeout","10000000").
+//      config("spark.executor.heartbeatInterval","10000000").
+//      config("spark.local.dir","/mnt/datos/tempSpark").
+//      config("spark.driver.memory","10g").
+//      config("spark.executor.memory","10g").
+//      getOrCreate()
 
 //############################Configuración para el submit
-//  val sparkSession = SparkSession.builder().
-//    appName("upolab").
-//    config("spark.scheduler.mode", "FAIR").
-//    config("spark.speculation", "false").
-//    config("spark.network.timeout","10000000").
-//    config("spark.executor.heartbeatInterval","10000000").
-//    getOrCreate()
+  val sparkSession = SparkSession.builder().
+    appName("upolab").
+    config("spark.scheduler.mode", "FAIR").
+    config("spark.speculation", "false").
+    config("spark.network.timeout","10000000").
+    config("spark.executor.heartbeatInterval","10000000").
+    getOrCreate()
 
   sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
 

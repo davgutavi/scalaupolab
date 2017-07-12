@@ -21,7 +21,7 @@ object TabPaths {
   final val rootHDUPOAbsolutas = rootHDPCLAB+"absolutas/descomprimidas/"
 
   //HD PORTATIL US
-  final val rootHDUS = "/media/davgutavi/ushdportatil/entregas/"
+  final val rootHDUS = "/media/cluster/ushdportatil/entregas/"
   final val headersHDUS = rootHDUS+"headers/"
   final val rootAbsolutas = rootHDUS+"absolutas/"
   final val rootIncrementales = rootHDUS+"incrementales/"
