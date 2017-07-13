@@ -4,7 +4,7 @@ import sbtassembly.AssemblyPlugin.autoImport.{assemblyJarName, _}
 lazy val root = (project in file(".")).
   settings(
     name := "endesa"
-    ,version := "1.0.1"
+    ,version := "1.0.2"
     ,scalaVersion := "2.11.6"
     ,mainClass in Compile := Some("es.upo.datalab.entrypoints.general.CstToParquet")
     //,assemblyJarName in assembly := "endesa_"+version+".jar"
@@ -12,8 +12,9 @@ lazy val root = (project in file(".")).
     ,fork := true
   )
 
-
 val sparkVersion = "2.1.1"
+
+//intellij
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion
@@ -21,6 +22,8 @@ libraryDependencies ++= Seq(
   ,"org.apache.spark" %% "spark-mllib" % sparkVersion
   ,"org.apache.spark" %% "spark-hive" % sparkVersion
 )
+
+//submit
 
 //libraryDependencies ++= Seq(
 //  "org.apache.spark" %% "spark-core" % sparkVersion% "provided"
