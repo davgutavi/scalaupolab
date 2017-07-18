@@ -13,13 +13,14 @@ import scala.collection.mutable.ArrayBuilder
   */
 object LoadTableCsv {
 
-  final val datePattern = "yyyyMMdd"
+  final val datePattern01 = "yyyyMMdd"
+  final val datePattern02 = "YYYYMMddHHmmss"
 
-  final val dateTime1Pattern = "yyyy-MM-dd HH:mm:ss"
-  final val dateTime2Pattern = "YYYYMMddHHmmss"
-  final val dateTime3Pattern =  "EEE MMM dd HH:mm:ss z YYYY"
-  final val dateTime4Pattern =  "mmss"
-  final val dateTime5Pattern =  "HHmmss"
+  final val dateTimePattern01 = "yyyy-MM-dd HH:mm:ss"
+  final val dateTimePattern02 = "YYYYMMddHHmmss"
+  final val dateTimePattern03 =  "EEE MMM dd HH:mm:ss z YYYY"
+  final val dateTimePattern04 =  "mmss"
+  final val dateTimePattern05 =  "HHmmss"
 
 
   def loadTable(pathToData: String, pathToHeaders: String, dropDuplicates:Boolean=false): DataFrame = {
@@ -38,12 +39,13 @@ object LoadTableCsv {
 
       val f = StructField(values(0).trim, getType(t), values(2).trim.toBoolean)
 
-      if (t == "date")           {dpattern = datePattern}
-      else if (t == "datetime")  {tpattern = dateTime1Pattern}
-      else if (t == "datetime2") {tpattern = dateTime2Pattern}
-      else if (t == "datetime3") {tpattern = dateTime3Pattern}
-      else if (t == "datetime4") {tpattern = dateTime4Pattern}
-      else if (t == "datetime5") {tpattern = dateTime5Pattern}
+      if (t == "date")           {dpattern = datePattern01}
+      else if (t == "date2")     {dpattern = datePattern02}
+      else if (t == "datetime")  {tpattern = dateTimePattern01}
+      else if (t == "datetime2") {tpattern = dateTimePattern02}
+      else if (t == "datetime3") {tpattern = dateTimePattern03}
+      else if (t == "datetime4") {tpattern = dateTimePattern04}
+      else if (t == "datetime5") {tpattern = dateTimePattern05}
       fields += f
 
     }
@@ -98,6 +100,7 @@ object LoadTableCsv {
     else if (name.equalsIgnoreCase("boolean")) r = DataTypes.BooleanType
     else if (name.equalsIgnoreCase("long"))    r = DataTypes.LongType
     else if (name.equalsIgnoreCase("date"))    r = DataTypes.DateType
+    else if (name.equalsIgnoreCase("date2"))    r = DataTypes.DateType
     else if (name.equalsIgnoreCase("datetime"))    r = DataTypes.TimestampType
     else if (name.equalsIgnoreCase("datetime2"))    r = DataTypes.TimestampType
     else if (name.equalsIgnoreCase("datetime3"))    r = DataTypes.TimestampType

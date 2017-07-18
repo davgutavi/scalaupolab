@@ -6,7 +6,8 @@ import java.text.SimpleDateFormat
 import java.sql.Date
 import java.util.Calendar
 
-import es.upo.datalab.utilities.{LoadTableCsv, LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils, FunctionUtilities}
+import es.upo.datalab.entrypoints.tests.Funcion
+import es.upo.datalab.utilities.{FunctionUtilities, LoadTableCsv, LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.catalyst.util.DateTimeUtils
@@ -28,17 +29,122 @@ object CstToParquet {
 
   def main(args: Array[String]): Unit = {
 
+
+    val p24 = "hdfs://192.168.47.247/user/gutierrez/TAB24/"
+
+    val p24p = "hdfs://192.168.47.247/user/gutierrez/TAB24_parquet/"
+    val pc = "/mnt/datos/recursos/ENDESA/headers/TAB24_headers.csv"
+
     TimingUtils.time {
 
 
-            println("almacenando TAB08")
-            val df08 = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB08",
-              "/media/davgutavi/ushdportatil/entregas/headers/TAB08_headers.csv")
-            //      df08.coalesce(1).write.option("header", "true").save(TabPaths.prefix_database + "TAB08")
-//            df08.show(40,truncate=false)
-            println("TAB08 almacenada")
 
-      df08.where("vmsegun!=1 AND vmsegun!=0").show(40)
+      println("almacenando TAB24_01")
+      val df24_01 = LoadTableCsv.loadTable(p24+"C3_Endesa_TAB_24_20170222_CZZ_20140601_20170123_1.csv",pc)
+      df24_01.coalesce(1).write.option("header", "true").save(p24p + "TAB24_01")
+      println("hecho")
+
+
+      println("almacenando TAB24_02")
+      val df24_02 = LoadTableCsv.loadTable(p24+"C3_Endesa_TAB_24_20170223_CZZ_20140601_20170123_2.csv",pc)
+      df24_02.coalesce(1).write.option("header", "true").save(p24p + "TAB24_02")
+      println("hecho")
+
+      println("almacenando TAB24_03")
+      val df24_03 = LoadTableCsv.loadTable(p24+"C3_Endesa_TAB_24_20170224_CZZ_20140601_20170123_3.csv",pc)
+      df24_03.coalesce(1).write.option("header", "true").save(p24p + "TAB24_03")
+      println("hecho")
+
+//      println("almacenando TAB24_04")
+//      val df24_04 = LoadTableCsv.loadTable(p24+"C3_Endesa_TAB_24_20170307_CZZ_20140601_20170123_4.csv",pc)
+//      df24_04.coalesce(1).write.option("header", "true").save(p24p + "TAB24_04")
+//      println("hecho")
+
+      //      println("almacenando TAB24_05")
+      //      val df24_05 = LoadTableCsv.loadTable(p24+"C3_Endesa_TAB_24_20170307_CZZ_20140601_20170123_5.csv",pc)
+      //      df24_05.coalesce(1).write.option("header", "true").save(p24p + "TAB24_05")
+      //      println("hecho")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      //      df24.createOrReplaceTempView("T24")
+//
+//println("primera consulta")
+//
+//          sql("""SELECT * FROM T24 WHERE  fechalectura = 'ES0031405885059001TL2P'""").show(40)
+
+
+/*
+TAB24: fichero 1 => sin error de parseo
+
+
+C3_Endesa_TAB_24_20170223_CZZ_20140601_20170123_2.csv
+C3_Endesa_TAB_24_20170224_CZZ_20140601_20170123_3.csv
+
+ */
+
+
+
+      //            println("almacenando TAB08")
+//
+//            val df08 = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB008_c",
+//              "/media/davgutavi/ushdportatil/entregas/headers/TAB08_headers.csv")
+//
+//      df08.coalesce(1).write.option("header", "true").save(TabPaths.prefix_database + "TAB08")
+
+//      df08.createOrReplaceTempView("T8")
+//      val aux1 = sql("""SELECT * FROM T8 WHERE  fechorle>100000000000""")
+//      val aux2 = sql("""SELECT * FROM T8 WHERE  fechorle<=100000000000""")
+//      aux1.coalesce(1).write.csv("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB008_c")
+//      aux2.coalesce(1).write.csv("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB008_i")
+
+
+
+
+//      aux.show(80)
+
+//      println(aux.count())
+
+
+
+//      df08.printSchema()
+//      df08.show(20,truncate=false)
+
+//      println("df08 = "+df08.count())
+
+
+//      df08.where("fechorle = 4220300978").show(20)
+
+
+
+
+//      val ti = df08.map(Funcion,encoder = Encoders.TIMESTAMP).toDF()
+
+
+
+
+//      println("ti = "+ti.count())
+//
+//
+//      df08.withColumn("nvalue",ti.col("value")).show(40,truncate = false)
+
+
 
 
 
@@ -118,12 +224,6 @@ object CstToParquet {
 //            println("TAB01 almacenada")
 //
 //
-//            println("almacenando TAB24")
-//            val df24 = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB24",
-//              "/media/davgutavi/ushdportatil/entregas/headers/TAB24_headers.csv")
-//            df24.coalesce(1).write.option("header", "true").save(TabPaths.prefix_database + "TAB24")
-//      //      df24.show(40, truncate = false)
-//            println("TAB24 almacenada")
 
 
 
