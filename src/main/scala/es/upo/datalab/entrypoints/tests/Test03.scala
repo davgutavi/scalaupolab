@@ -3,6 +3,7 @@ package es.upo.datalab.entrypoints.tests
 import java.sql.{Date, Timestamp}
 import java.util.Calendar
 
+import es.upo.datalab.entrypoints.procesos.FromStringToTimestamp
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils}
 import org.apache.spark.api.java.function.MapFunction
 import org.apache.spark.sql.{Encoders, Row}
@@ -36,7 +37,7 @@ object Test03 {
       import sqlContext.implicits._
 
 
-      df00C.map(Funcion,encoder = Encoders.TIMESTAMP ).show(20)
+      df00C.map(FromStringToTimestamp,encoder = Encoders.TIMESTAMP ).show(20)
 
 
 

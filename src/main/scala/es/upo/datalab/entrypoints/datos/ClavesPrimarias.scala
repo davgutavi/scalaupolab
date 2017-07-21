@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints.general
+package es.upo.datalab.entrypoints.datos
 
 
 import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
@@ -86,10 +86,10 @@ object ClavesPrimarias {
       //*************************************************************************************************************************TAB_16 Expedientes
 
 
-            val df_16 = LoadTableCsv.loadTable(TabPaths.TAB16, TabPaths.TAB16_headers)
-            df_16.persist(nivel)
-            df_16.createOrReplaceTempView("Expedientes")
-      //
+//            val df_16 = LoadTableCsv.loadTable(TabPaths.TAB16, TabPaths.TAB16_headers)
+//            df_16.persist(nivel)
+//            df_16.createOrReplaceTempView("Expedientes")
+//      //
       //      //      PK Endesa: origen, cfinca, cptoserv, cderind, csecexpe
       //      //      PK UPO:    cfinca, cptoserv, csecexpe, fapexpd, fciexped
       //
@@ -97,25 +97,25 @@ object ClavesPrimarias {
 
 
 
-      println("Clave primaria de UPO:")
-            val upo_16 = sql(
-              """SELECT cfinca, cptoserv, csecexpe, fapexpd, fciexped, count(DISTINCT *) as sum
-                       FROM Expedientes
-                       GROUP BY cfinca, cptoserv, csecexpe, fapexpd, fciexped
-                       HAVING sum > 1
-                                 """)
-      upo_16.show(10, truncate = false)
-
-
-      println("Clave primaria de Endesa:")
-      val endesa_16 = sql(
-        """SELECT origen, cfinca, cptoserv, cderind, csecexpe, count(DISTINCT *) as sum
-                       FROM Expedientes
-                       GROUP BY origen, cfinca, cptoserv, cderind, csecexpe
-                       HAVING sum > 1
-                                 """)
-
-      endesa_16.show(10, truncate = false)
+//      println("Clave primaria de UPO:")
+//            val upo_16 = sql(
+//              """SELECT cfinca, cptoserv, csecexpe, fapexpd, fciexped, count(DISTINCT *) as sum
+//                       FROM Expedientes
+//                       GROUP BY cfinca, cptoserv, csecexpe, fapexpd, fciexped
+//                       HAVING sum > 1
+//                                 """)
+//      upo_16.show(10, truncate = false)
+//
+//
+//      println("Clave primaria de Endesa:")
+//      val endesa_16 = sql(
+//        """SELECT origen, cfinca, cptoserv, cderind, csecexpe, count(DISTINCT *) as sum
+//                       FROM Expedientes
+//                       GROUP BY origen, cfinca, cptoserv, cderind, csecexpe
+//                       HAVING sum > 1
+//                                 """)
+//
+//      endesa_16.show(10, truncate = false)
 
 
 
@@ -373,24 +373,24 @@ object ClavesPrimarias {
 
       //*********************************************************************************************************************************************TAB_00E Maestro Aparatos
 
-            val df_01 = LoadTableCsv.loadTable(TabPaths.TAB01_csv, TabPaths.TAB01_headers)
-            df_01.persist(nivel)
-            df_01.createOrReplaceTempView("CurvasCarga")
-
-      //      PK Endesa: origen, cpuntmed, flectreg, obiscode, vsecccar
-      //      PK UPO: cpuntmed, flectreg, testcaco, obiscode, vsecccar
-
-
+//            val df_01 = LoadTableCsv.loadTable(TabPaths.TAB01_csv, TabPaths.TAB01_headers)
+//            df_01.persist(nivel)
+//            df_01.createOrReplaceTempView("CurvasCarga")
+//
+//      //      PK Endesa: origen, cpuntmed, flectreg, obiscode, vsecccar
+//      //      PK UPO: cpuntmed, flectreg, testcaco, obiscode, vsecccar
+//
+//
+//      //
+//            println("Clave primaria de Endesa:")
+//                        val endesa_01 = sql(
+//                          """SELECT origen, cpuntmed, flectreg, obiscode, vsecccar, count(DISTINCT *) as sum
+//                             FROM CurvasCarga
+//                             GROUP BY origen, cpuntmed, flectreg, obiscode, vsecccar
+//                             HAVING sum > 1
+//                                       """)
       //
-            println("Clave primaria de Endesa:")
-                        val endesa_01 = sql(
-                          """SELECT origen, cpuntmed, flectreg, obiscode, vsecccar, count(DISTINCT *) as sum
-                             FROM CurvasCarga
-                             GROUP BY origen, cpuntmed, flectreg, obiscode, vsecccar
-                             HAVING sum > 1
-                                       """)
-      //
-                        endesa_01.show(30,truncate = false)
+//                        endesa_01.show(30,truncate = false)
 
       //                sql("""SELECT *  FROM CurvasCarga
       //                     WHERE cpuntmed = "CZZ629707600100" """).show(100, false)

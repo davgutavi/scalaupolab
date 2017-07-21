@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints.general
+package es.upo.datalab.entrypoints.datos
 
 
 import es.upo.datalab.utilities.{SparkSessionUtils, TabPaths, TimingUtils}

@@ -1,15 +1,15 @@
-package es.upo.datalab.entrypoints.tests
+package es.upo.datalab.entrypoints.procesos
+
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 import org.apache.spark.api.java.function.MapFunction
 import org.apache.spark.sql.Row
-import java.sql.{Date, Timestamp}
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 /**
   * Created by davgutavi on 12/07/17.
   */
-object Funcion extends MapFunction[Row,Timestamp]{
+object FromStringToTimestamp extends MapFunction[Row,Timestamp]{
 
   def   call(value: Row): Timestamp={
 

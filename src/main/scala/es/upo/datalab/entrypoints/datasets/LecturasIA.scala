@@ -228,7 +228,7 @@ object LecturasIA {
       mcecclr.unpersist()
 
       println("Guardando Dataset Lecturas Irregularidad Industrial")
-      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_datasets + "lecturasIrregularidadIndustrial")
+      li.coalesce(1).write.option("header", "true").save(TabPaths.hdfs_datasets_parquet + "lecturasIrregularidadIndustrial")
       println("Parquet Dataset Lecturas Irregularidad Industrial Guardada")
 
       println("DONE!")

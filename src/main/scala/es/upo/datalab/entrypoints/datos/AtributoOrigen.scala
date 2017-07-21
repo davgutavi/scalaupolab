@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints.general
+package es.upo.datalab.entrypoints.datos
 
 
 import es.upo.datalab.utilities.{LoadTableCsv, SparkSessionUtils, TabPaths, TimingUtils}
@@ -385,23 +385,23 @@ object AtributoOrigen {
 //
 //      df_15A.unpersist()
 
-            val df_02 = LoadTableCsv.loadTable(TabPaths.TAB02, TabPaths.TAB02_headers)
-      df_02.persist(nivel)
-      df_02.createOrReplaceTempView("BitsCalidad")
-
-            val s_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'S'""")
-            val f_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'F'""")
-            val g_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'G'""")
-            val u_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'U'""")
-            val z_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'Z'""")
-
-            println("BitsCalidad: Origen S = " + s_15A.count() + " registros")
-            println("BitsCalidad: Origen F = " + f_15A.count() + " registros")
-            println("BitsCalidad: Origen G = " + g_15A.count() + " registros")
-            println("BitsCalidad: Origen U = " + u_15A.count() + " registros")
-            println("BitsCalidad: Origen Z = " + z_15A.count() + " registros\n")
-
-      df_02.unpersist()
+//            val df_02 = LoadTableCsv.loadTable(TabPaths.TAB02, TabPaths.TAB02_headers)
+//      df_02.persist(nivel)
+//      df_02.createOrReplaceTempView("BitsCalidad")
+//
+//            val s_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'S'""")
+//            val f_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'F'""")
+//            val g_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'G'""")
+//            val u_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'U'""")
+//            val z_15A = sql("""SELECT * FROM BitsCalidad WHERE origen = 'Z'""")
+//
+//            println("BitsCalidad: Origen S = " + s_15A.count() + " registros")
+//            println("BitsCalidad: Origen F = " + f_15A.count() + " registros")
+//            println("BitsCalidad: Origen G = " + g_15A.count() + " registros")
+//            println("BitsCalidad: Origen U = " + u_15A.count() + " registros")
+//            println("BitsCalidad: Origen Z = " + z_15A.count() + " registros\n")
+//
+//      df_02.unpersist()
 
     }
 

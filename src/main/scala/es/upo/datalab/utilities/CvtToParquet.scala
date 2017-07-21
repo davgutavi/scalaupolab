@@ -1,30 +1,12 @@
-package es.upo.datalab.entrypoints.general
-
-
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.sql.Date
-import java.util.Calendar
-
-import es.upo.datalab.entrypoints.tests.Funcion
-import es.upo.datalab.utilities._
-import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.Column
-import org.apache.spark.sql.catalyst.util.DateTimeUtils
-import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
-import org.apache.spark.storage.StorageLevel
+package es.upo.datalab.utilities
 
 
 /**
   * Created by davgutavi on 12/05/17.
   */
-object CstToParquet {
+object CvtToParquet {
 
   val sqlContext = SparkSessionUtils.sqlContext
-
-  import sqlContext._
-
-  import org.apache.spark.sql._
 
 
   def main(args: Array[String]): Unit = {
@@ -32,7 +14,7 @@ object CstToParquet {
 
     val p24 = "hdfs://192.168.47.247/user/gutierrez/TAB24/"
 
-    val p24p = "hdfs://192.168.47.247/user/gutierrez/TAB24_parquet/"
+    val p24p = "/user/gutierrez/endesa/database_parquet/TAB24_partes/"
 
     val pc = "/mnt/datos/recursos/ENDESA/headers/TAB24_headers.csv"
 
@@ -40,6 +22,57 @@ object CstToParquet {
 
 
     TimingUtils.time {
+
+            println("Unificando TAB24")
+            val df24 = LoadTableParquet.loadTable("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24_partes/")
+            df24.coalesce(1).write.option("header", "true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24")
+            println("Hecho")
+
+
+//      println("TAB24_01")
+//      val df24_01 = LoadTableParquet.loadTable(p24p+"TAB24_01")
+//      df24_01.printSchema()
+//
+//      println("TAB24_02")
+//      val df24_02 = LoadTableParquet.loadTable(p24p+"TAB24_02")
+//      df24_02.printSchema()
+//
+//      println("TAB24_03")
+//      val df24_03 = LoadTableParquet.loadTable(p24p+"TAB24_03")
+//      df24_03.printSchema()
+//
+//      println("TAB24_04")
+//      val df24_04 = LoadTableParquet.loadTable(p24p+"TAB24_04")
+//      df24_04.printSchema()
+//
+//      println("TAB24_05")
+//      val df24_05 = LoadTableParquet.loadTable(p24p+"TAB24_05")
+//      df24_05.printSchema()
+//
+//      println("TAB24_06")
+//      val df24_06 = LoadTableParquet.loadTable(p24p+"TAB24_06")
+//      df24_06.printSchema()
+//
+//      println("TAB24_07")
+//      val df24_07 = LoadTableParquet.loadTable(p24p+"TAB24_07")
+//      df24_07.printSchema()
+//
+//      println("TAB24_08")
+//      val df24_08 = LoadTableParquet.loadTable(p24p+"TAB24_08")
+//      df24_08.printSchema()
+//
+//      println("TAB24_09")
+//      val df24_09 = LoadTableParquet.loadTable(p24p+"TAB24_09")
+//      df24_09.printSchema()
+//
+//      println("TAB24_10")
+//      val df24_10 = LoadTableParquet.loadTable(p24p+"TAB24_10")
+//      df24_10.printSchema()
+//
+//      println("TAB24_11")
+//      val df24_11 = LoadTableParquet.loadTable(p24p+"TAB24_11")
+//      df24_11.printSchema()
+
 
 
       //println("almacenando TAB24_01")
@@ -68,78 +101,67 @@ object CstToParquet {
       //            df24_05.coalesce(1).write.option("header", "true").save(p24p + "TAB24_05")
       //            println("hecho")
 
+      //      println("almacenando TAB24_06 en parquet")
+      //      val df24_06 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_6.csv", pc2)
+      //      df24_06.coalesce(1).write.option("header", "true").save(p24p + "TAB24_06")
+      //      println("TAB24_06 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_07 en parquet")
+      //      val df24_07 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_7.csv", pc2)
+      //      df24_07.coalesce(1).write.option("header", "true").save(p24p + "TAB24_07")
+      //      println("TAB24_07 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_08 en parquet")
+      //      val df24_08 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_8.csv", pc2)
+      //      df24_08.coalesce(1).write.option("header", "true").save(p24p + "TAB24_08")
+      //      println("TAB24_08 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_09 en parquet")
+      //      val df24_09 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_9.csv", pc2)
+      //      df24_09.coalesce(1).write.option("header", "true").save(p24p + "TAB24_09")
+      //      println("TAB24_09 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_10 en parquet")
+      //      val df24_10 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_10.csv", pc2)
+      //      df24_10.coalesce(1).write.option("header", "true").save(p24p + "TAB24_10")
+      //      println("TAB24_10 almacenada en parquet")
+      //
+      //
+      //      println("almacenando TAB24_11 en parquet")
+      //      val df24_11 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_11.csv", pc2)
+      //      df24_11.coalesce(1).write.option("header", "true").save(p24p + "TAB24_11")
+      //      println("TAB24_11 almacenada en parquet")
 
 
-
-//      val t = LoadTableParquet.loadTable(TabPaths.TAB00C)
-//
-//      t.show(20)
-
-
-      println("almacenando TAB24_06 en parquet")
-      val df24_06 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_6.csv", pc2)
-      df24_06.coalesce(1).write.option("header", "true").save(p24p + "TAB24_06")
-      println("TAB24_06 almacenada en parquet")
-
-      println("almacenando TAB24_07 en parquet")
-      val df24_07 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_7.csv", pc2)
-      df24_07.coalesce(1).write.option("header", "true").save(p24p + "TAB24_07")
-      println("TAB24_07 almacenada en parquet")
-
-      println("almacenando TAB24_08 en parquet")
-      val df24_08 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_8.csv", pc2)
-      df24_08.coalesce(1).write.option("header", "true").save(p24p + "TAB24_08")
-      println("TAB24_08 almacenada en parquet")
-
-      println("almacenando TAB24_09 en parquet")
-      val df24_09 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_9.csv", pc2)
-      df24_09.coalesce(1).write.option("header", "true").save(p24p + "TAB24_09")
-      println("TAB24_09 almacenada en parquet")
-
-      println("almacenando TAB24_10 en parquet")
-      val df24_10 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_10.csv", pc2)
-      df24_10.coalesce(1).write.option("header", "true").save(p24p + "TAB24_10")
-      println("TAB24_10 almacenada en parquet")
-
-
-      println("almacenando TAB24_11 en parquet")
-      val df24_11 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_11.csv", pc2)
-      df24_11.coalesce(1).write.option("header", "true").save(p24p + "TAB24_11")
-      println("TAB24_11 almacenada en parquet")
-
-
-
-//      println("almacenando TAB24_06 en parquet")
-//      val df24_06 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_6.csv", pc2)
-//      df24_06.coalesce(1).write.option("header", "true").save(p24p + "TAB24_06_c")
-//      println("TAB24_06 almacenada en parquet")
-//
-//      println("almacenando TAB24_07 en parquet")
-//      val df24_07 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_7.csv", pc2)
-//      df24_07.coalesce(1).write.option("header", "true").save(p24p + "TAB24_07_c")
-//      println("TAB24_07 almacenada en parquet")
-//
-//      println("almacenando TAB24_08 en parquet")
-//      val df24_08 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_8.csv", pc2)
-//      df24_08.coalesce(1).write.option("header", "true").save(p24p + "TAB24_08_c")
-//      println("TAB24_08 almacenada en parquet")
-//
-//      println("almacenando TAB24_09 en parquet")
-//      val df24_09 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_9.csv", pc2)
-//      df24_09.coalesce(1).write.option("header", "true").save(p24p + "TAB24_09_c")
-//      println("TAB24_09 almacenada en parquet")
-//
-//      println("almacenando TAB24_10 en parquet")
-//      val df24_10 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_10.csv", pc2)
-//      df24_10.coalesce(1).write.option("header", "true").save(p24p + "TAB24_10_c")
-//      println("TAB24_10 almacenada en parquet")
-//
-//      println("almacenando TAB24_11 en parquet")
-//      val df24_11 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_11.csv", pc2)
-//      df24_11.coalesce(1).write.option("header", "true").save(p24p + "TAB24_11_c")
-//      println("TAB24_11 almacenada en parquet")
-
-
+      //      println("almacenando TAB24_06 en parquet")
+      //      val df24_06 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_6.csv", pc2)
+      //      df24_06.coalesce(1).write.option("header", "true").save(p24p + "TAB24_06_c")
+      //      println("TAB24_06 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_07 en parquet")
+      //      val df24_07 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_7.csv", pc2)
+      //      df24_07.coalesce(1).write.option("header", "true").save(p24p + "TAB24_07_c")
+      //      println("TAB24_07 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_08 en parquet")
+      //      val df24_08 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170308_CZZ_20140601_20170123_8.csv", pc2)
+      //      df24_08.coalesce(1).write.option("header", "true").save(p24p + "TAB24_08_c")
+      //      println("TAB24_08 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_09 en parquet")
+      //      val df24_09 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_9.csv", pc2)
+      //      df24_09.coalesce(1).write.option("header", "true").save(p24p + "TAB24_09_c")
+      //      println("TAB24_09 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_10 en parquet")
+      //      val df24_10 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_10.csv", pc2)
+      //      df24_10.coalesce(1).write.option("header", "true").save(p24p + "TAB24_10_c")
+      //      println("TAB24_10 almacenada en parquet")
+      //
+      //      println("almacenando TAB24_11 en parquet")
+      //      val df24_11 = LoadTableCsvHDFS.loadTable(p24 + "C3_Endesa_TAB_24_20170309_CZZ_20140601_20170123_11.csv", pc2)
+      //      df24_11.coalesce(1).write.option("header", "true").save(p24p + "TAB24_11_c")
+      //      println("TAB24_11 almacenada en parquet")
 
 
       //      df24.createOrReplaceTempView("T24")
