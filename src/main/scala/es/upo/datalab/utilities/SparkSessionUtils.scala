@@ -28,6 +28,7 @@ object SparkSessionUtils {
 //    val sparkSession = SparkSession.builder().
 //      appName("upolab").
 //      master("local[*]").
+//  config("spark.local.dir","hdfs://192.168.47.247/user/tempSpark").
 //      config("spark.scheduler.mode", "FAIR").
 //      config("spark.network.timeout","10000000").
 //      config("spark.executor.heartbeatInterval","10000").
@@ -39,6 +40,7 @@ object SparkSessionUtils {
 //############################Submit en cluster
 //  val sparkSession = SparkSession.builder().
 //    appName("upolab").
+//  config("spark.local.dir","hdfs://192.168.47.247/user/tempSpark").
 ////    master("mesos://192.168.47.247:7078").
 ////    config("spark.scheduler.mode", "FAIR").
 ////    config("spark.network.timeout","10000000").
@@ -51,7 +53,7 @@ object SparkSessionUtils {
 
 
 
-  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/gutierrez/checkpointSpark")
+  sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/checkpointSpark")
 
 
   val sc = sparkSession.sparkContext
