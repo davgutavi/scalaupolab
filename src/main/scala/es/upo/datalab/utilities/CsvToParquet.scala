@@ -4,7 +4,7 @@ package es.upo.datalab.utilities
 /**
   * Created by davgutavi on 12/05/17.
   */
-object CvtToParquet {
+object CsvToParquet {
 
   val sqlContext = SparkSessionUtils.sqlContext
 

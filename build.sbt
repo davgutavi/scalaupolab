@@ -4,9 +4,10 @@ import sbtassembly.AssemblyPlugin.autoImport.{assemblyJarName, _}
 lazy val root = (project in file(".")).
   settings(
     name := "endesa"
-    ,version := "1.2.1"
+    ,version := "2.0.0"
     ,scalaVersion := "2.11.6"
-    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.general.CstToParquet")
+    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.Tab24PreProcessing")
+//    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.CsvToParquet")
     //,assemblyJarName in assembly := "endesa_"+version+".jar"
     ,test in assembly := {}
     ,fork := true

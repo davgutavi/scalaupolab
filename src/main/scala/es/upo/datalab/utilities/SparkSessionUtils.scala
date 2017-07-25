@@ -8,7 +8,7 @@ object SparkSessionUtils {
 
 
   Logger.getLogger("org").setLevel(Level.OFF)
-//  Logger.getLogger("akka").setLevel(Level.OFF)
+  Logger.getLogger("akka").setLevel(Level.OFF)
 
 
   //############################Configuración en intellij
@@ -40,17 +40,15 @@ object SparkSessionUtils {
 //############################Submit en cluster
 //  val sparkSession = SparkSession.builder().
 //    appName("upolab").
-//  config("spark.local.dir","hdfs://192.168.47.247/user/tempSpark").
-////    master("mesos://192.168.47.247:7078").
-////    config("spark.scheduler.mode", "FAIR").
-////    config("spark.network.timeout","10000000").
-////    config("spark.executor.heartbeatInterval","10000").
+//    config("spark.local.dir","hdfs://192.168.47.247/user/tempSpark").
+//    master("mesos://192.168.47.247:5050").
+//    config("spark.scheduler.mode", "FAIR").
+////  config("spark.network.timeout","10000000").
+////  config("spark.executor.heartbeatInterval","10000").
 //    config("spark.driver.memory","40g").
 //    config("spark.executor.memory","40g").
 //    getOrCreate()
   //############################
-
-
 
 
   sparkSession.sparkContext.setCheckpointDir("hdfs://192.168.47.247/user/checkpointSpark")
