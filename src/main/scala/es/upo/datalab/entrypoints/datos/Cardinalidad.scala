@@ -13,7 +13,7 @@ object Cardinalidad {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     import sqlContext._
 
@@ -108,7 +108,7 @@ object Cardinalidad {
 //      print("Cardinalidad Contrato - Expediente = "+q4.count()+" registros")
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 

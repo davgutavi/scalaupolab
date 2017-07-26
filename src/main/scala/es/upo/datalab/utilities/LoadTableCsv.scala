@@ -54,7 +54,7 @@ object LoadTableCsv {
 
     val customSchema = StructType(schema)
 
-    val loader = SparkSessionUtils.sparkSession.read
+    val loader = SparkSessionUtils.session.read
       .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace", "true")

@@ -25,13 +25,13 @@ object LoadTableCsvHDFS {
   def loadTable(pathToData: String, pathToHeaders: String, dropDuplicates:Boolean=false): DataFrame = {
 
 
-    val rawHeaders = SparkSessionUtils.sparkSession.read.option("delimiter",";").csv(pathToHeaders)
+    val rawHeaders = SparkSessionUtils.session.read.option("delimiter",";").csv(pathToHeaders)
 
     val customSchema = StructType(rawHeaders.rdd.map(l=>buildStructFields(l)).collect())
 
 //    print(customSchema.mkString)
 
-    val loader = SparkSessionUtils.sparkSession.read
+    val loader = SparkSessionUtils.session.read
       .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace", "true")

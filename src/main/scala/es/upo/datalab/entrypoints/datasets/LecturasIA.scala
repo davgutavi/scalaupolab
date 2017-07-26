@@ -12,7 +12,7 @@ object LecturasIA {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     import sqlContext._
 
@@ -22,7 +22,7 @@ object LecturasIA {
       println("Prueba jar con spark")
 
 
-      val r = SparkSessionUtils.sparkSession.read.csv("hdfs://192.168.47.247/user/gutierrez/endesa/tab05a.csv")
+      val r = SparkSessionUtils.session.read.csv("hdfs://192.168.47.247/user/gutierrez/endesa/tab05a.csv")
 
       r.show(20,truncate=false)
 
@@ -235,7 +235,7 @@ object LecturasIA {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 

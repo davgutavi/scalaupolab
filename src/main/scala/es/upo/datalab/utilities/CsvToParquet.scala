@@ -6,7 +6,7 @@ package es.upo.datalab.utilities
   */
 object CsvToParquet {
 
-  val sqlContext = SparkSessionUtils.sqlContext
+  val sqlContext = SparkSessionUtils.sql
 
 
   def main(args: Array[String]): Unit = {
@@ -324,7 +324,7 @@ object CsvToParquet {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 

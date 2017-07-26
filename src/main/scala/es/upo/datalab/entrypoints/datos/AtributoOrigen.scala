@@ -13,7 +13,7 @@ object AtributoOrigen {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     import sqlContext._
 
@@ -405,6 +405,6 @@ object AtributoOrigen {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
   }
 }

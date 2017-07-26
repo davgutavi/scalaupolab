@@ -12,7 +12,7 @@ object CupsNormalLecturas {
 
     val nivel = StorageLevel.DISK_ONLY_2
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     import sqlContext._
 
@@ -212,7 +212,7 @@ object CupsNormalLecturas {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 

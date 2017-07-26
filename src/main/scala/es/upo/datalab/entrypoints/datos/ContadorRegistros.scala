@@ -13,7 +13,7 @@ object ContadorRegistros {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     TimingUtils.time {
 
@@ -123,7 +123,7 @@ object ContadorRegistros {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
 
   }

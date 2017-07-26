@@ -11,29 +11,30 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
   def call(row: Row): Row = {
 
+    var wrong_xml_syntax = false
+
+    if(row.getString(7).toInt==8) wrong_xml_syntax = true
+
 
     val l = mutable.MutableList[Any]()
 
-
-    fase1(l,row)
-
-
+    original_fields(l,row)
 
 //    println("[ "+row.getString(9)+" , "+row.getString(10)+" , "+row.getString(16)+" ]")
 
     //raw
-    mew_fields(l,row.getString(9),42)
+    new_fields(l,row.getString(9),42,wrong_xml_syntax)
 
     //validated
-    mew_fields(l,row.getString(10),68)
+    new_fields(l,row.getString(10),68,wrong_xml_syntax)
 
     //time
-    mew_fields(l,row.getString(16),94)
+    new_fields(l,row.getString(16),94,wrong_xml_syntax)
 
-//    println("["+l.length+"] "+l.mkString("#"))
-
+    if (wrong_xml_syntax)   println("["+l.length+"] "+l.mkString("#"))
 
     Row.fromSeq(l)
+
 
 
   }
@@ -41,7 +42,9 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
 
 
-   def fase1 (l:mutable.MutableList[Any], row:Row):Unit = {
+   def original_fields(l:mutable.MutableList[Any], row:Row):Unit = {
+
+
 
      //cups22
      l+=row.get(0)
@@ -94,90 +97,103 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
      //validacionhoraria
      l+=row.get(16)
 
+
+
    }
 
 
-  def mew_fields(l:mutable.MutableList[Any], s:String, position:Int):Unit = {
+  def new_fields(l:mutable.MutableList[Any], s:String, position:Int, wrong_xml_syntax:Boolean):Unit = {
+
+    if (!wrong_xml_syntax) {
+
+      if (s != null) {
+
+        val aux1 = s.split( "\\$" )
+
+        val aux2 = aux1.map( i => {
+          val w1 = i.split( ("\\|") )
+          if (w1.length != 2) {
+            l += "-1".toInt
+          } else {
+            l += w1( 0 ).toInt
+          }
+        } )
+
+        //    println("length = "+l.length)
 
 
-    if(s != null) {
+        val dif1 = position - l.length
 
-      val aux1 = s.split( "\\$" )
+        //    println("position = "+position)
+        //    println("length = "+l.length)
+        //    println("dif1 = "+dif1)
 
-      val aux2 = aux1.map( i => {
-        val w1 = i.split( ("\\|") )
-        if (w1.length != 2) {
-          l += "-1".toInt
-        } else {
-          l += w1( 0 ).toInt
+        if (dif1 > 0) {
+
+          for (a <- 0 until dif1) {
+            l += "-1".toInt
+          }
         }
-      } )
 
-      //    println("length = "+l.length)
+        var aux3 = ""
+
+        val aux4 = s.split( "\\$" )
+
+        aux3 = aux4.map( i => {
+
+          val w1 = i.split( ("\\|") )
+
+          if (w1.length != 2) {
+            "g"
+          } else {
+            w1( 1 ).toString
+          }
+        } ).mkString( "-" )
 
 
-      val dif1 = position - l.length
+        //    println("length ="+aux3.length())
 
-      //    println("position = "+position)
-      //    println("length = "+l.length)
-      //    println("dif1 = "+dif1)
 
-      if (dif1 > 0) {
+        val dif2 = 47 - aux3.length()
 
-        for (a <- 0 until dif1) {
-          l += "-1".toInt
+        //    println("position = 47")
+        //    println("length = "+ aux3.length())
+        //    println("dif2 = "+dif2+"\n\n")
+
+        if (dif2 > 0) {
+
+          for (a <- 0 until dif2) {
+            aux3 += "-g"
+          }
+
         }
+
+        l += aux3
+
+
       }
-
-      var aux3 = ""
-
-      val aux4 = s.split( "\\$" )
-
-      aux3 = aux4.map( i => {
-
-        val w1 = i.split( ("\\|") )
-
-        if (w1.length != 2) {
-          "g"
-        } else {
-          w1( 1 ).toString
-        }
-      } ).mkString( "-" )
+      else {
 
 
-      //    println("length ="+aux3.length())
+        for (i <- 0 until 26) {
 
+          l += null
 
-      val dif2 = 47 - aux3.length()
-
-      //    println("position = 47")
-      //    println("length = "+ aux3.length())
-      //    println("dif2 = "+dif2+"\n\n")
-
-      if (dif2 > 0) {
-
-        for (a <- 0 until dif2) {
-          aux3 += "-g"
         }
 
       }
-
-      l += aux3
-
 
     }
     else{
 
+      for (i<- 0 until 78){
 
-      for(i <- 0 until 26 ){
-
-        l += null
+        l+= null
 
       }
 
+
     }
-
-
 
   }
 

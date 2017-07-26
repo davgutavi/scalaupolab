@@ -18,9 +18,9 @@ object Test03 {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
-    val sparkSession = SparkSessionUtils.sparkSession
+    val sparkSession = SparkSessionUtils.session
 
     import sqlContext._
 
@@ -48,7 +48,7 @@ object Test03 {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 
