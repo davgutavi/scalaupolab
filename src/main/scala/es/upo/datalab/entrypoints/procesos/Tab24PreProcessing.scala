@@ -127,9 +127,6 @@ object Tab24PreProcessing {
       )
 
 
-
-
-
       val customSchema = StructType(schema)
 
       println("Aplicando mapeo")
@@ -137,11 +134,11 @@ object Tab24PreProcessing {
 
       println("Construyendo nuevo dataframe")
       val n: DataFrame = sqlContext.createDataFrame( a, customSchema )
-      n.show( 200, truncate = false )
+//      n.show( 200, truncate = false )
 
 
-//      println("Guardando TABN en HDFS")
-//      n.coalesce( 1 ).write.option( "header", "true" ).save( "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24N" )
+      println("Guardando TABN en HDFS")
+      n.coalesce( 1 ).write.option( "header", "true" ).save( "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24N" )
 
 
     }

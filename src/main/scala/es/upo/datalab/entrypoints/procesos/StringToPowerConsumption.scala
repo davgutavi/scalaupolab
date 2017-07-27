@@ -20,7 +20,7 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
     original_fields(l,row)
 
-//    println("[ "+row.getString(9)+" , "+row.getString(10)+" , "+row.getString(16)+" ]")
+    println("[ "+row.getString(9)+" , "+row.getString(10)+" , "+row.getString(16)+" ]")
 
     //raw
     new_fields(l,row.getString(9),42,wrong_xml_syntax)
@@ -31,7 +31,10 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
     //time
     new_fields(l,row.getString(16),94,wrong_xml_syntax)
 
-    if (wrong_xml_syntax)   println("["+l.length+"] "+l.mkString("#"))
+//    if (wrong_xml_syntax)  println("["+l.length+"] "+l.mkString("#"))
+
+    println("["+l.length+"] "+l.mkString("#"))
+
 
     Row.fromSeq(l)
 
@@ -112,7 +115,7 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
         val aux2 = aux1.map( i => {
           val w1 = i.split( ("\\|") )
-          if (w1.length != 2) {
+          if (w1.length != 2||w1(0)=="") {
             l += "-1".toInt
           } else {
             l += w1( 0 ).toInt
@@ -143,7 +146,7 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
           val w1 = i.split( ("\\|") )
 
-          if (w1.length != 2) {
+          if (w1.length != 2||w1(1)=="") {
             "g"
           } else {
             w1( 1 ).toString

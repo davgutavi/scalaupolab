@@ -12,21 +12,62 @@ object CsvToParquet {
   def main(args: Array[String]): Unit = {
 
 
-    val p24 = "hdfs://192.168.47.247/user/gutierrez/TAB24/"
-
-    val p24p = "/user/gutierrez/endesa/database_parquet/TAB24_partes/"
-
-    val pc = "/mnt/datos/recursos/ENDESA/headers/TAB24_headers.csv"
-
-    val pc2 = "hdfs://192.168.47.247/user/gutierrez/headers/TAB24_headers.csv"
+//    val p24 = "hdfs://192.168.47.247/user/gutierrez/TAB24/"
+//
+//    val p24p = "/user/gutierrez/endesa/database_parquet/TAB24_partes/"
+//
+//    val pc = "/mnt/datos/recursos/ENDESA/headers/TAB24_headers.csv"
+//
+//    val pc2 = "hdfs://192.168.47.247/user/gutierrez/headers/TAB24_headers.csv"
 
 
     TimingUtils.time {
 
-            println("Unificando TAB24")
-            val df24 = LoadTableParquet.loadTable("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24_partes/")
-            df24.coalesce(1).write.option("header", "true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24")
-            println("Hecho")
+
+
+//      val e = "1127|0$533|0$495|0$|0".split("\\$")
+//
+//      println(e.mkString("   "))
+//
+//      val e1 = e.map(i => {
+//        val w1 = i.split( ("\\|") )
+//
+//        println(w1.length)
+//
+//        if (w1.length != 2||w1(0)=="") {
+//          "-1".toInt
+//        } else {
+//
+//
+//          w1( 0 ).toInt
+//
+//        }
+//      } )
+//
+//      println(e1.mkString("   "))
+
+
+      println("almacenando TAB00C")
+      val df00C = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/TAB00C",
+        "/mnt/datos/recursos/ENDESA/headers/TAB00C_headers.csv")
+      df00C.coalesce(1).write.option("header", "true").save(TabPaths.hdfs_database_parquet + "TAB00C")
+      //      df00C.show(40)
+      println("TAB00C almacenada")
+
+
+
+
+
+
+
+
+
+
+
+//            println("Unificando TAB24")
+//            val df24 = LoadTableParquet.loadTable("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24_partes/")
+//            df24.coalesce(1).write.option("header", "true").save("hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24")
+//            println("Hecho")
 
 
 //      println("TAB24_01")
@@ -227,12 +268,7 @@ object CsvToParquet {
       //            println("TAB00E almacenada")
 
 
-      //            println("almacenando TAB00C")
-      //            val df00C = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB00C",
-      //              "/media/davgutavi/ushdportatil/entregas/headers/TAB00C_headers.csv")
-      //            df00C.coalesce(1).write.option("header", "true").save(TabPaths.prefix_database + "TAB00C")
-      //      //      df00C.show(40)
-      //            println("TAB00C almacenada")
+
       //
 
       //

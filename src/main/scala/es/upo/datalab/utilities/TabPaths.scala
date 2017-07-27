@@ -9,10 +9,12 @@ object TabPaths {
   final val hdfs_root = "hdfs://192.168.47.247/user/gutierrez/endesa/"
   final val hdfs_database_parquet = hdfs_root+"database_parquet/"
   final val hdfs_datasets_parquet = hdfs_root+"datasets_parquet/"
+  final val hdfs_headers = hdfs_root+"headers/"
 
   //PC LABORATORIO
   final val pclab_root = "/mnt/datos/recursos/ENDESA/"
   final val pclab_database_parquet = pclab_root+"database_parquet/"
+  final val pclab_headers = hdfs_root+"headers/"
 
   //HD PORTATIL LAB
   final val hdlab_root = "/media/davgutavi/Maxtor/ENDESA/"
@@ -32,7 +34,8 @@ object TabPaths {
 
   //******************************************TAB00C
   final val TAB00C = hdfs_database_parquet+"TAB00C"
-
+  final val TAB00C_hdfs_headers = hdfs_headers+"TAB00C_headers.csv"
+  final val TAB00C_pclab_headers = pclab_headers+"TAB00C_headers.csv"
 
   //******************************************TAB00E
   final val TAB00E = hdfs_database_parquet+"TAB00E"
