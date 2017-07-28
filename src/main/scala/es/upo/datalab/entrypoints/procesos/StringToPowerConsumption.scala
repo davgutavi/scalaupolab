@@ -7,105 +7,100 @@ import org.apache.spark.sql.Row
 
 import scala.collection.mutable
 
-object StringToPowerConsumption extends MapFunction[Row,Row] {
+object StringToPowerConsumption extends MapFunction[Row, Row] {
 
   def call(row: Row): Row = {
 
     var wrong_xml_syntax = false
 
-    if(row.getString(7).toInt==8) wrong_xml_syntax = true
+    if (row.getString( 7 ).toInt == 8) wrong_xml_syntax = true
 
 
     val l = mutable.MutableList[Any]()
 
-    original_fields(l,row)
+    original_fields( l, row )
 
-    println("[ "+row.getString(9)+" , "+row.getString(10)+" , "+row.getString(16)+" ]")
+    println( "[ " + row.getString( 9 ) + " , " + row.getString( 10 ) + " , " + row.getString( 16 ) + " ]" )
 
     //raw
-    new_fields(l,row.getString(9),42,wrong_xml_syntax)
+    new_fields( l, row.getString( 9 ), 42, wrong_xml_syntax )
 
     //validated
-    new_fields(l,row.getString(10),68,wrong_xml_syntax)
+    new_fields( l, row.getString( 10 ), 68, wrong_xml_syntax )
 
     //time
-    new_fields(l,row.getString(16),94,wrong_xml_syntax)
+    new_fields( l, row.getString( 16 ), 94, wrong_xml_syntax )
 
-//    if (wrong_xml_syntax)  println("["+l.length+"] "+l.mkString("#"))
+    //    if (wrong_xml_syntax)  println("["+l.length+"] "+l.mkString("#"))
 
-    println("["+l.length+"] "+l.mkString("#"))
+    //    println("["+l.length+"] "+l.mkString("#"))
 
 
-    Row.fromSeq(l)
-
+    Row.fromSeq( l )
 
 
   }
 
 
+  def original_fields(l: mutable.MutableList[Any], row: Row): Unit = {
 
 
-   def original_fields(l:mutable.MutableList[Any], row:Row):Unit = {
+    //cups22
+    l += row.get( 0 )
+
+    //fechalectura
+    l += row.get( 1 )
+
+    //fecharecepcion
+    l += row.get( 2 )
+
+    //banderaverinv
+    l += row.get( 3 )
+
+    //consumototal
+    l += row.get( 4 )
+
+    //datavalidation
+    l += row.get( 5 )
+
+    //estadodesechada
+    l += row.get( 6 )
+
+    //estadovalidacion
+    l += row.get( 7 )
+
+    //fechasistema
+    l += row.get( 8 )
+
+    //informacionhorariabruta
+    l += row.get( 9 )
+
+    //informacionhorariaval
+    l += row.get( 10 )
+
+    //nhuecos
+    l += row.get( 11 )
+
+    //nreghorariosnovalidos
+    l += row.get( 12 )
+
+    //numeroserieequipo
+    l += row.get( 13 )
+
+    //periodicidad
+    l += row.get( 14 )
+
+    //tipomedida
+    l += row.get( 15 )
+
+    //validacionhoraria
+    l += row.get( 16 )
 
 
-
-     //cups22
-     l+=row.get(0)
-
-     //fechalectura
-     l+=row.get(1)
-
-     //fecharecepcion
-     l+=row.get(2)
-
-     //banderaverinv
-     l+=row.get(3)
-
-     //consumototal
-     l+=row.get(4)
-
-     //datavalidation
-     l+=row.get(5)
-
-     //estadodesechada
-     l+=row.get(6)
-
-     //estadovalidacion
-     l+=row.get(7)
-
-     //fechasistema
-     l+=row.get(8)
-
-     //informacionhorariabruta
-     l+=row.get(9)
-
-     //informacionhorariaval
-     l+=row.get(10)
-
-     //nhuecos
-     l+=row.get(11)
-
-     //nreghorariosnovalidos
-     l+=row.get(12)
-
-     //numeroserieequipo
-     l+=row.get(13)
-
-     //periodicidad
-     l+=row.get(14)
-
-     //tipomedida
-     l+=row.get(15)
-
-     //validacionhoraria
-     l+=row.get(16)
+  }
 
 
-
-   }
-
-
-  def new_fields(l:mutable.MutableList[Any], s:String, position:Int, wrong_xml_syntax:Boolean):Unit = {
+  def new_fields(l: mutable.MutableList[Any], s: String, position: Int, wrong_xml_syntax: Boolean): Unit = {
 
     if (!wrong_xml_syntax) {
 
@@ -115,21 +110,23 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
         val aux2 = aux1.map( i => {
           val w1 = i.split( ("\\|") )
-          if (w1.length != 2||w1(0)=="") {
+          if (w1.length != 2 || w1( 0 ) == "") {
             l += "-1".toInt
           } else {
-            l += w1( 0 ).toInt
+
+            try {
+              l += w1( 0 ).toInt
+            }
+            catch {
+              case num: NumberFormatException => {
+                l += null
+                println( "Error provocado por: " + w1( 0 ) )
+              }
+            }
           }
         } )
 
-        //    println("length = "+l.length)
-
-
         val dif1 = position - l.length
-
-        //    println("position = "+position)
-        //    println("length = "+l.length)
-        //    println("dif1 = "+dif1)
 
         if (dif1 > 0) {
 
@@ -146,22 +143,14 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
           val w1 = i.split( ("\\|") )
 
-          if (w1.length != 2||w1(1)=="") {
+          if (w1.length != 2 || w1( 1 ) == "") {
             "g"
           } else {
             w1( 1 ).toString
           }
         } ).mkString( "-" )
 
-
-        //    println("length ="+aux3.length())
-
-
         val dif2 = 47 - aux3.length()
-
-        //    println("position = 47")
-        //    println("length = "+ aux3.length())
-        //    println("dif2 = "+dif2+"\n\n")
 
         if (dif2 > 0) {
 
@@ -173,8 +162,9 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
         l += aux3
 
-
       }
+
+
       else {
 
 
@@ -187,11 +177,11 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
       }
 
     }
-    else{
+    else {
 
-      for (i<- 0 until 78){
+      for (i <- 0 until 78) {
 
-        l+= null
+        l += null
 
       }
 
@@ -200,4 +190,4 @@ object StringToPowerConsumption extends MapFunction[Row,Row] {
 
   }
 
-  }
+}

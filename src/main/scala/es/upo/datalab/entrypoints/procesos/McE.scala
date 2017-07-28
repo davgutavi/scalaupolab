@@ -46,8 +46,13 @@ object McE {
                         ON MC.origen=E.origen AND MC.cfinca=E.cfinca AND MC.cptoserv=E.cptoserv AND MC.cderind=E.cderind AND MC.fpsercon<E.fapexpd AND E.fapexpd <= MC.ffinvesu""")
 
 
-      println("Mostrando resultados")
-      mce.show(2000,truncate = false)
+      println("Obteniendo registros")
+
+      val mce1 = mce.limit(50000)
+
+      println("Guardando en HDFS")
+
+      mce1.write.option("delimiter","\t").option("headers","true").csv(TabPaths.output_root+"mce")
 
 
       println("DONE!")

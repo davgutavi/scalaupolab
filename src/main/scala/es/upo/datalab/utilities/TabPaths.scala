@@ -5,6 +5,9 @@ package es.upo.datalab.utilities
   */
 object TabPaths {
 
+  //Output paths
+  final val output_root = "hdfs://192.168.47.247/user/sparkOutputs/"
+
   //HDFS Laboratorio
   final val hdfs_root = "hdfs://192.168.47.247/user/gutierrez/endesa/"
   final val hdfs_database_parquet = hdfs_root+"database_parquet/"
