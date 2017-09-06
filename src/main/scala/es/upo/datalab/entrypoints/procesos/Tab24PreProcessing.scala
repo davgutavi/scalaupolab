@@ -138,8 +138,8 @@ object Tab24PreProcessing {
 
 
       println("Guardando TABN en HDFS")
-//      n.coalesce( 1 ).write.option( "header", "true" ).save( "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24N" )
-      n.write.option( "header", "true" ).save( "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24N" )
+      n.coalesce( 1 ).write.option( "header", "true" ).save( "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24C" )
+//      n.write.option( "header", "true" ).save( "hdfs://192.168.47.247/user/gutierrez/endesa/database_parquet/TAB24C" )
 
 
     }

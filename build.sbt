@@ -18,23 +18,23 @@ val sparkVersion = "2.1.1"
 
 //intellij
 
-//libraryDependencies ++= Seq(
-//  "org.apache.spark" % "spark-core_2.11" % sparkVersion
-//  ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
-//  ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
-//  //,"org.apache.spark" % "spark-hive_2.11" % sparkVersion
-//  //"org.slf4j" % "slf4j-api" % "1.7.15"
-//  //,"org.slf4j" % "slf4j-simple" % "1.7.15"
-//)
+libraryDependencies ++= Seq(
+  "org.apache.spark" % "spark-core_2.11" % sparkVersion
+  ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
+  ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
+  //,"org.apache.spark" % "spark-hive_2.11" % sparkVersion
+  //"org.slf4j" % "slf4j-api" % "1.7.15"
+  //,"org.slf4j" % "slf4j-simple" % "1.7.15"
+)
 
 //submit
 
-libraryDependencies ++= Seq(
-  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-sql_2.11"   % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion % "provided"
-// ,"org.apache.spark" % "spark-hive_2.11"  % sparkVersion % "provided"
-)
+//libraryDependencies ++= Seq(
+//  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-sql_2.11"   % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion % "provided"
+//// ,"org.apache.spark" % "spark-hive_2.11"  % sparkVersion % "provided"
+//)
 
 assemblyMergeStrategy in assembly <<= (assemblyMergeStrategy in assembly) { (old) =>
 {

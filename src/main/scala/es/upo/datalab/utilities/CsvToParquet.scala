@@ -47,12 +47,12 @@ object CsvToParquet {
 //      println(e1.mkString("   "))
 
 
-      println("almacenando TAB00C")
-      val df00C = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/TAB00C",
-        "/mnt/datos/recursos/ENDESA/headers/TAB00C_headers.csv")
-      df00C.coalesce(1).write.option("header", "true").save(TabPaths.hdfs_database_parquet + "TAB00C")
-      //      df00C.show(40)
-      println("TAB00C almacenada")
+//      println("almacenando TAB00C")
+//      val df00C = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/TAB00C",
+//        "/mnt/datos/recursos/ENDESA/headers/TAB00C_headers.csv")
+//      df00C.coalesce(1).write.option("header", "true").save(TabPaths.hdfs_database_parquet + "TAB00C")
+//      //      df00C.show(40)
+//      println("TAB00C almacenada")
 
 
 
@@ -327,26 +327,26 @@ object CsvToParquet {
       //
 
 
-      //      println("almacenando TAB05A")
-      //      val df05A = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB05A",
-      //        "/media/davgutavi/ushdportatil/entregas/headers/TAB05A_headers.csv")
-      //      //      df05A.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05A")
-      //      df05A.show(40,truncate = false)
-      //      println("TAB05A almacenada")
-      //
-      //      println("almacenando TAB05B")
-      //      val df05B = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB05B",
-      //        "/media/davgutavi/ushdportatil/entregas/headers/TAB05B_headers.csv")
-      //      //      df05B.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05B")
-      //      df05B.show(40,truncate = false)
-      //      println("TAB05B almacenada")
-      //
-      //      println("almacenando TAB05C")
-      //      val df05C = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB05C",
-      //        "/media/davgutavi/ushdportatil/entregas/headers/TAB05C_headers.csv")
-      //      //      df05C.coalesce(1).write.option("header","true").save(TabPaths.prefix_database+"TAB05C")
-      //      df05C.show(40,truncate = false)
-      //      println("TAB05C almacenada")
+            println("almacenando TAB05A")
+            val df05A = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/Endesa_TAB_05_A_20170329_CZZ_20100101_20161231.csv",
+              "/mnt/datos/recursos/ENDESA//headers/TAB05A_headers.csv")
+            df05A.coalesce(1).write.option("header","true").save(TabPaths.TAB05A)
+            df05A.show(40,truncate = false)
+            println("TAB05A almacenada")
+
+//            println("almacenando TAB05B")
+//            val df05B = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/Endesa_TAB_05_B_20170611_CZZ_20100101_20161231.csv",
+//              "/mnt/datos/recursos/ENDESA//headers/TAB05B_headers.csv")
+//                  df05B.coalesce(1).write.option("header","true").save(TabPaths.TAB05B)
+//            df05B.show(40,truncate = false)
+//            println("TAB05B almacenada")
+//
+//            println("almacenando TAB05C")
+//            val df05C = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/Endesa_TAB_05C_20170126_CZZ_20100101_20161231.csv",
+//              "/mnt/datos/recursos/ENDESA/headers/TAB05C_headers.csv")
+//                  df05C.coalesce(1).write.option("header","true").save(TabPaths.TAB05C)
+//            df05C.show(40,truncate = false)
+//            println("TAB05C almacenada")
       //
       //      println("almacenando TAB05D")
       //      val df05D = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB05D",
