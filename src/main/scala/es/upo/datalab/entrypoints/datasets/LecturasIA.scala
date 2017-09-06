@@ -12,7 +12,7 @@ object LecturasIA {
 
     val nivel = StorageLevel.MEMORY_AND_DISK
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     import sqlContext._
 
@@ -22,7 +22,7 @@ object LecturasIA {
       println("Prueba jar con spark")
 
 
-      val r = SparkSessionUtils.sparkSession.read.csv("hdfs://192.168.47.247/user/gutierrez/endesa/tab05a.csv")
+      val r = SparkSessionUtils.session.read.csv("hdfs://192.168.47.247/user/gutierrez/endesa/tab05a.csv")
 
       r.show(20,truncate=false)
 
@@ -228,14 +228,14 @@ object LecturasIA {
       mcecclr.unpersist()
 
       println("Guardando Dataset Lecturas Irregularidad Industrial")
-      li.coalesce(1).write.option("header", "true").save(TabPaths.prefix_datasets + "lecturasIrregularidadIndustrial")
+      li.coalesce(1).write.option("header", "true").save(TabPaths.hdfs_datasets_parquet + "lecturasIrregularidadIndustrial")
       println("Parquet Dataset Lecturas Irregularidad Industrial Guardada")
 
       println("DONE!")
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 

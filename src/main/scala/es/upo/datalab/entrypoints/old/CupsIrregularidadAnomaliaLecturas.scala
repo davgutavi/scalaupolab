@@ -13,7 +13,7 @@ object CupsIrregularidadAnomaliaLecturas {
 
     val nivel = StorageLevel.DISK_ONLY
 
-    val sqlContext = SparkSessionUtils.sqlContext
+    val sqlContext = SparkSessionUtils.sql
 
     import sqlContext._
 
@@ -350,7 +350,7 @@ object CupsIrregularidadAnomaliaLecturas {
 
     }
 
-    SparkSessionUtils.sc.stop()
+    SparkSessionUtils.context.stop()
 
   }
 

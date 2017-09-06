@@ -1,17 +1,14 @@
 package es.upo.datalab.utilities
 
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.types.{DataType, DataTypes, StructField, StructType}
 
-import scala.collection.mutable
 import scala.collection.mutable.ArrayBuilder
 
-
-
 /**
-  * Created by davgutavi on 15/03/17.
+  * Created by davgutavi on 19/07/17.
   */
-object LoadTableCsv {
+object LoadTableCsvHDFS {
 
   final val datePattern01 = "yyyyMMdd"
   final val datePattern02 = "YYYYMMddHHmmss"
@@ -22,45 +19,25 @@ object LoadTableCsv {
   final val dateTimePattern04 =  "mmss"
   final val dateTimePattern05 =  "HHmmss"
 
+  var tpattern:String = ""
+  var dpattern:String = ""
 
   def loadTable(pathToData: String, pathToHeaders: String, dropDuplicates:Boolean=false): DataFrame = {
 
 
-    val fields = new ArrayBuilder.ofRef[StructField]
+    val rawHeaders = SparkSessionUtils.session.read.option("delimiter",";").csv(pathToHeaders)
 
-    var tpattern = ""
-    var dpattern = ""
+    val customSchema = StructType(rawHeaders.rdd.map(l=>buildStructFields(l)).collect())
 
-    for (line <- scala.io.Source.fromFile(pathToHeaders).getLines) {
-
-      val values = line.split(";")
-
-      val t = values(1).trim
-
-      val f = StructField(values(0).trim, getType(t), values(2).trim.toBoolean)
-
-      if (t == "date")           {dpattern = datePattern01}
-      else if (t == "date2")     {dpattern = datePattern02}
-      else if (t == "datetime")  {tpattern = dateTimePattern01}
-      else if (t == "datetime2") {tpattern = dateTimePattern02}
-      else if (t == "datetime3") {tpattern = dateTimePattern03}
-      else if (t == "datetime4") {tpattern = dateTimePattern04}
-      else if (t == "datetime5") {tpattern = dateTimePattern05}
-      fields += f
-
-    }
-
-    val schema = fields.result()
-
-    val customSchema = StructType(schema)
+//    print(customSchema.mkString)
 
     val loader = SparkSessionUtils.session.read
       .option("delimiter", ";")
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace", "true")
-//        .option("charset","ASCII")
-//      .option("mode", "DROPMALFORMED")
-//      .option("nullValue","Null")
+      //.option("charset","ASCII")
+      //.option("mode", "DROPMALFORMED")
+      //.option("nullValue","Null")
       .schema(customSchema)
 
     if (!(dpattern == "")) {
@@ -72,11 +49,11 @@ object LoadTableCsv {
     }
 
 
-//    println(pathToData)
+    //    println(pathToData)
 
     val data = loader.csv(pathToData)
 
-//    println("loaded")
+    //    println("loaded")
 
     var r:DataFrame = null
 
@@ -107,6 +84,43 @@ object LoadTableCsv {
     else if (name.equalsIgnoreCase("datetime4"))    r = DataTypes.TimestampType
     else if (name.equalsIgnoreCase("datetime5"))    r = DataTypes.TimestampType
     r
+  }
+
+  private def buildStructFields(line: Row):StructField = {
+
+    val v0 = line.getString(0)
+    val v1 = line.getString(1)
+    val v2 = line.getString(2)
+
+    val t = v1.trim
+
+    val f = StructField(v0.trim, getType(t), v2.trim.toBoolean)
+
+    if (t == "date") {
+      dpattern = datePattern01
+    }
+    else if (t == "date2") {
+      dpattern = datePattern02
+    }
+    else if (t == "datetime") {
+      tpattern = dateTimePattern01
+    }
+    else if (t == "datetime2") {
+      tpattern = dateTimePattern02
+    }
+    else if (t == "datetime3") {
+      tpattern = dateTimePattern03
+    }
+    else if (t == "datetime4") {
+      tpattern = dateTimePattern04
+    }
+    else if (t == "datetime5") {
+      tpattern = dateTimePattern05
+    }
+
+//    println("[ "+dpattern+" , "+tpattern+" ] "+f)
+
+    f
   }
 
 }

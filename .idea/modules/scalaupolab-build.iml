@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="root-build" external.linked.project.path="$MODULE_DIR$/../../project" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" sbt.imports="SUB:DOLLARc31b561d1293ffadf0f7.root, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbtassembly.AssemblyPlugin, _root_.sbtassembly.AssemblyPlugin.autoImport._, sbt._, Keys._, dsl._" sbt.resolvers="https://repo1.maven.org/maven2/|maven|public, file:/Users/davgutavi/.sbt/preloaded|maven|local-preloaded, /Users/davgutavi/.ivy2/cache|ivy|Local cache" type="SBT_MODULE" version="4">
+<module external.linked.project.id="scalaupolab-build" external.linked.project.path="$MODULE_DIR$/../../project" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" sbt.imports="_root_.com.typesafe.sbt.SbtSite._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbtassembly.AssemblyPlugin, _root_.sbtassembly.AssemblyPlugin.autoImport._, sbt._, Keys._, dsl._" sbt.resolvers="https://repo1.maven.org/maven2/|maven|public, /Users/davgutavi/.ivy2/cache|ivy|Local cache" type="SBT_MODULE" version="4">
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../project/target/idea-classes" />
     <output-test url="file://$MODULE_DIR$/../../project/target/idea-test-classes" />
@@ -17,6 +17,8 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.annotation/jsr250-api/jars/jsr250-api-1.0.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.enterprise/cdi-api/jars/cdi-api-1.0.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.inject/javax.inject/jars/javax.inject-1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.databinder/unfiltered-jetty_2.10/jars/unfiltered-jetty_2.10-0.6.8.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.databinder/unfiltered-util_2.10/jars/unfiltered-util_2.10-0.6.8.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.9.9.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/jars/ant-1.9.9.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.commons/commons-lang3/jars/commons-lang3-3.4.jar!/" />
@@ -26,6 +28,16 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.codehaus.plexus/plexus-classworlds/bundles/plexus-classworlds-2.5.2.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.codehaus.plexus/plexus-component-annotations/jars/plexus-component-annotations-1.5.5.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.codehaus.plexus/plexus-utils/jars/plexus-utils-3.0.22.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet/orbits/javax.servlet-2.5.0.v201103041518.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-continuation/jars/jetty-continuation-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-http/jars/jetty-http-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-io/jars/jetty-io-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-security/jars/jetty-security-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-server/jars/jetty-server-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-servlet/jars/jetty-servlet-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-util/jars/jetty-util-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-webapp/jars/jetty-webapp-7.6.9.v20130131.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-xml/jars/jetty-xml-7.6.9.v20130131.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.sisu/org.eclipse.sisu.inject/eclipse-plugins/org.eclipse.sisu.inject-0.3.2.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.sisu/org.eclipse.sisu.plexus/eclipse-plugins/org.eclipse.sisu.plexus-0.3.2.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.ow2.asm/asm-commons/jars/asm-commons-5.2.jar!/" />
@@ -34,6 +46,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.pantsbuild/jarjar/jars/jarjar-1.6.4.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scalactic/scalactic_2.10/bundles/scalactic_2.10-3.0.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.eed3si9n/sbt-assembly/jars/sbt-assembly-0.14.5.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-site/jars/sbt-site-0.7.0.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/jansi.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/jline.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.6/lib/scala-compiler.jar!/" />
@@ -98,6 +111,8 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.enterprise/cdi-api/srcs/cdi-api-1.0-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/javax.inject/javax.inject/srcs/javax.inject-1-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/jline/jline/srcs/jline-2.13-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.databinder/unfiltered-jetty_2.10/srcs/unfiltered-jetty_2.10-0.6.8-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.databinder/unfiltered-util_2.10/srcs/unfiltered-util_2.10-0.6.8-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant-launcher/srcs/ant-launcher-1.9.9-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.ant/ant/srcs/ant-1.9.9-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.commons/commons-lang3/srcs/commons-lang3-3.4-sources.jar!/" />
@@ -107,6 +122,16 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.codehaus.plexus/plexus-classworlds/srcs/plexus-classworlds-2.5.2-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.codehaus.plexus/plexus-component-annotations/srcs/plexus-component-annotations-1.5.5-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.codehaus.plexus/plexus-utils/srcs/plexus-utils-3.0.22-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty.orbit/javax.servlet/srcs/javax.servlet-2.5.0.v201103041518-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-continuation/srcs/jetty-continuation-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-http/srcs/jetty-http-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-io/srcs/jetty-io-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-security/srcs/jetty-security-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-server/srcs/jetty-server-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-servlet/srcs/jetty-servlet-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-util/srcs/jetty-util-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-webapp/srcs/jetty-webapp-7.6.9.v20130131-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty/jetty-xml/srcs/jetty-xml-7.6.9.v20130131-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.sisu/org.eclipse.sisu.inject/srcs/org.eclipse.sisu.inject-0.3.2-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.sisu/org.eclipse.sisu.plexus/srcs/org.eclipse.sisu.plexus-0.3.2-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.fusesource.jansi/jansi/srcs/jansi-1.11-sources.jar!/" />
@@ -165,6 +190,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.spire-math/jawn-parser_2.10/srcs/jawn-parser_2.10-0.6.0-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.spire-math/json4s-support_2.10/srcs/json4s-support_2.10-0.6.0-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.eed3si9n/sbt-assembly/srcs/sbt-assembly-0.14.5-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.10/sbt_0.13/com.typesafe.sbt/sbt-site/srcs/sbt-site-0.7.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
