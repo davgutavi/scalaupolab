@@ -1,8 +1,7 @@
 package es.upo.datalab.entrypoints.procesos
 
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils, TabPaths, TimingUtils}
-import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.types._
+
 import org.apache.spark.storage.StorageLevel
 
 object McE {
