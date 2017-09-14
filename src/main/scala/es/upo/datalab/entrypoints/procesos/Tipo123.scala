@@ -73,11 +73,9 @@ object Tipo123 {
                       TAB_05A.potencia_4, TAB_05A.potencia_5, TAB_05A.potencia_6, TAB_05A.empresa_instaladora, TAB_05A.empresa_instaladora,
                       TAB_05A.instalador, TAB_05A.fboletin, TAB_05A.tension, TAB_05A.fases, TAB_05A.vpmaxbie, TAB_05A.emergencia,
                       TAB_05A.complemento_perdida, TAB_05A.cnumscct AS cnumscct05
-                      FROM MCE JOIN TAB_05A
-                      ON MCE.origen = TAB_05A.origen AND MCE.cemptitu = TAB_05A.cemptitu AND MCE.ccontrat = TAB_05A.ccontrat
-                      AND MCE.cnumscct = TAB_05A.cnumscct
-                      WHERE (MCE.fpsercon<MCE.fapexpd AND (MCE.ffinvesu = '9999-12-31' AND MCE.fapexpd <= TAB_05A.fbajacon)
-                      OR (MCE.ffinvesu != '9999-12-31' AND MCE.fapexpd <= MCE.ffinvesu)) AND MCE.cnumscct!='000' AND MCE.ffinvesu == TAB_05A.ffinvesu
+                      FROM MCE JOIN TAB_05A ON MCE.origen = TAB_05A.origen AND MCE.cemptitu = TAB_05A.cemptitu AND MCE.ccontrat = TAB_05A.ccontrat AND MCE.cnumscct = TAB_05A.cnumscct
+                      WHERE (MCE.fpsercon<MCE.fapexpd AND ((MCE.ffinvesu = '9999-12-31' AND MCE.fapexpd <= TAB_05A.fbajacon) OR (MCE.ffinvesu != '9999-12-31' AND MCE.fapexpd <= MCE.ffinvesu)))
+                      AND MCE.cnumscct!='000' AND MCE.ffinvesu == TAB_05A.ffinvesu
                       ORDER BY MCE.fapexpd
                     """)
 
