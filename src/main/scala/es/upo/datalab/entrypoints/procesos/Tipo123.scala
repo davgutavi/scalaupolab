@@ -35,6 +35,8 @@ object Tipo123 {
 
     ///************PASO 1.1: MC U E ==>  eliminar duplicados por fapexpd >= fpsercon y fapexpd <= ffinvesu y por eliminación del secuencial de contrato del join
 
+    println("join")
+
     val mce = sql(
       """
             SELECT DISTINCT MC.origen, MC.cptocred, MC.cfinca, MC.cnumscct, MC.cptoserv, MC.cderind, MC.cupsree, MC.ccounips, MC.cupsree2,
