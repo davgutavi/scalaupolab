@@ -9,7 +9,7 @@ object TabPaths {
   final val output_root = "hdfs://192.168.47.247/user/sparkOutputs/"
 
   //HDFS Laboratorio
-  final val hdfs_root = "hdfs://192.168.47.247/user/gutierrez/endesa/"
+  final val hdfs_root = "hdfs://192.168.47.247/user/datos/endesa/"
   final val hdfs_database_parquet = hdfs_root+"database_parquet/"
   final val hdfs_datasets_parquet = hdfs_root+"datasets_parquet/"
   final val hdfs_headers = hdfs_root+"headers/"

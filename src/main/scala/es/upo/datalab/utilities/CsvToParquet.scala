@@ -8,56 +8,30 @@ object CsvToParquet {
 
   val sqlContext = SparkSessionUtils.sql
 
-
   def main(args: Array[String]): Unit = {
-
-
-//    val p24 = "hdfs://192.168.47.247/user/gutierrez/TAB24/"
-//
-//    val p24p = "/user/gutierrez/endesa/database_parquet/TAB24_partes/"
-//
-//    val pc = "/mnt/datos/recursos/ENDESA/headers/TAB24_headers.csv"
-//
-//    val pc2 = "hdfs://192.168.47.247/user/gutierrez/headers/TAB24_headers.csv"
-
 
     TimingUtils.time {
 
 
-
-//      val e = "1127|0$533|0$495|0$|0".split("\\$")
-//
-//      println(e.mkString("   "))
-//
-//      val e1 = e.map(i => {
-//        val w1 = i.split( ("\\|") )
-//
-//        println(w1.length)
-//
-//        if (w1.length != 2||w1(0)=="") {
-//          "-1".toInt
-//        } else {
-//
-//
-//          w1( 0 ).toInt
-//
-//        }
-//      } )
-//
-//      println(e1.mkString("   "))
-
-
-//      println("almacenando TAB00C")
-//      val df00C = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/TAB00C",
-//        "/mnt/datos/recursos/ENDESA/headers/TAB00C_headers.csv")
+//      TAB00C con Headers
+//      println("almacenando TAB00C con headers")
+//      val df00C = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/TAB00C", "/mnt/datos/recursos/ENDESA/headers/TAB00C_headers.csv")
 //      df00C.coalesce(1).write.option("header", "true").save(TabPaths.hdfs_database_parquet + "TAB00C")
-//      //      df00C.show(40)
+//      df00C.show(40)
 //      println("TAB00C almacenada")
 
+      //TAB00C con InferSchema
+      println("almacenando TAB00C con inferschema")
+      val df00C = SparkSessionUtils.session.read.option("delimiter", ";").option("ignoreLeadingWhiteSpace", "true").option("ignoreTrailingWhiteSpace", "true").option("inferSchema", "true").csv("/Users/davgutavi/Desktop/buffer_endesa/csv/t00c/")
+      df00C.coalesce(1).write.option("header", "false").save("/Users/davgutavi/Desktop/buffer_endesa/parquet/t00c")
+      df00C.show(40)
+      println("TAB00C almacenada")
 
-
-
-
+//      println("almacenando TAB16")
+//      val df16 = LoadTableCsv.loadTable("/media/davgutavi/ushdportatil/entregas/absolutas/descomprimidas/TAB16", "/media/davgutavi/ushdportatil/entregas/headers/TAB16_headers.csv")
+//      df16.coalesce(1).write.option("header", "true").save(TabPaths.prefix_database + "TAB16")
+//                   df16.show(40)
+//                  println("TAB16 almacenada")
 
 
 
@@ -327,12 +301,12 @@ object CsvToParquet {
       //
 
 
-            println("almacenando TAB05A")
-            val df05A = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/Endesa_TAB_05_A_20170329_CZZ_20100101_20161231.csv",
-              "/mnt/datos/recursos/ENDESA//headers/TAB05A_headers.csv")
-            df05A.coalesce(1).write.option("header","true").save(TabPaths.TAB05A)
-            df05A.show(40,truncate = false)
-            println("TAB05A almacenada")
+//            println("almacenando TAB05A")
+//            val df05A = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/Endesa_TAB_05_A_20170329_CZZ_20100101_20161231.csv",
+//              "/mnt/datos/recursos/ENDESA//headers/TAB05A_headers.csv")
+//            df05A.coalesce(1).write.option("header","true").save(TabPaths.TAB05A)
+//            df05A.show(40,truncate = false)
+//            println("TAB05A almacenada")
 
 //            println("almacenando TAB05B")
 //            val df05B = LoadTableCsv.loadTable("/mnt/datos/recursos/ENDESA/Endesa_TAB_05_B_20170611_CZZ_20100101_20161231.csv",

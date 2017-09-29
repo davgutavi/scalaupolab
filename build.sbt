@@ -5,7 +5,7 @@ lazy val root = (project in file(".")).
   settings(
     name := "endesa"
     ,version := "2.0.0"
-    ,scalaVersion := "2.11.6"
+    ,scalaVersion := "2.11.11"
     ,mainClass in Compile := Some("es.upo.datalab.entrypoints.tests.Test01")
 //    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.Tab24PreProcessing")
 //    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.McE")
@@ -15,27 +15,28 @@ lazy val root = (project in file(".")).
     ,fork := true
   )
 
-val sparkVersion = "2.1.1"
+val sparkVersion = "2.2.0"
 
 //intellij
 
-//libraryDependencies ++= Seq(
-//  "org.apache.spark" % "spark-core_2.11" % sparkVersion
-//  ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
-//  ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
-//  //,"org.apache.spark" % "spark-hive_2.11" % sparkVersion
-//  //"org.slf4j" % "slf4j-api" % "1.7.15"
-//  //,"org.slf4j" % "slf4j-simple" % "1.7.15"
-//)
+libraryDependencies ++= Seq(
+  "org.apache.spark" % "spark-core_2.11" % sparkVersion
+  ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
+    ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
+  ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
+  //,"org.apache.spark" % "spark-hive_2.11" % sparkVersion
+ //"org.slf4j" % "slf4j-api" % "1.7.15"
+//,"org.slf4j" % "slf4j-simple" % "1.7.15"
+)
 
 //submit
 
-libraryDependencies ++= Seq(
-  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-sql_2.11"   % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion % "provided"
+//libraryDependencies ++= Seq(
+//  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-sql_2.11"   % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion % "provided"
 // ,"org.apache.spark" % "spark-hive_2.11"  % sparkVersion % "provided"
-)
+//)
 
 assemblyMergeStrategy in assembly <<= (assemblyMergeStrategy in assembly) { (old) =>
 {
