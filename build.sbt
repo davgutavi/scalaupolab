@@ -21,15 +21,13 @@ val sparkVersion = "2.2.0"
 
 libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-core_2.11" % sparkVersion
-  ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
-    ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
-  ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
-  //,"org.apache.spark" % "spark-hive_2.11" % sparkVersion
- //"org.slf4j" % "slf4j-api" % "1.7.15"
-//,"org.slf4j" % "slf4j-simple" % "1.7.15"
+ ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
+ ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
+ ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
 )
 
 //submit
+
 
 //libraryDependencies ++= Seq(
 //  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
