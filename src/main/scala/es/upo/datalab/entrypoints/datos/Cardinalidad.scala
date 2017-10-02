@@ -108,7 +108,7 @@ object Cardinalidad {
 //      print("Cardinalidad Contrato - Expediente = "+q4.count()+" registros")
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
 
   }
 

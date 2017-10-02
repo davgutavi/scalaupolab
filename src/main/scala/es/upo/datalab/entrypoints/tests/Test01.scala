@@ -53,7 +53,7 @@ object Test01 {
 
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
 
 
   }

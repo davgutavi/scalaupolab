@@ -1,4 +1,4 @@
-package es.upo.datalab.entrypoints.procesos
+package es.upo.datalab.entrypoints.s3_load
 
 import java.sql.Date
 
@@ -7,7 +7,7 @@ import org.apache.spark.sql.Row
 
 import scala.collection.mutable
 
-object t16_dateParser extends MapFunction[Row, Row] {
+object T16_dateParser extends MapFunction[Row, Row] {
 
   /**
     * Fechas de la t16:

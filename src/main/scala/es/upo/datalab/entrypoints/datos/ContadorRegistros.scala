@@ -123,7 +123,7 @@ object ContadorRegistros {
 
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
 
 
   }

@@ -445,7 +445,7 @@ object ClavesPrimarias {
 
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
   }
 
 }

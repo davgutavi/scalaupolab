@@ -5,7 +5,7 @@ import org.apache.spark.sql.types.{StructField, _}
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, Row}
 import org.apache.spark.storage.StorageLevel
 
-object Tab24PreProcessing {
+object T24c_builder {
 
 
   def main(args: Array[String]): Unit = {
@@ -130,7 +130,7 @@ object Tab24PreProcessing {
       val customSchema = StructType(schema)
 
       println("Aplicando mapeo")
-      val a = t24.rdd.map( r => StringToPowerConsumption.call( r ) )
+      val a = t24.rdd.map( r => T24c_stringParser.call( r ) )
 
       println("Construyendo nuevo dataframe")
       val n: DataFrame = sqlContext.createDataFrame( a, customSchema )
@@ -144,7 +144,7 @@ object Tab24PreProcessing {
 
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
 
 
   }

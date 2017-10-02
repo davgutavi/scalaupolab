@@ -7,7 +7,7 @@ import org.apache.spark.sql.Row
 
 import scala.collection.mutable
 
-object StringToPowerConsumption extends MapFunction[Row, Row] {
+object T24c_stringParser extends MapFunction[Row, Row] {
 
   def call(row: Row): Row = {
 

@@ -334,7 +334,7 @@ object CsvToParquet {
 
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
 
   }
 

@@ -1,12 +1,11 @@
-package es.upo.datalab.entrypoints.preprocessing
+package es.upo.datalab.entrypoints.s3_load
 
-import es.upo.datalab.entrypoints.procesos.{StringToPowerConsumption, t16_dateParser}
-import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils, TabPaths}
+import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
 import org.apache.spark.storage.StorageLevel
 
-object DatePreprocessing {
+object T16_builder {
 
   def main(args: Array[String]): Unit = {
 
@@ -67,7 +66,7 @@ object DatePreprocessing {
     val customSchema = StructType(schema)
 
     println("Aplicando mapeo")
-    val a = df16.rdd.map( r => t16_dateParser.call( r ) )
+    val a = df16.rdd.map( r => T16_dateParser.call( r ) )
 
     println("Construyendo nuevo dataframe")
     val n: DataFrame = sqlContext.createDataFrame( a, customSchema )

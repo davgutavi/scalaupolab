@@ -405,6 +405,6 @@ object AtributoOrigen {
 
     }
 
-    SparkSessionUtils.context.stop()
+    SparkSessionUtils.session.stop()
   }
 }
