@@ -52,25 +52,6 @@ object T16_dateParser extends MapFunction[Row, Row] {
   }
 
 
-//  /**
-//    * Chequeo de la fecha. Si es 0000-00-00 se cambia a 0001-01-01
-//    * @param source
-//    * @return
-//    */
-//  def check_date (source:Date):Date = {
-//
-//    var nf = source
-//
-//    if (source.toString().equalsIgnoreCase("0000-00-00")){
-//
-//      nf = Date.valueOf("0001-01-01")
-//
-//      }
-//
-//    nf
-//
-//  }
-
   /**
     * Chequeo de la fecha. Si es 0000-00-00 se cambia a 0001-01-01
     * @param source
@@ -80,9 +61,17 @@ object T16_dateParser extends MapFunction[Row, Row] {
 
     var nf = source.toString
 
-    if (nf.equalsIgnoreCase("0000-00-00")){
+    if (source == null) {
 
       nf = "0001-01-01"
+
+    }
+    else {
+
+      if (source.toString.equalsIgnoreCase("0000-00-00")) {
+
+        nf = "0001-01-01"
+      }
 
     }
 

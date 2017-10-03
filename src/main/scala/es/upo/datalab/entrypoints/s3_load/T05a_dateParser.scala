@@ -84,7 +84,7 @@ object T05a_dateParser extends MapFunction[Row, Row] {
     */
   def check_date (source:Date):String = {
 
-    var nf = ""
+    var nf = source.toString
 
     if (source == null) {
 
@@ -93,16 +93,14 @@ object T05a_dateParser extends MapFunction[Row, Row] {
     }
     else {
 
-      if (nf.equalsIgnoreCase("0000-00-00")) {
+      if (source.toString.equalsIgnoreCase("0000-00-00")) {
 
         nf = "0001-01-01"
-
       }
 
     }
 
     nf
-
 
   }
 
