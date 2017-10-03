@@ -20,7 +20,7 @@ object T05a_builder {
 
 
     val df05a = LoadTableParquet.loadTable("s3a://us-upo-endesa/database_parquet/TAB05A/")
-//      val df05a = LoadTableParquet.loadTable("/Users/davgutavi/Desktop/buffer_endesa/parquet/t05a")
+//    val df05a = LoadTableParquet.loadTable("/Users/davgutavi/Desktop/buffer_endesa/parquet/t05a")
 
     println("Persistiendo t05a")
     df05a.persist(nivel)

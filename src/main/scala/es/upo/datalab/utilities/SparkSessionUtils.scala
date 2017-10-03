@@ -1,74 +1,55 @@
 package es.upo.datalab.utilities
 
 import org.apache.log4j.{Level, Logger}
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.{SQLContext, SparkSession}
-
+import org.apache.spark.sql.SparkSession
+import java.io.File
+import com.typesafe.config.ConfigFactory
 
 object SparkSessionUtils {
 
+  //############################LECTURA DE CONFIGURACIÓN
+  val config            = ConfigFactory.parseFile(new File(("/Users/davgutavi/Desktop/sparkProperties.properties")))
+  val checkPointDir     = config.getString("checkPointDir")
+  val fsS3aImpl         = config.getString("fs.s3a.impl")
+  val fsS3aAccess       = config.getString("fs.s3a.access.key")
+  val fsS3aSecret       = config.getString("fs.s3a.secret.key")
+  val master            = config.getString("master")
+  val appName           = config.getString("app_name")
+  val localDir          = config.getString("spark.local.dir")
+  val timeout           = config.getString("spark.network.timeout")
+  val heartbeatInterval = config.getString("spark.executor.heartbeatInterval")
+  val executorMemory    = config.getString("spark.executor.memory")
+  val driverMemory      = config.getString("spark.driver.memory")
+  val coresMax          = config.getString("spark.cores.max")
+  val executorUri       = config.getString("spark.executor.uri")
 
-  Logger.getLogger("org").setLevel(Level.OFF)
-  Logger.getLogger("akka").setLevel(Level.OFF)
+  //############################CONFIGURACIÓN DE LOGGERS
+  val org = config.getString("org")
+  if (!org.equalsIgnoreCase(""))   Logger.getLogger("org").setLevel(Level.OFF)
+  val akka = config.getString("akka")
+  if (!akka.equalsIgnoreCase(""))   Logger.getLogger("akka").setLevel(Level.OFF)
 
-  //############################Configuración en intellij
-   val conf = new SparkConf()
-      .setMaster("local[*]")
-      .setAppName("endesa_modo_desarrollo")
-//      .set("spark.local.dir","/mnt/datos/tempSpark")
-      .set("spark.network.timeout","10000000")
-      .set("spark.executor.heartbeatInterval","10000")
-      .set("spark.executor.memory","20g")
-      .set("spark.driver.memory","10g")
-      .set("spark.executor.memory","10g")
+  //############################CONFIGURACIÓN DE SESIÓN
+  val session = SparkSession.builder().master(master).appName(appName).getOrCreate()
 
+  if (!localDir.equalsIgnoreCase(""))          session.conf.set("spark.local.dir",localDir)
+  if (!timeout.equalsIgnoreCase(""))           session.conf.set("spark.network.timeout",timeout)
+  if (!heartbeatInterval.equalsIgnoreCase("")) session.conf.set("spark.executor.heartbeatInterval",heartbeatInterval)
+  if (!executorMemory.equalsIgnoreCase(""))    session.conf.set("spark.executor.memory",executorMemory)
+  if (!driverMemory.equalsIgnoreCase(""))      session.conf.set("spark.driver.memory",driverMemory)
+  if (!coresMax.equalsIgnoreCase(""))          session.conf.set("spark.cores.max",coresMax)
+  if (!executorUri.equalsIgnoreCase(""))       session.conf.set("spark.executor.uri",executorUri)
 
-  //############################Submit desde gutierrez en cluster mode
-//  val conf = new SparkConf()
-//    .setMaster("mesos://192.168.47.247:5050")
-//    .setAppName("tab24n_modo_cluster_david")
-//    .set("spark.local.dir","hdfs://192.168.47.247/user/tempSpark")
-//    .set("spark.cores.max", "48")
+  //############################CONFIGURACIÓN DE AWS
+  if (!fsS3aImpl.equalsIgnoreCase(""))   session.sparkContext.hadoopConfiguration.set("fs.s3a.impl",fsS3aImpl)
+  if (!fsS3aAccess.equalsIgnoreCase("")) session.sparkContext.hadoopConfiguration.set("fs.s3a.access.key",fsS3aAccess)
+  if (!fsS3aSecret.equalsIgnoreCase("")) session.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key",fsS3aSecret)
 
+  //############################CONFIGURACIÓN DE CHECKPOINT
+  if (!checkPointDir.equalsIgnoreCase("")) session.sparkContext.setCheckpointDir(checkPointDir)
 
-  //############################Submit desde gutierrez en client mode
-//    val conf = new SparkConf()
-//      .setMaster("mesos://192.168.47.247:5050")
-//      .setAppName("endesa_modo_cliente")
-//      .set("spark.local.dir","hdfs://192.168.47.247/user/tempSpark")
-//      .set("spark.cores.max", "48")
-//    .set("spark.executor.uri", "hdfs://192.168.47.247/user/spark-2.1.1-bin-hadoop2.6.tgz")
-
-
-
-
-    val session = SparkSession.builder().config(conf).getOrCreate()
-
-  session.sparkContext.hadoopConfiguration.set("fs.s3a.impl","org.apache.hadoop.fs.s3a.S3AFileSystem")
-    session.sparkContext.hadoopConfiguration.set("fs.s3a.access.key", "AKIAJRYTXDG63UAXFHZQ")
-  session.sparkContext.hadoopConfiguration.set("fs.s3a.secret.key", "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")
-
-
-  val context = session.sparkContext
-
-
-//    context.setCheckpointDir("hdfs://192.168.47.247/user/checkpointSpark")
-    val sql = session.sqlContext
-
-
-
-
-// configuraciones antiguas
-//      config("spark.speculation", "false").
-//      config("spark.network.timeout","10000000").
-//      config("spark.executor.heartbeatInterval","10000000").
-
-//  val session = SparkSession.builder().
-//  val session = SparkSession.builder().
-//    appName("upolab").
-//    config("spark.local.dir","hdfs://192.168.47.247/user/tempSpark").
-//    config("spark.cores.max", "48").
-//    getOrCreate()
-
+  //############################ACCESOS
+  val sc = session.sparkContext
+  val sql = session.sqlContext
 
 }
