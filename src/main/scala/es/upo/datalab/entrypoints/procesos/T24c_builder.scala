@@ -26,7 +26,7 @@ object T24c_builder {
       val t24 = LoadTableParquet.loadTable( TabPaths.TAB24 )
 
       val schema = Array(
-        StructField( "cups22", StringType, true ) ,
+          StructField( "cups22", StringType, true ) ,
           StructField( "fechalectura", TimestampType, true ) ,
           StructField( "fecharecepcion", TimestampType, true ) ,
           StructField( "banderaverinv", StringType, true ) ,

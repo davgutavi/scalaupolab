@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-core_2.11" % sparkVersion
  ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
  ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
- ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
+// ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
  ,"com.typesafe" % "config" % "1.3.1"
 )
 
