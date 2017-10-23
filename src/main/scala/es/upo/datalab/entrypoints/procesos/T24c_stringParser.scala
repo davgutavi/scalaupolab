@@ -1,7 +1,4 @@
 package es.upo.datalab.entrypoints.procesos
-
-import java.util.regex.Pattern
-
 import org.apache.spark.api.java.function.MapFunction
 import org.apache.spark.sql.Row
 
