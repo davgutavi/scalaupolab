@@ -1,5 +1,4 @@
 import sbt.Keys.scalaVersion
-import sbtassembly.AssemblyPlugin.autoImport.{assemblyJarName, _}
 
 lazy val root = (project in file(".")).
   settings(
