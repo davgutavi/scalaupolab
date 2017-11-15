@@ -20,56 +20,79 @@ object GBTpendientes {
 
   //****Parametrización del algoritmo (cross validation)
 
-  // MEDIANO
-  val folds = 5
-    //imputity: gini (d), entropy
-    val imputity = Array("gini","entropy")
-    //loss type: logistic (d)
-    val lossType = Array("logistic")
-    //max bins: >=2, 32(d)
-    val maxBins = Array(32)
-    //max depth: >=0, 5(d)
-    val maxDepth = Array(10,30)
-    //max iter: >=0
-    val maxIter = Array(50,100)
-    //min info gain: >=0.0, 0.0 (d)
-    val minInfoGain = Array(0.0,0.1)
-    //min instaces per node: >=1, 1 (d)
-    val minInstancesPerNode = Array(1,2)
-    //seed
-    val seed = Array(1L)
-    //step size (learning rate): (0,1] 0.1 (d)
-    val stepSize = Array(0.1,0.2)
-    //subsampling rate: (0,1] 1.0 (d)
-    val subsamplingRate = Array(0.1)
-
-
-  // GORDO
-  //folds
+  // PEQUEÑO
 //  val folds = 5
 //  //imputity: gini (d), entropy
-//  val imputity = Array("gini","entropy")
+//  val imputity = Array("entropy")
 //  //loss type: logistic (d)
 //  val lossType = Array("logistic")
 //  //max bins: >=2, 32(d)
 //  val maxBins = Array(32)
 //  //max depth: >=0, 5(d)
-//  val maxDepth = Array(5,10,20,30)
+//  val maxDepth = Array(20)
 //  //max iter: >=0
-//  val maxIter = Array(20,50,100)
+//  val maxIter = Array(100)
 //  //min info gain: >=0.0, 0.0 (d)
-//  val minInfoGain = Array(0.0,0.1,0.2)
+//  val minInfoGain = Array(0.2)
 //  //min instaces per node: >=1, 1 (d)
-//  val minInstancesPerNode = Array(1,2)
+//  val minInstancesPerNode = Array(8)
 //  //seed
 //  val seed = Array(1L)
 //  //step size (learning rate): (0,1] 0.1 (d)
-//  val stepSize = Array(0.1,0.2,0.3)
+//  val stepSize = Array(0.2)
 //  //subsampling rate: (0,1] 1.0 (d)
-//  val subsamplingRate = Array(0.1,0.2,0.5,1.0)
+//  val subsamplingRate = Array(0.1)
+
+  // MEDIANO
+//  val folds = 5
+//    //imputity: gini (d), entropy
+//    val imputity = Array("gini","entropy")
+//    //loss type: logistic (d)
+//    val lossType = Array("logistic")
+//    //max bins: >=2, 32(d)
+//    val maxBins = Array(32)
+//    //max depth: >=0, 5(d)
+//    val maxDepth = Array(10,30)
+//    //max iter: >=0
+//    val maxIter = Array(50,100)
+//    //min info gain: >=0.0, 0.0 (d)
+//    val minInfoGain = Array(0.0,0.1)
+//    //min instaces per node: >=1, 1 (d)
+//    val minInstancesPerNode = Array(1,2)
+//    //seed
+//    val seed = Array(1L)
+//    //step size (learning rate): (0,1] 0.1 (d)
+//    val stepSize = Array(0.1,0.2)
+//    //subsampling rate: (0,1] 1.0 (d)
+//    val subsamplingRate = Array(0.1)
+
+
+  // GORDO
+  //folds
+  val folds = 5
+  //imputity: gini (d), entropy
+  val imputity = Array("gini","entropy")
+  //loss type: logistic (d)
+  val lossType = Array("logistic")
+  //max bins: >=2, 32(d)
+  val maxBins = Array(32)
+  //max depth: >=0, 5(d)
+  val maxDepth = Array(5,10,20,30)
+  //max iter: >=0
+  val maxIter = Array(20,50,100)
+  //min info gain: >=0.0, 0.0 (d)
+  val minInfoGain = Array(0.0,0.1,0.2)
+  //min instaces per node: >=1, 1 (d)
+  val minInstancesPerNode = Array(1,2)
+  //seed
+  val seed = Array(1L)
+  //step size (learning rate): (0,1] 0.1 (d)
+  val stepSize = Array(0.1,0.2,0.3)
+  //subsampling rate: (0,1] 1.0 (d)
+  val subsamplingRate = Array(0.1,0.2,0.5,1.0)
 
 //  //DEFAULT
-//  //folds
+  //folds
 //  val folds = 2
 //  //imputity: gini (d), entropy
 //  val imputity = Array("gini")
@@ -100,7 +123,7 @@ object GBTpendientes {
   final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_pendientes"
 
   //****Nombre global del experimento
-  final val experimento = "364d_pen_cluster_02"
+  final val experimento = "364d_pen_cluster_20"
 
   //****Ruta raíz de los ficheros de salida
 //  final val outputRootPath = "/Users/davgutavi/Desktop/modelos_variables_endesa/clasificacion/"+experimento+"/"
