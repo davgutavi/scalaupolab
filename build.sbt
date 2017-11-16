@@ -2,8 +2,8 @@ import sbt.Keys.scalaVersion
 
 lazy val root = (project in file(".")).
   settings(
-    name := "endesa_xgboost_02"
-    ,version := "2.0.0"
+    name := "08_endesa"
+    ,version := "1.0.0"
     ,scalaVersion := "2.11.11"
     ,mainClass in Compile := Some("es.upo.datalab.datamining.GBTpendientes")
 //    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.tests.Test01")
@@ -25,7 +25,7 @@ val sparkVersion = "2.2.0"
 // ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
 //// ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
 //// ,"com.googlecode.netlib-java" % "netlib-java" % "1.1"
-//// ,"com.typesafe" % "config" % "1.3.1"
+// ,"com.typesafe" % "config" % "1.3.1"
 //)
 
 //submit

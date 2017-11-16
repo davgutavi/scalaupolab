@@ -1,8 +1,5 @@
 package es.upo.datalab.datamining
 
-import java.io.{BufferedWriter, File, FileWriter}
-import java.text.{DecimalFormat, DecimalFormatSymbols}
-
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.classification.{GBTClassificationModel, GBTClassifier}
@@ -11,8 +8,7 @@ import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.sql.{DataFrame, SaveMode}
 
-import scala.math._
-import scala.collection.mutable
+
 
 object GBTpendientes {
 
@@ -20,87 +16,107 @@ object GBTpendientes {
 
   //****Parametrización del algoritmo (cross validation)
 
-  // MEDIANO
-  val folds = 5
-    //imputity: gini (d), entropy
-    val imputity = Array("gini","entropy")
-    //loss type: logistic (d)
-    val lossType = Array("logistic")
-    //max bins: >=2, 32(d)
-    val maxBins = Array(32)
-    //max depth: >=0, 5(d)
-    val maxDepth = Array(10,30)
-    //max iter: >=0
-    val maxIter = Array(50,100)
-    //min info gain: >=0.0, 0.0 (d)
-    val minInfoGain = Array(0.0,0.1)
-    //min instaces per node: >=1, 1 (d)
-    val minInstancesPerNode = Array(1,2)
-    //seed
-    val seed = Array(1L)
-    //step size (learning rate): (0,1] 0.1 (d)
-    val stepSize = Array(0.1,0.2)
-    //subsampling rate: (0,1] 1.0 (d)
-    val subsamplingRate = Array(0.1)
+
+  // SMALL
+//     final val folds = 5
+//    //imputity: gini (d), entropy
+//    final val imputity = Array("gini","entropy")
+//    //loss type: logistic (d)
+//    final val lossType = Array("logistic")
+//    //max bins: >=2, 32(d)
+//    final val maxBins = Array(32)
+//    //max depth: >=0, 5(d)
+//    final val maxDepth = Array(10,30)
+//    //max iter: >=0
+//    final val maxIter = Array(50,100)
+//    //min info gain: >=0.0, 0.0 (d)
+//    final val minInfoGain = Array(0.0,0.1)
+//    //min instaces per node: >=1, 1 (d)
+//    final val minInstancesPerNode = Array(1,2)
+//    //seed
+//    final val seed = Array(1L)
+//    //step size (learning rate): (0,1] 0.1 (d)
+//    final val stepSize = Array(0.1,0.2)
+//    //subsampling rate: (0,1] 1.0 (d)
+//    final val subsamplingRate = Array(0.1)
 
 
-  // GORDO
+  // LARGE
   //folds
-//  val folds = 5
-//  //imputity: gini (d), entropy
-//  val imputity = Array("gini","entropy")
-//  //loss type: logistic (d)
-//  val lossType = Array("logistic")
-//  //max bins: >=2, 32(d)
-//  val maxBins = Array(32)
-//  //max depth: >=0, 5(d)
-//  val maxDepth = Array(5,10,20,30)
-//  //max iter: >=0
-//  val maxIter = Array(20,50,100)
-//  //min info gain: >=0.0, 0.0 (d)
-//  val minInfoGain = Array(0.0,0.1,0.2)
-//  //min instaces per node: >=1, 1 (d)
-//  val minInstancesPerNode = Array(1,2)
-//  //seed
-//  val seed = Array(1L)
-//  //step size (learning rate): (0,1] 0.1 (d)
-//  val stepSize = Array(0.1,0.2,0.3)
-//  //subsampling rate: (0,1] 1.0 (d)
-//  val subsamplingRate = Array(0.1,0.2,0.5,1.0)
+  final val folds = 5
+  //imputity: gini (d), entropy
+  final val imputity = Array("gini","entropy")
+  //loss type: logistic (d)
+  final val lossType = Array("logistic")
+  //max bins: >=2, 32(d)
+  final val maxBins = Array(32)
+  //max depth: >=0, 5(d)
+  final val maxDepth = Array(5,10,20,30)
+  //max iter: >=0
+  final val maxIter = Array(20,50,100)
+  //min info gain: >=0.0, 0.0 (d)
+  final val minInfoGain = Array(0.0,0.1,0.2)
+  //min instaces per node: >=1, 1 (d)
+  final val minInstancesPerNode = Array(1,2)
+  //seed
+  final val seed = Array(1L)
+  //step size (learning rate): (0,1] 0.1 (d)
+  final val stepSize = Array(0.1,0.2,0.3)
+  //subsampling rate: (0,1] 1.0 (d)
+  final val subsamplingRate = Array(0.1,0.2,0.5,1.0)
 
 //  //DEFAULT
-//  //folds
-//  val folds = 2
+  //folds
+//  final val folds = 2
 //  //imputity: gini (d), entropy
-//  val imputity = Array("gini")
+//  final val imputity = Array("gini")
 //  //loss type: logistic (d)
-//  val lossType = Array("logistic")
+//  final val lossType = Array("logistic")
 //  //max bins: >=2, 32(d)
-//  val maxBins = Array(32)
+//  final val maxBins = Array(32)
 //  //max depth: >=0, 5(d)
-//  val maxDepth = Array(5)
+//  final val maxDepth = Array(5)
 //  //max iter: >=0
-//  val maxIter = Array(10)
+//  final val maxIter = Array(10)
 //  //min info gain: >=0.0, 0.0 (d)
-//  val minInfoGain = Array(0.0)
+//  final val minInfoGain = Array(0.0)
 //  //min instaces per node: >=1, 1 (d)
-//  val minInstancesPerNode = Array(1)
+//  final val minInstancesPerNode = Array(1)
 //  //seed
-//  val seed = Array(1L)
+//  final val seed = Array(1L)
 //  //step size (learning rate): (0,1] 0.1 (d)
-//  val stepSize = Array(0.1)
+//  final val stepSize = Array(0.1)
 //  //subsampling rate: (0,1] 1.0 (d)
-//  val subsamplingRate = Array(1.0)
+//  final val subsamplingRate = Array(1.0)
 
   //****Ruta del dataset de entrada
-  //  final val datasetPath = "/Users/davgutavi/Desktop/modelos_variables_endesa/datasets/t123_454d"
-  //  final val datasetPath = "/Users/davgutavi/Desktop/modelos_variables_endesa/datasets/t123_364d"
-  //  final val datasetPath = "/Users/davgutavi/Desktop/modelos_variables_endesa/datasets/t123_454d_pendientes"
-//  final val datasetPath = "/Users/davgutavi/Desktop/modelos_variables_endesa/datasets/t123_364d_pendientes"
-  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_pendientes"
+
+//    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_con_slo"
+//    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_nrl_slo"
+//    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_con_slo"
+    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_nrl_slo"
+
+
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_all"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_con"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_nrl"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_all_slo"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_all"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_con"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_nrl"
+  //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_all_slo"
 
   //****Nombre global del experimento
-  final val experimento = "364d_pen_cluster_02"
+//    final val experimento = "s_454d_con_slo"
+//    final val experimento = "s_454d_nrl_slo"
+//    final val experimento = "s_364d_con_slo"
+//    final val experimento = "s_364d_nrl_slo"
+
+//    final val experimento = "l_454d_con_slo"
+//    final val experimento = "l_454d_nrl_slo"
+//     final val experimento = "l_364d_con_slo"
+    final val experimento = "l_364d_nrl_slo"
+
 
   //****Ruta raíz de los ficheros de salida
 //  final val outputRootPath = "/Users/davgutavi/Desktop/modelos_variables_endesa/clasificacion/"+experimento+"/"
@@ -128,13 +144,12 @@ object GBTpendientes {
 
     val Array(dataset, campo) = data.randomSplit(Array(0.7,0.3))
 
-
     //******************************************************
     //**Configuración Cross Validation**********************
     //******************************************************
 
     //**Assembler
-    val fdat= dataset.drop("cpuntmed","ccodpost", "cenae","label").columns
+    val fdat= dataset.drop("cpuntmed","label").columns
 
     val featureAssembler = new VectorAssembler().setInputCols(fdat).setOutputCol("features")
 
