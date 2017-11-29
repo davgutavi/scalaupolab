@@ -93,8 +93,8 @@ object GBTpendientes {
 
 //    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_con_slo"
 //    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_454d_nrl_slo"
-//    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_con_slo"
-    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_nrl_slo"
+    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_con_slo"
+//    final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_nrl_slo"
 
 
   //  final val datasetPath = "hdfs://192.168.47.247/user/datos/endesa/datasets/t123_364d_all"
@@ -114,8 +114,8 @@ object GBTpendientes {
 
 //    final val experimento = "l_454d_con_slo"
 //    final val experimento = "l_454d_nrl_slo"
-//     final val experimento = "l_364d_con_slo"
-    final val experimento = "l_364d_nrl_slo"
+     final val experimento = "l_364d_con_slo"
+//    final val experimento = "l_364d_nrl_slo"
 
 
   //****Ruta raíz de los ficheros de salida

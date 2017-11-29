@@ -2,7 +2,7 @@ import sbt.Keys.scalaVersion
 
 lazy val root = (project in file(".")).
   settings(
-    name := "08_endesa"
+    name := "07_endesa"
     ,version := "1.0.0"
     ,scalaVersion := "2.11.11"
     ,mainClass in Compile := Some("es.upo.datalab.datamining.GBTpendientes")
@@ -19,24 +19,24 @@ val sparkVersion = "2.2.0"
 
 //intellij
 
-//libraryDependencies ++= Seq(
-//  "org.apache.spark" % "spark-core_2.11" % sparkVersion
-// ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
-// ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
-//// ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
-//// ,"com.googlecode.netlib-java" % "netlib-java" % "1.1"
-// ,"com.typesafe" % "config" % "1.3.1"
-//)
+libraryDependencies ++= Seq(
+  "org.apache.spark" % "spark-core_2.11" % sparkVersion
+ ,"org.apache.spark" % "spark-sql_2.11" % sparkVersion
+ ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion
+ ,"org.apache.hadoop" % "hadoop-aws" % "2.8.1"
+ ,"com.googlecode.netlib-java" % "netlib-java" % "1.1"
+ ,"com.typesafe" % "config" % "1.3.1"
+)
 
 //submit
 
 
-libraryDependencies ++= Seq(
-  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-sql_2.11"   % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion % "provided"
- ,"org.apache.spark" % "spark-hive_2.11"  % sparkVersion % "provided"
-)
+//libraryDependencies ++= Seq(
+//  "org.apache.spark" % "spark-core_2.11"  % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-sql_2.11"   % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-mllib_2.11" % sparkVersion % "provided"
+// ,"org.apache.spark" % "spark-hive_2.11"  % sparkVersion % "provided"
+//)
 
 assemblyMergeStrategy in assembly <<= (assemblyMergeStrategy in assembly) { (old) =>
 {
