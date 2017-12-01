@@ -8,18 +8,15 @@ import org.apache.spark.sql.SaveMode
 object DatasetsBuilding {
 
 
-
-
   final val datasetLocal = "/Users/davgutavi/Desktop/endesa/datasets/"
 
   final val datasetLocalTarget = "/Users/davgutavi/Desktop/endesa/datasets/"
 
-
   final val datasetHdfsTarget  = "hdfs://192.168.47.247/user/datos/endesa/datasets"
 
   final val sqlContext = SparkSessionUtils.sql
-  final val sparkSession = SparkSessionUtils.session
 
+  final val sparkSession = SparkSessionUtils.session
 
 
   def main(args: Array[String]): Unit = {
@@ -92,18 +89,21 @@ object DatasetsBuilding {
 //    d364d_slo_con.printSchema()
 
 
-    val d454d_max_con = LoadTableParquet.loadTable(datasetLocal+"454d_max_umr/454d_max_umr").drop("umr")
+//    val d454d_max_con = LoadTableParquet.loadTable(datasetLocal+"454d_max_umr/454d_max_umr").drop("umr")
+//
+//    d454d_max_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_max_con/454d_max_con")
+//
+//    d454d_max_con.printSchema()
+//
+//
+//    val d364d_max_con = LoadTableParquet.loadTable(datasetLocal+"364d_max_umr/364d_max_umr").drop("umr")
+//
+//    d364d_max_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_max_con/364d_max_con")
+//
+//    d364d_max_con.printSchema()
 
-    d454d_max_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_max_con/454d_max_con")
-
-    d454d_max_con.printSchema()
 
 
-    val d364d_max_con = LoadTableParquet.loadTable(datasetLocal+"364d_max_umr/364d_max_umr").drop("umr")
-
-    d364d_max_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_max_con/364d_max_con")
-
-    d364d_max_con.printSchema()
 
 
 
