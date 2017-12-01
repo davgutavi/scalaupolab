@@ -1,12 +1,12 @@
-package es.upo.datalab.datamining
+package es.upo.datalab.datamining.clustering
 
 import java.io.{BufferedWriter, File, FileWriter}
 import java.text.{DecimalFormat, DecimalFormatSymbols}
 
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
 import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, SaveMode}
 
 import scala.collection.mutable
@@ -15,8 +15,6 @@ import scala.collection.mutable
 object EndesaKmeans {
 
   //**ENTRADAS:
-
-
 
   //****Ruta raíz de los ficheros de salida
   final val outputRootPath = "/Users/davgutavi/Desktop/endesa/clustering/"+experimento+"/"
@@ -29,49 +27,34 @@ object EndesaKmeans {
   final val tolerancia = Array(0.0001)
   final val semilla = Array(1L)
 
-
-
-
-
-
-
-  //**SALIDAS:
-
-  //  Fichero #outputRootPath#/#experimento#/exp_#experimento#_mod_#número de modelo#_pred_comp     => resultados de agrupamiento con todas las columnas
-  //  NO: Fichero #outputRootPath#/#experimento#/exp_#experimento#_mod_#número de modelo#_pred_cpuntmed => resultados de agrupamiento sólo con cpuntmed y prediction
-  //  Fichero #outputRootPath#/#experimento#/exp_#experimento#_mod_#número de modelo#_centroids.csv => centroides en formato csv con separador ";" para que se pueda abrir directamente con excel
-  //  Fichero #outputRootPath#/#experimento#/exp_#experimento#_mod_#número de modelo#_study.csv     => caracterización para no fraude (0) y fraude (1) de los clusters resultantes de cada modelo #modelIndex#
-
-
   val sparkSession = SparkSessionUtils.sc
   val sqlContext = SparkSessionUtils.sql
 
   //****Nombre global del experimento
-
-    final val experimento = "little_454d_max_nrr_kmeans"
-  //    final val experimento = "little_364d_max_con_kmeans"
-  //    final val experimento = "little_364d_max_nrr_kmeans"
-//  final val experimento = "little_364d_max_con_kmeans"
+//     final val experimento = "little_454d_max_umr_kmeans"
+//   final val experimento = "little_454d_max_con_kmeans"
+//   final val experimento = "little_364d_max_umr_kmeans"
+   final val experimento = "little_364d_max_con_kmeans"
 
 
   //****Ruta del dataset de entrada
-//  final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/454d_raw_nrr"
-//      final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/454d_slo_nrr"
-//      final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/364d_raw_nrr"
-      final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/364d_slo_nrr"
+//   final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/454d_max_umr/454d_max_umr"
+// final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/454d_max_con/454d_max_con"
+// final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/364d_max_umr/364d_max_umr"
+ final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/364d_max_con/364d_max_con"
+
+
+
 
   def main(args: Array[String]): Unit = {
 
     //*******Cargar datos:
-    println("Cargando datos")
-    val aux = LoadTableParquet.loadTable(datasetPath)
-    val sourceData = aux.drop("nle")
-    sourceData.write.option("header", "true").mode(SaveMode.Overwrite).save("/Users/davgutavi/Desktop/endesa/datasets/364d_slo_con")
 
-//    val sourceData = LoadTableParquet.loadTable(datasetPath)
+    val sourceData = LoadTableParquet.loadTable(datasetPath)
 
+//    sourceData.show(5)
 
-    val dataset = sourceData.drop("ccodpost","cenae","label")
+    val dataset = sourceData.drop("ccodpost","cnae","label")
 
     val inputCols = dataset.drop("cpuntmed").columns
 

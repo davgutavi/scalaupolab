@@ -1,22 +1,19 @@
-package es.upo.datalab.datamining
+package es.upo.datalab.datamining.xgb
 
 import java.text.{DecimalFormat, DecimalFormatSymbols}
 
-import es.upo.datalab.entrypoints.datasets.FraudesDiariosMax.sqlContext
 import es.upo.datalab.utilities.SparkSessionUtils
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.classification.GBTClassificationModel
 import org.apache.spark.ml.tuning.CrossValidatorModel
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.Row
 
-import scala.collection.mutable
 import scala.math.sqrt
 
 
-object GBTexperiment {
+object GBTstudy {
 
 
   final val sqlContext = SparkSessionUtils.sql

@@ -1,46 +1,50 @@
-package es.upo.datalab.datamining
+package es.upo.datalab.datamining.transformations
 
-import scala.math.atan
+import org.apache.spark.api.java.function.MapFunction
 import org.apache.spark.sql.Row
 
 import scala.collection.mutable
 
-object MappingPendientes {
+object MappingMax extends MapFunction[Row, Row] {
 
 
   def call(r: Row): Row = {
 
     val l = mutable.MutableList[Any]()
 
+
+
+
     //Añadiendo campos originales
     original_fields_01(l, r)
 
+    //Añadiendo división por el máximo
+    var max:Double = 0.0
+    for (i <- 4 to r.length-2) {
+
+      val v = r.getDouble(i)
+
+      if (r.getDouble(i) > max){
+
+        max = v
+
+      }
+    }
 
 
+    for (j <- 4 to r.length-2) {
 
-
-    for (i <- 4 to r.length-3) {
-
-      val x0 = i
-      val x1 = i+1
-
-      val y0 = r.getDouble(i)
-      val y1 = r.getDouble(i+1)
-
-      val num = y1-y0
-      val den = x1-x0
-
+      val v = r.getDouble(j)
 
       var t = 0.0
 
-      if (den ==0){
-        t = 0.0
-      }
-      else{
-        t = num/den
+      if (max!=0.0){
+
+        t = v/max
+
       }
 
-      l+= atan(t)
+      l+= t
 
     }
 

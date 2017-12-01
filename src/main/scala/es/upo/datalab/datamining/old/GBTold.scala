@@ -1,16 +1,15 @@
-package es.upo.datalab.datamining
+package es.upo.datalab.datamining.old
 
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.ml.classification.{GBTClassificationModel, GBTClassifier}
-import org.apache.spark.ml.evaluation.{BinaryClassificationEvaluator, MulticlassClassificationEvaluator}
+import org.apache.spark.ml.classification.GBTClassifier
+import org.apache.spark.ml.evaluation.BinaryClassificationEvaluator
 import org.apache.spark.ml.feature._
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
-import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.storage.StorageLevel
 
 
-object FnoFdiarios {
+object GBTold {
 
   def main(args: Array[String]): Unit = {
 

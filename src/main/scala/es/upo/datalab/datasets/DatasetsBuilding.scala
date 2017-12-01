@@ -1,6 +1,6 @@
 package es.upo.datalab.datasets
 
-import es.upo.datalab.datamining.GBTpendientes.{datasetPath, outputRootPath}
+import es.upo.datalab.datamining.xgb.GBTexperiments.{datasetPath, outputRootPath}
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
 import org.apache.spark.sql.SaveMode
 
@@ -9,7 +9,13 @@ object DatasetsBuilding {
 
 
 
-  final val datasetRoot = "hdfs://192.168.47.247/user/datos/endesa/datasets/"
+
+  final val datasetLocal = "/Users/davgutavi/Desktop/endesa/datasets/"
+
+  final val datasetLocalTarget = "/Users/davgutavi/Desktop/endesa/datasets/"
+
+
+  final val datasetHdfsTarget  = "hdfs://192.168.47.247/user/datos/endesa/datasets"
 
   final val sqlContext = SparkSessionUtils.sql
   final val sparkSession = SparkSessionUtils.session
@@ -18,156 +24,87 @@ object DatasetsBuilding {
 
   def main(args: Array[String]): Unit = {
 
-        //****364 dias
-
-        //****364 dias****cpuntmed,ccodpost,cenae,nle,consumos,label===================>ALL
-//
-//        val t123_364d_all = LoadTableParquet.loadTable("/Users/davgutavi/Desktop/endesa_pendientes_fourier/datasets/t123_364d")
-//
-//        val t123_364d_all_01 =  t123_364d_all.withColumnRenamed("cenae","cnae")
-//
-//        val t123_364d_all_02 =  t123_364d_all_01.withColumnRenamed("nle","nrl")
-//
-//    t123_364d_all_02.printSchema()
-//
-//        t123_364d_all_02.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_364d_all")
-//
-//
-//
-//        println("Saved dataset: "+datasetRoot+"t123_364d_all")
-//
-//         //****364 días****cpuntmed,consumos,label=====================================>CON
-//
-//        val t123_364d_con = t123_364d_all_02.drop("ccodpost","cnae","nrl")
-//
-//    t123_364d_con.printSchema()
-//
-//        t123_364d_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_364d_con")
-//
-//
-//
-//        println("Saved dataset: "+datasetRoot+"t123_364d_con")
-//
-//        //****364 días****cpuntmed,nrl,consumos,label===================================>NRL
-//
-//        val t123_364d_nrl = t123_364d_all_02.drop("ccodpost","cnae")
-//        t123_364d_nrl.printSchema()
-//
-//        t123_364d_nrl.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_364d_nrl")
-//
-//         println("Saved dataset: "+datasetRoot+"t123_364d_nrl")
-
-
-
-
-//    //****454 dias
-//
-//    //****454 dias****cpuntmed,ccodpost,cenae,nle,consumos,label===================>ALL
-//
-//    val t123_454d_all = LoadTableParquet.loadTable("/Users/davgutavi/Desktop/endesa_pendientes_fourier/datasets/t123_454d")
+//    val d454d_raw_nrr = LoadTableParquet.loadTable(datasetLocal+"454d_raw_nrr")
 //      .withColumnRenamed("cenae","cnae")
-//      .withColumnRenamed("nle","nrl")
-//       .withColumnRenamed("fraude","label")
+//      .withColumnRenamed("nle","umr")
 //
-//    t123_454d_all.printSchema()
+//    d454d_raw_nrr.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_raw_umr/454d_raw_umr")
 //
-//    t123_454d_all.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_454d_all")
+//    d454d_raw_nrr.printSchema()
 //
-//    println("Saved dataset: "+datasetRoot+"t123_454d_all")
+//    val d454d_raw_con = LoadTableParquet.loadTable(datasetLocal+"454d_raw_con")
+//      .withColumnRenamed("cenae","cnae")
 //
-//    //****454 días****cpuntmed,consumos,label=====================================>CON
+//    d454d_raw_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_raw_con/454d_raw_con")
 //
-//    val t123_454d_con = t123_454d_all.drop("ccodpost","cnae","nrl")
-//
-//    t123_454d_con.printSchema()
-//
-//    t123_454d_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_454d_con")
-//
-//    println("Saved dataset: "+datasetRoot+"t123_454d_con")
-//
-//    //****454 días****cpuntmed,nrl,consumos,label===================================>NRL
-//
-//    val t123_454d_nrl = t123_454d_all.drop("ccodpost","cnae")
-//
-//    t123_454d_nrl.printSchema()
-//
-//    t123_454d_nrl.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_454d_nrl")
+//    d454d_raw_con.printSchema()
 
-//    println("Saved dataset: "+datasetRoot+"t123_454d_nrl")
+//        val d454d_slo_nrr = LoadTableParquet.loadTable(datasetLocal+"454d_slo_nrr")
+//          .withColumnRenamed("cenae","cnae")
+//          .withColumnRenamed("nle","umr")
+//
+//    d454d_slo_nrr.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_slo_umr/454d_slo_umr")
+//
+//    d454d_slo_nrr.printSchema()
 
+
+
+//        val d454d_slo_con = LoadTableParquet.loadTable(datasetLocal+"454d_slo_con")
+//          .withColumnRenamed("cenae","cnae")
 //
+//    d454d_slo_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_slo_con/454d_slo_con")
 //
-//    //****364 dias pendientes
-//
-//    //****364 dias****cpuntmed,ccodpost,cenae,nle,consumos,label===================>ALL
-//
-//    val t123_364d_all_slo = LoadTableParquet.loadTable("/Users/davgutavi/Desktop/endesa_pendientes_fourier/datasets/t123_364d_pendientes")
-//                            .withColumnRenamed("cenae","cnae")
-//                            .withColumnRenamed("nle","nrl")
-//
-//    t123_364d_all_slo.printSchema()
-//
-//    t123_364d_all_slo.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_364d_all_slo")
-//
-//    println("Saved dataset: "+datasetRoot+"t123_364d_all_slo")
-//
-//    //****364 dias****cpuntmed,consumos,label=====================================>CON
-//
-//    val t123_364d_con_slo = t123_364d_all_slo.drop("ccodpost","cnae","nrl")
-//
-//    t123_364d_con_slo.printSchema()
-//
-//    t123_364d_con_slo.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_364d_con_slo")
-//
-//    println("Saved dataset: "+datasetRoot+"t123_364d_con_slo")
-//
-//    //****364 dias****cpuntmed,nrl,consumos,label===================================>NRL
-//
-//    val t123_364d_nrl_slo = t123_364d_all_slo.drop("ccodpost","cnae")
-//
-//    t123_364d_nrl_slo.printSchema()
-//
-//    t123_364d_nrl_slo.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_364d_nrl_slo")
-//
-//    println("Saved dataset: "+datasetRoot+"t123_364d_nrl_slo")
+//    d454d_slo_con.printSchema()
 
 
 //
+//            val d364d_raw_nrr= LoadTableParquet.loadTable(datasetLocal+"364d_raw_nrr")
+//              .withColumnRenamed("cenae","cnae")
+//              .withColumnRenamed("nle","umr")
 //
-//    //****454 dias pendientes
+//    d364d_raw_nrr.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_raw_umr/364d_raw_umr")
 //
-    //****454 dias pendientes****cpuntmed,ccodpost,cenae,nle,consumos,label===================>ALL
+//    d364d_raw_nrr.printSchema()
 
-    val t123_454d_all_slo = LoadTableParquet.loadTable("/Users/davgutavi/Desktop/endesa_pendientes_fourier/datasets/t123_454d_pendientes")
-      .withColumnRenamed("cenae","cnae")
-          .withColumnRenamed("nle","nrl")
-           .withColumnRenamed("fraude","label")
 
-    t123_454d_all_slo.printSchema()
+//            val d364d_raw_con = LoadTableParquet.loadTable(datasetLocal+"364d_raw_con")
+//              .withColumnRenamed("cenae","cnae")
+//
+//    d364d_raw_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_raw_con/364d_raw_con")
+//
+//    d364d_raw_con.printSchema()
 
-    t123_454d_all_slo.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_454d_all_slo")
 
-    println("Saved dataset: "+datasetRoot+"t123_454d_all_slo")
+//                val d364d_slo_nrr= LoadTableParquet.loadTable(datasetLocal+"364d_slo_nrr")
+//                  .withColumnRenamed("cenae","cnae")
+//                  .withColumnRenamed("nle","umr")
+//
+//    d364d_slo_nrr.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_slo_umr/364d_slo_umr")
+//
+//    d364d_slo_nrr.printSchema()
 
-    //****4454 dias pendientes****cpuntmed,consumos,label=====================================>CON
+//
+//    val d364d_slo_con = LoadTableParquet.loadTable(datasetLocal+"364d_slo_con")
+//                  .withColumnRenamed("cenae","cnae")
+//
+//    d364d_slo_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_slo_con/364d_slo_con")
+//
+//    d364d_slo_con.printSchema()
 
-    val t123_454d_con_slo = t123_454d_all_slo.drop("ccodpost","cnae","nrl")
 
-    t123_454d_con_slo.printSchema()
+    val d454d_max_con = LoadTableParquet.loadTable(datasetLocal+"454d_max_umr/454d_max_umr").drop("umr")
 
-    t123_454d_con_slo.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_454d_con_slo")
+    d454d_max_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"454d_max_con/454d_max_con")
 
-    println("Saved dataset: "+datasetRoot+"t123_454d_con_slo")
+    d454d_max_con.printSchema()
 
-    //****454 dias pendientes****cpuntmed,nrl,consumos,label===================================>NRL
 
-    val t123_454d_nrl_slo = t123_454d_all_slo.drop("ccodpost","cnae")
+    val d364d_max_con = LoadTableParquet.loadTable(datasetLocal+"364d_max_umr/364d_max_umr").drop("umr")
 
-    t123_454d_nrl_slo.printSchema()
+    d364d_max_con.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetLocalTarget+"364d_max_con/364d_max_con")
 
-    t123_454d_nrl_slo.write.option("header", "true").mode(SaveMode.Overwrite).save(datasetRoot+"t123_454d_nrl_slo")
+    d364d_max_con.printSchema()
 
-    println("Saved dataset: "+datasetRoot+"t123_454d_nrl_slo")
 
 
     SparkSessionUtils.session.stop()

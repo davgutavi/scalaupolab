@@ -1,16 +1,16 @@
-package es.upo.datalab.datamining
+package es.upo.datalab.datamining.xgb
 
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.classification.{GBTClassificationModel, GBTClassifier}
 import org.apache.spark.ml.evaluation.BinaryClassificationEvaluator
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, SaveMode}
 
 
 
-object GBTpendientes {
+object GBTexperiments {
 
   //*********************************************************ENTRADAS:
 
@@ -233,7 +233,7 @@ object GBTpendientes {
 
     //**Estudio*****************************************
 
-    val study:DataFrame = GBTexperiment.getStudyDataframe(rtest,rcamp,cvModel)
+    val study:DataFrame = GBTstudy.getStudyDataframe(rtest,rcamp,cvModel)
 
     study.show(5)
 
