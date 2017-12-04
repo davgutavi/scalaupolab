@@ -69,23 +69,23 @@ object EndesaKmeans {
 
     //*******RESULTADOS
 
-    var modelIndex = 0
+    var modelFileIndex = 1
 
     for (m <- pipmodels){
 
-      println("Generating clustering "+modelIndex+":")
+      println("Generating clustering "+modelFileIndex+":")
 
       val cluResults = m.transform(dataset)
 
-      cluResults.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+experimento+"_m_"+modelIndex+"_clu")
+      cluResults.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+experimento+"_m_"+modelFileIndex+"_clu")
 
-      println("Clustering saved: "+outputRootPath+experimento+"_m_"+modelIndex+"_clu")
+      println("Clustering saved: "+outputRootPath+experimento+"_m_"+modelFileIndex+"_clu")
 
-      centroidsCsv(m.stages(1).asInstanceOf[KMeansModel].clusterCenters,modelIndex)
+      centroidsCsv(m.stages(1).asInstanceOf[KMeansModel].clusterCenters,modelFileIndex)
 
-      writeAnalysis(m.stages(1).asInstanceOf[KMeansModel],sourceData,cluResults,modelIndex)
+      writeAnalysis(m.stages(1).asInstanceOf[KMeansModel],sourceData,cluResults,modelFileIndex)
 
-      modelIndex = modelIndex+1
+      modelFileIndex = modelFileIndex+1
 
     }
 
