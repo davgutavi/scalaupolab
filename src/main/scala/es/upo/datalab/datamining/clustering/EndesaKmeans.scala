@@ -14,60 +14,37 @@ import scala.collection.mutable
 
 object EndesaKmeans {
 
-  //**ENTRADAS:
+  private final val sparkSession = SparkSessionUtils.sc
+  private final val sqlContext = SparkSessionUtils.sql
 
-  //****Ruta raíz de los ficheros de salida
-  final val outputRootPath = "/Users/davgutavi/Desktop/endesa/clustering/"+experimento+"/"
-
-  //****Parámetros del K-means
-  //default: {k: 2, maxIterations: 20, initializationSteps: 2, tolerance: 1e-4, seed: random}
-  final val k = Array(2,8,10,20)
-  final val iteraciones = Array(20,50)
-  final val pasosInicializacion = Array(2)
-  final val tolerancia = Array(0.0001)
-  final val semilla = Array(1L)
-
-  val sparkSession = SparkSessionUtils.sc
-  val sqlContext = SparkSessionUtils.sql
-
-  //****Nombre global del experimento
-//     final val experimento = "little_454d_max_umr_kmeans"
-//   final val experimento = "little_454d_max_con_kmeans"
-//   final val experimento = "little_364d_max_umr_kmeans"
-   final val experimento = "little_364d_max_con_kmeans"
-
-
-  //****Ruta del dataset de entrada
-//   final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/454d_max_umr/454d_max_umr"
-// final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/454d_max_con/454d_max_con"
-// final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/364d_max_umr/364d_max_umr"
- final val datasetPath = "/Users/davgutavi/Desktop/endesa/datasets/364d_max_con/364d_max_con"
+  def clusteringExperiment(datasetPath:String, outputRootPath:String
+                           ,k:Array[Int], maxIter: Array[Int], inicialitecionSteps:Array[Int]
+                           ,tolerance:Array[Double], seed:Array[Long]): Unit = {
 
 
 
 
-  def main(args: Array[String]): Unit = {
-
-    //*******Cargar datos:
+    //**Cargar datos fuente
 
     val sourceData = LoadTableParquet.loadTable(datasetPath)
 
-//    sourceData.show(5)
+    //**Obtener el dataset de entrada quitando los campos "ccodpost","cnae","label"
 
     val dataset = sourceData.drop("ccodpost","cnae","label")
 
+    //**Assembler para construir los vectores input del k-means
+
     val inputCols = dataset.drop("cpuntmed").columns
 
-    //*******Assembler:
     val fa = new VectorAssembler().setInputCols(inputCols).setOutputCol("features")
 
-    //*******GRID K-MEANS:
+    //**GRID K-MEANS:
 
-    val pipmodels = kmeansGrid(fa,dataset,k,iteraciones,semilla,tolerancia,pasosInicializacion)
+    val pipmodels = clusteringGrid(fa,dataset,k,iteraciones,semilla,tolerancia,pasosInicializacion)
 
-    println("********************************************************************************************************************************************************\n")
+    println("*********************************************************************************************************************\n")
 
-    //*******RESULTADOS
+    //**RESULTADOS
 
     var modelFileIndex = 1
 
@@ -77,15 +54,15 @@ object EndesaKmeans {
 
       val cluResults = m.transform(dataset)
 
-      cluResults.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+experimento+"_m_"+modelFileIndex+"_clu")
+      cluResults.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+"/clu_"+modelFileIndex)
 
-      println("Clustering saved: "+outputRootPath+experimento+"_m_"+modelFileIndex+"_clu")
+      println("Clustering saved: "+outputRootPath+"/clu_"+modelFileIndex)
 
       centroidsCsv(m.stages(1).asInstanceOf[KMeansModel].clusterCenters,modelFileIndex)
 
       writeAnalysis(m.stages(1).asInstanceOf[KMeansModel],sourceData,cluResults,modelFileIndex)
 
-      modelFileIndex = modelFileIndex+1
+      modelFileIndex += 1
 
     }
 
@@ -93,11 +70,11 @@ object EndesaKmeans {
   }
 
 
-  private def kmeansGrid(fa:VectorAssembler,dataset:DataFrame, ks:Array[Int],maxIters:Array[Int],seeds:Array[Long],tols:Array[Double],steps:Array[Int]): mutable.MutableList[PipelineModel] = {
+  private def clusteringGrid(fa:VectorAssembler,dataset:DataFrame, ks:Array[Int],maxIters:Array[Int],seeds:Array[Long],tols:Array[Double],steps:Array[Int]): mutable.MutableList[PipelineModel] = {
 
     val models = mutable.MutableList[PipelineModel]()
 
-    var i = 0
+    var i = 1
 
     for (k <- ks){
       for (maxIt <- maxIters){
@@ -109,7 +86,7 @@ object EndesaKmeans {
               val pipeline = new Pipeline().setStages(Array(fa, kmeans))
               val pipmod = pipeline.fit(dataset)
               models+=pipmod
-              i = i+1
+              i += 1
             }
           }
         }
@@ -121,24 +98,31 @@ object EndesaKmeans {
   }
 
 
-  private def centroidsCsv(cn:Array[org.apache.spark.ml.linalg.Vector],i:Int):String = {
+  private def centroidsCsv(centroids:Array[org.apache.spark.ml.linalg.Vector],modelIndex:Int):String = {
 
 
     var txt =""
 
-    for (v <- cn){
+    var j = 0
 
-      val ar = v.toArray
+    for (v <- centroids){
 
-      txt+=ar.mkString(";")+"\n"
+      if (j!=centroids.length-1){
+        txt+=v.toArray.mkString(";")
+      }
+      else{
+        txt+=v.toArray.mkString(";")+"\n"
+      }
+
+      j+=1
 
     }
 
-    val bw = new BufferedWriter(new FileWriter(new File(outputRootPath+experimento+"_m_"+i+"_cen.csv")))
+    val bw = new BufferedWriter(new FileWriter(new File(outputRootPath+"/cen_"+modelIndex+".csv")))
     bw.write(txt)
     bw.close()
 
-    println("Centroids saved: "+outputRootPath+experimento+"_m_"+i+"_cen.csv")
+    println("Centroids saved: "+outputRootPath+"/cen_"+modelIndex+".csv")
 
     txt
 
@@ -153,16 +137,17 @@ object EndesaKmeans {
     sourceData.createOrReplaceTempView("DF")
     val t = sql("""SELECT RES.cpuntmed, RES.prediction, label FROM RES JOIN DF WHERE RES.cpuntmed = DF.cpuntmed""")
 
+    val otherSymbols = new DecimalFormatSymbols(java.util.Locale.getDefault)
+    otherSymbols.setDecimalSeparator('.')
+    otherSymbols.setGroupingSeparator(',')
+    val fr = new DecimalFormat("#.###", otherSymbols)
+
     println("\n")
 
     var text = "cluster;ne_cluster;p_total;ne_et0;ne_et1;p_et0_cluster;p_et1_cluster;p_et0_total;p_et1_total;config\n"
 
     for (j <- 0 to model.getK-1){
 
-      val otherSymbols = new DecimalFormatSymbols(java.util.Locale.getDefault)
-      otherSymbols.setDecimalSeparator('.')
-      otherSymbols.setGroupingSeparator(',')
-      val fr = new DecimalFormat("#.##", otherSymbols)
 
       val ne_et0 = t.where("prediction = "+j+" AND label = 0").count().toDouble
       val ne_et1 = t.where("prediction = "+j+" AND label = 1").count().toDouble
@@ -172,13 +157,13 @@ object EndesaKmeans {
       val ne_cluster = ne_et0+ne_et1
       val p_total = (ne_cluster/ne_total)
 
-      val p_et0_cluster = (ne_et1/ne_cluster)
-      val p_et0_total = (ne_et1/ne_total)
+      val p_et0_cluster = (ne_et0/ne_cluster)
+      val p_et1_cluster = (ne_et1/ne_cluster)
 
-      val p_et1_cluster = (ne_et0/ne_cluster)
-      val p_et1_total = (ne_et0/ne_total)
+      val p_et0_total = (ne_et0/ne_total)
+      val p_et1_total = (ne_et1/ne_total)
 
-      text += j+";"+fr.format(ne_cluster)+";"+fr.format(p_total)+
+      text += (j+1)+";"+fr.format(ne_cluster)+";"+fr.format(p_total)+
               ";"+fr.format(ne_et0)+";"+fr.format(ne_et1)+
               ";"+fr.format(p_et0_cluster)+";"+fr.format(p_et1_cluster)+
               ";"+fr.format(p_et0_total)+";"+fr.format(p_et1_total)+
@@ -192,13 +177,13 @@ object EndesaKmeans {
 
     println(text)
 
-    println("\n##################################################################################################################################################################\n")
+    println("\n######################################################################################\n")
 
-    val bw = new BufferedWriter(new FileWriter(new File(outputRootPath+experimento+"_m_"+modelIndex+"_std.csv")))
+    val bw = new BufferedWriter(new FileWriter(new File(outputRootPath+"/std_"+modelIndex+".csv")))
     bw.write(text)
     bw.close()
 
-    println("Study saved: "+outputRootPath+experimento+"_m_"+modelIndex+"_std.csv")
+    println("Study saved: "+outputRootPath+"/std_"+modelIndex+".csv")
 
   }
 

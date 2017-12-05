@@ -6,6 +6,7 @@ lazy val root = (project in file(".")).
     ,version := "1.0.0"
     ,scalaVersion := "2.11.11"
     ,mainClass in Compile := Some("es.upo.datalab.datamining.GBTpendientes")
+
 //    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.tests.Test01")
 //    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.Tab24PreProcessing")
 //    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.McE")
@@ -14,6 +15,7 @@ lazy val root = (project in file(".")).
     ,test in assembly := {}
     ,fork := true
   )
+
 
 val sparkVersion = "2.2.0"
 
