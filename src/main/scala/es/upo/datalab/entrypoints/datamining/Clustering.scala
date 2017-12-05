@@ -4,7 +4,7 @@ import es.upo.datalab.datamining.clustering.EndesaKmeans
 import es.upo.datalab.datasets.DatasetPaths
 import es.upo.datalab.utilities.TimingUtils
 
-object Clustering {
+object Clustering  {
 
 
   private final val k = Array(2,8,10,20)

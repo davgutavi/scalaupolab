@@ -14,12 +14,12 @@ import scala.collection.mutable
 
 object EndesaKmeans {
 
-  private final val sparkSession = SparkSessionUtils.sc
+//  private final val sparkSession = SparkSessionUtils.sc
   private final val sqlContext = SparkSessionUtils.sql
 
   def clusteringExperiment(datasetPath:String, outputRootPath:String
-                           ,k:Array[Int], maxIter: Array[Int], inicialitecionSteps:Array[Int]
-                           ,tolerance:Array[Double], seed:Array[Long]): Unit = {
+                           , k:Array[Int], maxIter: Array[Int], inicializationSteps:Array[Int]
+                           , tolerance:Array[Double], seed:Array[Long]): Unit = {
 
 
 
@@ -40,7 +40,7 @@ object EndesaKmeans {
 
     //**GRID K-MEANS:
 
-    val pipmodels = clusteringGrid(fa,dataset,k,iteraciones,semilla,tolerancia,pasosInicializacion)
+    val pipmodels = clusteringGrid(fa,dataset,k,maxIter,inicializationSteps,tolerance,seed)
 
     println("*********************************************************************************************************************\n")
 
@@ -52,15 +52,33 @@ object EndesaKmeans {
 
       println("Generating clustering "+modelFileIndex+":")
 
+      //**Clustering
+
       val cluResults = m.transform(dataset)
 
       cluResults.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+"/clu_"+modelFileIndex)
 
       println("Clustering saved: "+outputRootPath+"/clu_"+modelFileIndex)
 
-      centroidsCsv(m.stages(1).asInstanceOf[KMeansModel].clusterCenters,modelFileIndex)
+      //**Centroides
 
-      writeAnalysis(m.stages(1).asInstanceOf[KMeansModel],sourceData,cluResults,modelFileIndex)
+      val cent= centroidsCsv(m.stages(1).asInstanceOf[KMeansModel].clusterCenters,modelFileIndex)
+
+      val bw1 = new BufferedWriter(new FileWriter(new File(outputRootPath+"/cen_"+modelFileIndex+".csv")))
+      bw1.write(cent)
+      bw1.close()
+      println("Centroids saved: "+outputRootPath+"/cen_"+modelFileIndex+".csv")
+
+      //**Análisis
+
+      val std = writeAnalysis(m.stages(1).asInstanceOf[KMeansModel],sourceData,cluResults,modelFileIndex)
+
+      val bw2 = new BufferedWriter(new FileWriter(new File(outputRootPath+"/std_"+modelFileIndex+".csv")))
+      bw2.write(std)
+      bw2.close()
+
+      println("Study saved: "+outputRootPath+"/std_"+modelFileIndex+".csv")
+
 
       modelFileIndex += 1
 
@@ -70,7 +88,9 @@ object EndesaKmeans {
   }
 
 
-  private def clusteringGrid(fa:VectorAssembler,dataset:DataFrame, ks:Array[Int],maxIters:Array[Int],seeds:Array[Long],tols:Array[Double],steps:Array[Int]): mutable.MutableList[PipelineModel] = {
+  private def clusteringGrid(fa:VectorAssembler,dataset:DataFrame,
+                             ks:Array[Int],maxIters:Array[Int],steps:Array[Int],
+                             tols:Array[Double],seeds:Array[Long]): mutable.MutableList[PipelineModel] = {
 
     val models = mutable.MutableList[PipelineModel]()
 
@@ -118,19 +138,13 @@ object EndesaKmeans {
 
     }
 
-    val bw = new BufferedWriter(new FileWriter(new File(outputRootPath+"/cen_"+modelIndex+".csv")))
-    bw.write(txt)
-    bw.close()
-
-    println("Centroids saved: "+outputRootPath+"/cen_"+modelIndex+".csv")
-
     txt
 
   }
 
 
 
-  private def writeAnalysis (model: KMeansModel, sourceData:DataFrame, clusteringResults:DataFrame,modelIndex:Int):Unit = {
+  private def writeAnalysis (model: KMeansModel, sourceData:DataFrame, clusteringResults:DataFrame,modelIndex:Int):String = {
 
     import sqlContext._
     clusteringResults.createOrReplaceTempView("RES")
@@ -163,11 +177,20 @@ object EndesaKmeans {
       val p_et0_total = (ne_et0/ne_total)
       val p_et1_total = (ne_et1/ne_total)
 
-      text += (j+1)+";"+fr.format(ne_cluster)+";"+fr.format(p_total)+
+      val clindex = j+1
+
+      text += clindex+";"+fr.format(ne_cluster)+";"+fr.format(p_total)+
               ";"+fr.format(ne_et0)+";"+fr.format(ne_et1)+
               ";"+fr.format(p_et0_cluster)+";"+fr.format(p_et1_cluster)+
               ";"+fr.format(p_et0_total)+";"+fr.format(p_et1_total)+
-              ";exp="+experimento+"#mod="+modelIndex+"#K="+model.getK+"#iter="+model.getMaxIter+"#seed="+model.getSeed+"#tol="+model.getTol+"#itit="+model.getInitSteps
+              ";#mod="+modelIndex+"#K="+model.getK+"#iter="+model.getMaxIter+"#seed="+model.getSeed+"#tol="+model.getTol+"#itit="+model.getInitSteps
+
+//      text = text+clindex+";"+fr.format(ne_cluster)+";"+fr.format(p_total)+
+//        ";"+fr.format(ne_et0)+";"+fr.format(ne_et1)+
+//        ";"+fr.format(p_et0_cluster)+";"+fr.format(p_et1_cluster)+
+//        ";"+fr.format(p_et0_total)+";"+fr.format(p_et1_total)+
+//        ";exp="+experimento+"#mod="+modelIndex+"#K="+model.getK+"#iter="+model.getMaxIter+"#seed="+model.getSeed+"#tol="+model.getTol+"#itit="+model.getInitSteps
+
 
       if (j!=model.getK-1){
         text+="\n"
@@ -179,11 +202,9 @@ object EndesaKmeans {
 
     println("\n######################################################################################\n")
 
-    val bw = new BufferedWriter(new FileWriter(new File(outputRootPath+"/std_"+modelIndex+".csv")))
-    bw.write(text)
-    bw.close()
+    text
 
-    println("Study saved: "+outputRootPath+"/std_"+modelIndex+".csv")
+
 
   }
 

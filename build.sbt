@@ -1,21 +1,10 @@
 import sbt.Keys.scalaVersion
 
-lazy val root = (project in file(".")).
-  settings(
-    name := "07_endesa"
-    ,version := "1.0.0"
-    ,scalaVersion := "2.11.11"
-    ,mainClass in Compile := Some("es.upo.datalab.datamining.GBTpendientes")
 
-//    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.tests.Test01")
-//    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.Tab24PreProcessing")
-//    ,mainClass in Compile := Some("es.upo.datalab.entrypoints.procesos.McE")
-//    ,mainClass in Compile := Some("es.upo.datalab.utilities.CsvToParquet")
-    //,assemblyJarName in assembly := "endesa_"+version+".jar"
-    ,test in assembly := {}
-    ,fork := true
-  )
 
+    name := "endesa"
+    version := "1.0.0"
+    scalaVersion := "2.11.11"
 
 val sparkVersion = "2.2.0"
 
@@ -40,10 +29,4 @@ libraryDependencies ++= Seq(
 // ,"org.apache.spark" % "spark-hive_2.11"  % sparkVersion % "provided"
 //)
 
-assemblyMergeStrategy in assembly <<= (assemblyMergeStrategy in assembly) { (old) =>
-{
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-  case x => MergeStrategy.first
-}
-}
 
