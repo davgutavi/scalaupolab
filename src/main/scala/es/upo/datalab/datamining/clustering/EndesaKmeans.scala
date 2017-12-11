@@ -182,7 +182,7 @@ object EndesaKmeans {
               ";"+fr.format(ne_et0)+";"+fr.format(ne_et1)+
               ";"+fr.format(p_et0_cluster)+";"+fr.format(p_et1_cluster)+
               ";"+fr.format(p_et0_total)+";"+fr.format(p_et1_total)+
-              ";#mod="+modelIndex+"#K="+model.getK+"#iter="+model.getMaxIter+"#seed="+model.getSeed+"#tol="+model.getTol+"#itit="+model.getInitSteps
+              ";mod="+modelIndex+"#K="+model.getK+"#iter="+model.getMaxIter+"#seed="+model.getSeed+"#tol="+model.getTol+"#itit="+model.getInitSteps
 
 //      text = text+clindex+";"+fr.format(ne_cluster)+";"+fr.format(p_total)+
 //        ";"+fr.format(ne_et0)+";"+fr.format(ne_et1)+
