@@ -127,11 +127,10 @@ object EndesaKmeans {
 
     for (v <- centroids){
 
+      txt+=v.toArray.mkString(";")
+
       if (j!=centroids.length-1){
-        txt+=v.toArray.mkString(";")
-      }
-      else{
-        txt+=v.toArray.mkString(";")+"\n"
+        txt+="\n"
       }
 
       j+=1
