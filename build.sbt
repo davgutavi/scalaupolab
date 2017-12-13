@@ -4,7 +4,7 @@ name         := "endesa"
 version      := "1.0.0"
 scalaVersion := "2.11.11"
 
-val sparkVersion = "2.2.0"
+val sparkVersion = "2.2.1"
 
 //intellij
 libraryDependencies ++= Seq(

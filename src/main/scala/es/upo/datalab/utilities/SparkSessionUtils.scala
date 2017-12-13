@@ -10,8 +10,8 @@ import com.typesafe.config.ConfigFactory
 
 object SparkSessionUtils {
 
-//  final val propFile = "/Users/davgutavi/Desktop/sparkProperties.properties"
-  final val propFile = "/home/davgutavi/Escritorio/sparkProperties.properties"
+  final val propFile = "/Users/davgutavi/Desktop/sparkProperties.properties"
+//  final val propFile = "/home/davgutavi/Escritorio/sparkProperties.properties"
   final val emptyValue = ""
 
   //############################LECTURA DE CONFIGURACIÓN LOCAL

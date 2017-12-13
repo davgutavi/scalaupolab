@@ -18,11 +18,28 @@
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/resource_managed/test" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../target/resolution-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/../../target/scala-2.11.0-M2" />
+      <excludeFolder url="file://$MODULE_DIR$/../../target/scala-2.12" />
       <excludeFolder url="file://$MODULE_DIR$/../../target/streams" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sbt: aopalliance:aopalliance:1.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scalanlp:breeze_2.11:0.13.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scalanlp:breeze-macros_2.11:0.13.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-unsafe_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-tags_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-streaming_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-sql_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-sketch_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-network-shuffle_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-network-common_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-mllib_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-mllib-local_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-launcher_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-graphx_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-core_2.11:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.spark:spark-catalyst_2.11:2.2.1:jar" level="project" />
     <orderEntry type="module-library">
       <library name="sbt: unmanaged-sources-and-docs">
         <CLASSES />
@@ -48,8 +65,6 @@
     <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.16:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:jul-to-slf4j:1.7.16:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:jcl-over-slf4j:1.7.16:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scalanlp:breeze_2.11:0.13.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.scalanlp:breeze-macros_2.11:0.13.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-xml_2.11:1.0.5:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-parser-combinators_2.11:1.0.4:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scalap:2.11.11:jar" level="project" />
@@ -90,19 +105,6 @@
     <orderEntry type="library" name="sbt: org.bouncycastle:bcprov-jdk15on:1.51:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.zookeeper:zookeeper:3.4.6:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.xbean:xbean-asm5-shaded:4.4:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-unsafe_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-tags_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-streaming_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-sql_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-sketch_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-network-shuffle_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-network-common_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-mllib_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-mllib-local_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-launcher_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-graphx_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-core_2.11:2.2.0:jar" level="project" />
-    <orderEntry type="library" name="sbt: org.apache.spark:spark-catalyst_2.11:2.2.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.parquet:parquet-jackson:1.8.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.parquet:parquet-hadoop:1.8.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.parquet:parquet-format:2.3.1:jar" level="project" />
