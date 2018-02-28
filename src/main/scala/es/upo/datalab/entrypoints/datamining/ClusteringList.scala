@@ -4,7 +4,7 @@ import es.upo.datalab.datamining.clustering.EndesaKmeans
 import es.upo.datalab.datasets.DatasetPaths
 import es.upo.datalab.utilities.TimingUtils
 
-object Clustering  {
+object ClusteringList  {
 
 
 //  private final val rootOutput = "/mnt/datos/davgutavi/CloudStation/endesa/investigacion_paper/clustering/"

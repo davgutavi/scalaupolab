@@ -1,6 +1,6 @@
 package es.upo.datalab.datasets
 
-import es.upo.datalab.datamining.xgb.GBTexperiments.{datasetPath, outputRootPath}
+import es.upo.datalab.datamining.xgb.EndesaGBT.{datasetPath, outputRootPath}
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
 import org.apache.spark.sql.SaveMode
 
@@ -8,9 +8,7 @@ import org.apache.spark.sql.SaveMode
 object DatasetsBuilding {
 
 
-  final val datasetLocal = "/Users/davgutavi/Desktop/endesa/datasets/"
-
-  final val datasetLocalTarget = "/Users/davgutavi/Desktop/endesa/datasets/"
+   final val datasetLocalTarget = "/Users/davgutavi/Desktop/endesa/datasets/"
 
   final val datasetHdfsTarget  = "hdfs://192.168.47.247/user/datos/endesa/datasets"
 
@@ -20,6 +18,31 @@ object DatasetsBuilding {
 
 
   def main(args: Array[String]): Unit = {
+
+    val d454_raw_umr = LoadTableParquet.loadTable(DatasetPaths.p454d_raw_umr_macDavid)
+    val Array(d454_raw_umr_dataset, d454_raw_umr_field) = d454_raw_umr.randomSplit(Array(0.7,0.3))
+    val Array(d454_raw_umr_training, d454_raw_umr_test) = d454_raw_umr_dataset.randomSplit(Array(0.7,0.3))
+
+    d454_raw_umr_training.write.option("header", "true").mode(SaveMode.Overwrite).save(DatasetPaths.p454d_raw_umr_macDavid_training)
+    d454_raw_umr_test.write.option("header", "true").mode(SaveMode.Overwrite).save(DatasetPaths.p454d_raw_umr_macDavid_test)
+    d454_raw_umr_field.write.option("header", "true").mode(SaveMode.Overwrite).save(DatasetPaths.p454d_raw_umr_macDavid_field)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    val d454d_raw_nrr = LoadTableParquet.loadTable(datasetLocal+"454d_raw_nrr")
 //      .withColumnRenamed("cenae","cnae")
