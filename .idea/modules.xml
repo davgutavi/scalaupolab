@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalaupolab.iml" filepath="$PROJECT_DIR$/.idea/modules/scalaupolab.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalaupolab-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scalaupolab-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/endesa.iml" filepath="$PROJECT_DIR$/.idea/modules/endesa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/endesa-build.iml" filepath="$PROJECT_DIR$/.idea/modules/endesa-build.iml" />
     </modules>
   </component>
 </project>

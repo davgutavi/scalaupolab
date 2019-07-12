@@ -1,6 +1,6 @@
 package es.upo.datalab.datasets
 
-import es.upo.datalab.datamining.xgb.EndesaGBT.{datasetPath, outputRootPath}
+
 import es.upo.datalab.utilities.{LoadTableParquet, SparkSessionUtils}
 import org.apache.spark.sql.SaveMode
 

@@ -19,10 +19,6 @@ object EndesaGBT {
                     , minInstancesPerNode:Array[Int], seed:Array[Long], stepSize:Array[Double], subsamplingRate:Array[Double]): Unit = {
 
 
-
-
-
-
     //******************************************************
     //**Carga de datos**************************************
     //******************************************************
@@ -52,7 +48,7 @@ object EndesaGBT {
     val Array(training, test) = dataset.randomSplit(Array(0.7,0.3))
 
     val paramGrid = new ParamGridBuilder()
-      .addGrid(gbt.impurity, imputity)
+      .addGrid(gbt.impurity, impurity)
       .addGrid(gbt.lossType, lossType)
       .addGrid(gbt.maxBins, maxBins)
       .addGrid(gbt.maxDepth, maxDepth)
@@ -75,6 +71,10 @@ object EndesaGBT {
     //******************************************************
 
     println("Entrenando")
+
+
+    training.show(5)
+//    val tr = training.drop("cpuntmed","ccodpost", "cenae")
 
     val cvModel = cv.fit(training)
 
@@ -104,21 +104,21 @@ object EndesaGBT {
 
     //**Test******************************************
 
-    rtest.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+experimento+"_rtest")
+    rtest.write.option("header", "true").mode(SaveMode.Overwrite).save(outputPath+"_rtest")
 
-    println("Test saved: "+outputRootPath+experimento+"_rtest")
+    println("Test saved: "+outputPath+"_rtest")
 
     //**Campo******************************************
 
-    rcamp.write.option("header", "true").mode(SaveMode.Overwrite).save(outputRootPath+experimento+"_rcamp")
+    rcamp.write.option("header", "true").mode(SaveMode.Overwrite).save(outputPath+"_rcamp")
 
-    println("Field saved: "+outputRootPath+experimento+"_rcamp")
+    println("Field saved: "+outputPath+"_rcamp")
 
     //**Modelo******************************************
 
-    gbtm.write.overwrite().save(outputRootPath+experimento+"_model")
+    gbtm.write.overwrite().save(outputPath+"_model")
 
-    println("Model saved: "+outputRootPath+experimento+"_model")
+    println("Model saved: "+outputPath+"_model")
 
     //**Estudio*****************************************
 
@@ -126,9 +126,9 @@ object EndesaGBT {
 
     study.show(5)
 
-    study.coalesce(1).write.option("header","true").mode(SaveMode.Overwrite).option("delimiter",";").csv(outputRootPath+experimento+"_study")
+    study.coalesce(1).write.option("header","true").mode(SaveMode.Overwrite).option("delimiter",";").csv(outputPath+"_study")
 
-    println("Study saved: "+outputRootPath+experimento+"_study")
+    println("Study saved: "+outputPath+"_study")
 
     //**Cerrar sesión de Spark**************************
 
